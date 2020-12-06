@@ -1,24 +1,24 @@
 package fr.isep.JackPocket;
 
 public class District {
-    private AlibiName alibiNames;
+    private AlibiCard alibiCards;
     private Orientation orientation;
     private boolean isRecto;
     private boolean isVisible;
 
-    public District(AlibiName alibiNames, Orientation orientation, boolean isRecto, boolean isVisible) {
-        this.alibiNames = alibiNames;
+    public District(AlibiCard alibiCards, Orientation orientation, boolean isRecto, boolean isVisible) {
+        this.alibiCards = alibiCards;
         this.orientation = orientation;
         this.isRecto = isRecto;
         this.isVisible=isVisible;
     }
 
-    public AlibiName getAlibiNames() {
-        return alibiNames;
+    public AlibiCard getalibiCards() {
+        return alibiCards;
     }
 
-    public void setAlibiNames(AlibiName alibiNames) {
-        this.alibiNames = alibiNames;
+    public void setAlibialibiCards(AlibiName alibialibiCards) {
+        this.alibiCards = alibiCards;
     }
 
     public Orientation getOrientation() {

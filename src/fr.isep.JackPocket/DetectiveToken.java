@@ -1,7 +1,7 @@
 package fr.isep.JackPocket;
 import java.util.ArrayList;
 
-public class DetectiveToken extends Cell {
+public class DetectiveToken {
     private ArrayList<DetectiveName> DetectiveList = new ArrayList<DetectiveName>();
 
     public ArrayList<DetectiveName> getDetectiveList(){
