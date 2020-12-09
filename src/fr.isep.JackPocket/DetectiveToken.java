@@ -1,30 +1,27 @@
 package fr.isep.JackPocket;
 import java.util.ArrayList;
 
-public class DetectiveToken {
-    private ArrayList<DetectiveName> DetectiveList = new ArrayList<DetectiveName>();
 
-    public ArrayList<DetectiveName> getDetectiveList(){
-        return DetectiveList;
+public class DetectiveToken extends Board{
+    private DetectiveName detectiveName;
 
-    }
-    public void setDetectiveList(ArrayList<DetectiveName> DetectiveList){
-        this.DetectiveList = DetectiveList;
-
+    public DetectiveToken(DetectiveName detectiveName){
+        this.detectiveName = detectiveName;
     }
 
-    public void addDetective (DetectiveName detectiveName){
-        if(!(DetectiveList.contains(detectiveName))){
-            DetectiveList.add(detectiveName);
-        }
+    public DetectiveName getDetectiveName(){
+        return detectiveName;
     }
 
-    public void abstractDetective (DetectiveName detectiveName){
-        if(DetectiveList.contains(detectiveName)){
-            DetectiveList.remove(detectiveName);
-
-        }
+    public void setDetectiveName(DetectiveName detectiveName) {
+        this.detectiveName = detectiveName;
     }
+
+
+
+
+
+
 
 
 }
