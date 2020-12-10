@@ -11,7 +11,7 @@ public class SwapRotateAction extends ActionToken{
      */
 
     public void rotate(District district, Orientation orientation){
-
+        district.setOrientation(orientation);
     }
     public void swap(District d1, District d2){
 

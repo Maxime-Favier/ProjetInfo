@@ -13,6 +13,6 @@ public class JackeRotateAction extends ActionToken {
 
     }
     public void rotate(District district, Orientation orientation){
-
+        district.setOrientation(orientation);
     }
 }
