@@ -2,7 +2,7 @@ package fr.isep.JackPocket;
 
 import java.util.ArrayList;
 import java.util.Random;
-import fr.isep.JackPocket.DetectiveToken;
+
 
 public class Board {
     District[][] board;
@@ -81,6 +81,7 @@ public class Board {
         //créer un seul tableau ou deux combinés ?
         //position de départ détective aléatoire ou même position pour toutes les parties ?
         //est-ce qu'il faut créer une liste?
+        //penser aux autres objet sur le board tel que carte alibi sablier etc...
 
 
 
@@ -94,7 +95,7 @@ public class Board {
 
 
 
-
+        ArrayList<DetectiveToken> DetectiveList = new ArrayList<>();
 
         public void addDetective (DetectiveName detectiveName){
             if(!(DetectiveList.contains(detectiveName))){
@@ -111,6 +112,7 @@ public class Board {
 
 
     public void moveDetectiveToken(DetectiveName detectiveName, int boardcount){
+
 
     }
 

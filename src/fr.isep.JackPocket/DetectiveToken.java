@@ -2,7 +2,7 @@ package fr.isep.JackPocket;
 import java.util.ArrayList;
 
 
-public class DetectiveToken extends Board{
+public class DetectiveToken{
     private DetectiveName detectiveName;
 
     public DetectiveToken(DetectiveName detectiveName){
