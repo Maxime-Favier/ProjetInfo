@@ -53,16 +53,17 @@ public class Board {
         districts.add(new District(new AlibiCard(AlibiName.William_Gull, 1),
                 Orientation.values()[(int) (Math.random() * Orientation.values().length)], false, false));
 
+       // System.out.println(districts);
+
         District[][] board = new District[3][3];
-        for (int i = 1; i < 3; i++) {
-            for (int j = 1; j < 3; j++) {
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
                 Random rand = new Random();
-                int randomIndex = rand.nextInt(districts.size());
+               int randomIndex = rand.nextInt(districts.size());
                 board[i][j] = districts.get(randomIndex);
                 districts.remove(randomIndex);
             }
-
-        }
+       }
 
          board[0][0].setOrientation(Orientation.WEST);
          board[0][2].setOrientation(Orientation.EAST);
@@ -105,7 +106,10 @@ public class Board {
                 DetectiveList.add(detectiveName);
             }
         }
+public void test (){
+            initBoard();
 
+}
         public void abstractDetective (DetectiveToken detectiveName){
             if(DetectiveList.contains(detectiveName)){
                 DetectiveList.remove(detectiveName);
