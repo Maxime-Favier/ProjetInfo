@@ -7,6 +7,8 @@ public class DetectiveToken{
 
     public DetectiveToken(DetectiveName detectiveName){
         this.detectiveName = detectiveName;
+
+
     }
 
     public DetectiveName getDetectiveName(){

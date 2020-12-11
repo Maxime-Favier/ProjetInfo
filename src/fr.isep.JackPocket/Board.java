@@ -9,6 +9,7 @@ public class Board {
     DetectiveToken[][] Board2;
 
 
+
     public Board() {
         initBoard();
     }
@@ -63,9 +64,9 @@ public class Board {
 
         }
 
-        board[0][0].setOrientation(Orientation.WEST);
-        board[0][2].setOrientation(Orientation.EAST);
-        board[2][1].setOrientation(Orientation.SOUTH);
+         board[0][0].setOrientation(Orientation.WEST);
+         board[0][2].setOrientation(Orientation.EAST);
+         board[2][1].setOrientation(Orientation.SOUTH);
 
 
 
@@ -87,6 +88,8 @@ public class Board {
 
 
 
+
+
         }
 
 
@@ -97,13 +100,13 @@ public class Board {
 
         ArrayList<DetectiveToken> DetectiveList = new ArrayList<>();
 
-        public void addDetective (DetectiveName detectiveName){
+        public void addDetective (DetectiveToken detectiveName){
             if(!(DetectiveList.contains(detectiveName))){
                 DetectiveList.add(detectiveName);
             }
         }
 
-        public void abstractDetective (DetectiveName detectiveName){
+        public void abstractDetective (DetectiveToken detectiveName){
             if(DetectiveList.contains(detectiveName)){
                 DetectiveList.remove(detectiveName);
 
@@ -115,6 +118,8 @@ public class Board {
 
 
     }
+
+
 
 
 
