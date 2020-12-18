@@ -3,19 +3,19 @@
 package fr.isep.JackPocket;
 import java.util.*;
 public class Cell {
-   DetectiveToken [][] detectiveTokens;
+   DetectiveToken  detectiveTokens;
    District district;
 
-    public Cell(DetectiveToken[][] detectiveTokens, District district) {
+    public Cell(DetectiveToken detectiveTokens, District district) {
         this.detectiveTokens = detectiveTokens;
         this.district = district;
     }
 
-    public DetectiveToken[][] getDetectiveTokens() {
+    public DetectiveToken getDetectiveTokens() {
         return detectiveTokens;
     }
 
-    public void setDetectiveTokens(DetectiveToken[][] detectiveTokens) {
+    public void setDetectiveTokens(DetectiveToken detectiveTokens) {
         this.detectiveTokens = detectiveTokens;
     }
 
