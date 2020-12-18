@@ -5,29 +5,36 @@ import java.util.Random;
 
 
 public class Board {
-    District[][] board;
-    DetectiveToken[][] Board2;
-
-
+    //District[][] board;
+    //DetectiveToken[][] Board2;
+    ArrayList<DetectiveToken> DetectiveList  ;
+    Cell [][] cells
 
     public Board() {
         initBoard();
     }
 
-    public District[][] getBoard() {
-        return board;
+    public Cell[][] getCells() {
+        return cells;
     }
 
+    public void setCells(Cell[][] cells) {
+        this.cells = cells;
+    }
+    //public District[][] getBoard() {
+      //  return board;
+    //}
 
-    public void setBoard(District[][] board) {
-        this.board = board;
-    }
-    public DetectiveToken[][] getBoard2(){
-        return Board2;
-    }
-    public void setBoard2(DetectiveToken[][] Board2){
-        this.Board2 = Board2;
-    }
+
+    //public void setBoard(District[][] board) {
+      //  this.board = board;
+    //}
+    //public DetectiveToken[][] getBoard2(){
+      //  return Board2;
+    //}
+    //public void setBoard2(DetectiveToken[][] Board2){
+      //  this.Board2 = Board2;
+    //}
 
     public void initBoard() {
         ArrayList<District> districts = new ArrayList<>();
@@ -53,32 +60,43 @@ public class Board {
         districts.add(new District(new AlibiCard(AlibiName.William_Gull, 1),
                 Orientation.values()[(int) (Math.random() * Orientation.values().length)], false, false));
 
+        ArrayList<DetectiveToken> DetectiveList= new ArrayList<DetectiveToken>()
+       DetectiveList.add(new DetectiveToken(DetectiveName.Watson));
        // System.out.println(districts);
-
-        District[][] board = new District[3][3];
+        Cell [][] board = new Cell[3][3];
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                Random rand = new Random();
-               int randomIndex = rand.nextInt(districts.size());
-                board[i][j] = districts.get(randomIndex);
-                districts.remove(randomIndex);
-            }
-       }
+              Random rand = new Random();
+            int randomIndex = rand.nextInt(districts.size());
+             board[i][j] = districts.get(randomIndex);
+            districts.remove(randomIndex);
+               }
+        }
 
-         board[0][0].setOrientation(Orientation.WEST);
-         board[0][2].setOrientation(Orientation.EAST);
-         board[2][1].setOrientation(Orientation.SOUTH);
+        //District[][] board = new District[3][3];
+        //for (int i = 0; i < 3; i++) {
+            //for (int j = 0; j < 3; j++) {
+              //  Random rand = new Random();
+               //int randomIndex = rand.nextInt(districts.size());
+               // board[i][j] = districts.get(randomIndex);
+                //districts.remove(randomIndex);
+         //   }
+     //  }
+
+       //  board[0][0].setOrientation(Orientation.WEST);
+         //board[0][2].setOrientation(Orientation.EAST);
+         //board[2][1].setOrientation(Orientation.SOUTH);
 
 
 
 
 
 
-        DetectiveToken[][] Board2 = new DetectiveToken[5][5];
+       // DetectiveToken[][] Board2 = new DetectiveToken[5][5];
 
-        Board2[3][0] = new DetectiveToken(DetectiveName.Sherlock);
-        Board2[3][4] = new DetectiveToken(DetectiveName.Watson);
-        Board2[0][2] = new DetectiveToken(DetectiveName.Tobby);
+        //Board2[3][0] = new DetectiveToken(DetectiveName.Sherlock);
+        //Board2[3][4] = new DetectiveToken(DetectiveName.Watson);
+        //Board2[0][2] = new DetectiveToken(DetectiveName.Tobby);
 
         //créer un seul tableau ou deux combinés ?
         //position de départ détective aléatoire ou même position pour toutes les parties ?
@@ -99,7 +117,7 @@ public class Board {
 
 
 
-        ArrayList<DetectiveToken> DetectiveList = new ArrayList<>();
+
 
         public void addDetective (DetectiveToken detectiveName){
             if(!(DetectiveList.contains(detectiveName))){
