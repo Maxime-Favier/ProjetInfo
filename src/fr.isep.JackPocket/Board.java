@@ -8,7 +8,7 @@ public class Board {
     //District[][] board;
     //DetectiveToken[][] Board2;
     ArrayList<DetectiveToken> DetectiveList  ;
-    Cell [][] cells
+    Cell [][] cells;
 
     public Board() {
         initBoard();
@@ -60,17 +60,17 @@ public class Board {
         districts.add(new District(new AlibiCard(AlibiName.William_Gull, 1),
                 Orientation.values()[(int) (Math.random() * Orientation.values().length)], false, false));
 
-        ArrayList<DetectiveToken> DetectiveList= new ArrayList<DetectiveToken>()
-       DetectiveList.add(new DetectiveToken(DetectiveName.Watson));
+        ArrayList<DetectiveToken> DetectiveList= new ArrayList<DetectiveToken>();
+      // DetectiveList.add(new DetectiveToken(DetectiveName.Watson));
        // System.out.println(districts);
-        Cell [][] board = new Cell[3][3];
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-              Random rand = new Random();
-            int randomIndex = rand.nextInt(districts.size());
-             board[i][j] = districts.get(randomIndex);
-            districts.remove(randomIndex);
-               }
+        //Cell [][] board = new Cell[3][3];
+        //for (int i = 0; i < 3; i++) {
+          //  for (int j = 0; j < 3; j++) {
+              //Random rand = new Random();
+           // int randomIndex = rand.nextInt(districts.size());
+           //  board[i][j] = districts.get(randomIndex);
+           // districts.remove(randomIndex);
+            //   }
         }
 
         //District[][] board = new District[3][3];
