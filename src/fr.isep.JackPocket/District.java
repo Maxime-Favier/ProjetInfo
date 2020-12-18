@@ -13,11 +13,12 @@ public class District {
         this.isVisible=isVisible;
     }
 
-    public AlibiCard getalibiCards() {
+
+    public AlibiCard getAlibiCards() {
         return alibiCards;
     }
 
-    public void setAlibialibiCards(AlibiName alibialibiCards) {
+    public void setAlibiCards(AlibiCard alibiCards) {
         this.alibiCards = alibiCards;
     }
 

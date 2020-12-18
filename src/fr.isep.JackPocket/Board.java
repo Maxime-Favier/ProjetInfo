@@ -10,6 +10,7 @@ public class Board {
     DetectiveToken[][] detectiveTokens;
     ArrayList<DetectiveToken> DetectiveList  ;
     Cell [][] board;
+    ArrayList<Detective> detectives;
 
     public Board() {
         initBoard();
@@ -39,25 +40,18 @@ public class Board {
     //}
 
     public void initBoard() {
-        ArrayList<District> districts = new ArrayList<>();
-        //ArrayList<DetectiveToken> DetectiveList= new ArrayList<>();
-        //DetectiveList.add(new DetectiveToken(DetectiveName.Watson,null,null,Orientation.EAST));
-        //DetectiveList.add(new DetectiveToken(DetectiveName.Sherlock,null,null,Orientation.WEST));
-        //DetectiveList.add(new DetectiveToken(DetectiveName.Tobby,null,null,Orientation.SOUTH));
-        // ArrayDeque<Alibi> alibis = new ArrayDeque<>();
-        // district.add(New District(New Alibi()));
-        /*
-        DetectiveToken [][] detectiveTokens = new DetectiveToken[5][5];
-        for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 5; j++) {
-                detectiveTokens[i][j]=new DetectiveToken(null,null,null,null);
-            }
-            }
-        detectiveTokens[0][1]=new DetectiveToken(DetectiveName.Watson,null,null,Orientation.EAST);
-        detectiveTokens[4][1]=new DetectiveToken(DetectiveName.Sherlock,null,null,Orientation.WEST);
-        detectiveTokens[2][4]=new DetectiveToken(DetectiveName.Tobby,null,null,Orientation.SOUTH);
 
-*/
+
+
+
+
+        ArrayList<Detective> detectives  = new ArrayList<>();
+        detectives.add(new Detective(DetectiveName.Watson,0,2,Orientation.EAST));
+        detectives.add(new Detective(DetectiveName.Sherlock,0,0,Orientation.WEST));
+        detectives.add(new Detective(DetectiveName.Tobby,1,2,Orientation.SOUTH));
+
+        ArrayList<District> districts = new ArrayList<>();
+
 
 
         districts.add(new District(new AlibiCard(AlibiName.Inspecteur_Lestrade, 0),
@@ -79,8 +73,6 @@ public class Board {
         districts.add(new District(new AlibiCard(AlibiName.William_Gull, 1),
                 Orientation.values()[(int) (Math.random() * Orientation.values().length)], false, false));
 
-
-       // System.out.println(districts);
         Cell [][] board = new Cell[3][3];
         for (int i = 0; i < 3; i++) {
            for (int j = 0; j < 3; j++) {
@@ -97,55 +89,72 @@ public class Board {
         board[0][0].district.setOrientation(Orientation.WEST);
         board[0][2].district.setOrientation(Orientation.EAST);
         board[2][1].district.setOrientation(Orientation.SOUTH);
-       System.out.println((board[0][2].getDetectiveTokens().getNomDetective1()));
+
+
+     //   getVisibleCharacters(detectives,board);
+    }
+
+    public void swap(District district1, District district2){
+        District district3=new District(new AlibiCard(AlibiName.John_Smith, 3),Orientation.EAST,true,true);
+        district3.setAlibiCards(district1.getAlibiCards());
+        district3.setOrientation(district1.getOrientation());
+        district3.setRecto(district1.isRecto());
+        district3.setVisible(district1.isVisible());
+
+        district1.setAlibiCards(district2.getAlibiCards());
+        district1.setOrientation(district2.getOrientation());
+        district1.setRecto(district2.isRecto());
+        district1.setVisible(district2.isVisible());
+
+        district2.setAlibiCards(district3.getAlibiCards());
+        district2.setOrientation(district3.getOrientation());
+        district2.setRecto(district3.isRecto());
+        district2.setVisible(district3.isVisible());
+
+    }
 /*
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                System.out.println("i = "+i +"j = "+j);
+    public List<AlibiName> getVisibleCharacters(ArrayList<Detective> detectives,Cell[][] board)
+    {
+        ArrayList<AlibiName> listCharactersVisible = new ArrayList<>();
+        int tobbyPositionX= detectives.get(2).getPositionX();
+        int tobbyPositionY= detectives.get(2).getPositionY();
+        int tobbyPosition=0;
+        Orientation tobbyOrientation=detectives.get(2).getOrientationDetective();
+        if ((tobbyOrientation.equals(Orientation.EAST)||tobbyOrientation.equals(Orientation.WEST)))
 
-               if ((board[i][j].getDetectiveTokens().getNomDetective1())!=null)
-               {
-                 System.out.println((board[i][j].getDetectiveTokens().getNomDetective1()));
-               }
-                //System.out.println(board[i][j].getDetectiveTokens().getNomDetective2());
-                //System.out.println(board[i][j].getDetectiveTokens().getNomDetective3());
-                //System.out.println(board[i][j].getDetectiveTokens().getOrientationDetective());
+        {
+            tobbyPosition=tobbyPositionY;
+            for (int i = 0; i < 3; i++)
+            {
+                if (board [i][tobbyPosition].district.getOrientation().equals(detectives.get(2).getOrientationDetective()))
+                {
+                    listCharactersVisible.add(board[i][tobbyPosition].district.getAlibiCards().getName());
+                }
 
-              //  System.out.println(board[i][j].getDistrict().getalibiCards());
+
             }
+            System.out.println(tobbyPosition);
+            System.out.println(listCharactersVisible);
+        }
+        else
+        {
+            tobbyPosition=tobbyPositionX;
+            for (int i = 0; i < 3; i++)
+            {
+            if (board [tobbyPosition][i].district.getOrientation().equals(detectives.get(2).getOrientationDetective()))
+            {
+                listCharactersVisible.add(board[tobbyPosition][i].district.getAlibiCards().getName());
+            }
+            System.out.println(tobbyPosition);
+                System.out.println(listCharactersVisible);
         }
 
+        }
 
+        return listCharactersVisible;
+    }
 
-
-
-
-       // DetectiveToken[][] Board2 = new DetectiveToken[5][5];
-
-        //Board2[3][0] = new DetectiveToken(DetectiveName.Sherlock);
-        //Board2[3][4] = new DetectiveToken(DetectiveName.Watson);
-        //Board2[0][2] = new DetectiveToken(DetectiveName.Tobby);
-
-        //créer un seul tableau ou deux combinés ?
-        //position de départ détective aléatoire ou même position pour toutes les parties ?
-        //est-ce qu'il faut créer une liste?
-        //penser aux autres objet sur le board tel que carte alibi sablier etc...
-
-
-
-
-
-
-
-        //}
-
-
-
-
-
-
-
-/*
+*/
         public void addDetective (DetectiveToken detectiveName){
             if(!(DetectiveList.contains(detectiveName))){
                 DetectiveList.add(detectiveName);
@@ -153,7 +162,7 @@ public class Board {
         }
 
 
- */
+
 
 /*
         public void abstractDetective (DetectiveToken detectiveName){
@@ -175,6 +184,6 @@ public class Board {
 
 }
 
-}
+
 
 
