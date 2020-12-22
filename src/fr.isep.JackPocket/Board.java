@@ -47,7 +47,7 @@ public class Board {
 
         ArrayList<Detective> detectives  = new ArrayList<>();
         detectives.add(new Detective(DetectiveName.Watson,0,2,Orientation.EAST));
-        detectives.add(new Detective(DetectiveName.Sherlock,0,0,Orientation.WEST));
+        detectives.add(new Detective(DetectiveName.Sherlock,0,0,Orientation.NORTH));
         detectives.add(new Detective(DetectiveName.Tobby,1,2,Orientation.SOUTH));
 
         ArrayList<District> districts = new ArrayList<>();
@@ -83,15 +83,28 @@ public class Board {
             districts.remove(randomIndex);
               }
         }
-        board [0][2].setDetectiveTokens(new DetectiveToken(DetectiveName.Watson,null,null,Orientation.EAST));
-        board [0][0].setDetectiveTokens(new DetectiveToken(DetectiveName.Sherlock,null,null,Orientation.WEST));
+        board [0][2].setDetectiveTokens(new DetectiveToken(DetectiveName.Watson,null,null,Orientation.NORTH));
+        board [0][0].setDetectiveTokens(new DetectiveToken(DetectiveName.Sherlock,null,null,Orientation.EAST));
         board [1][2].setDetectiveTokens(new DetectiveToken(DetectiveName.Tobby,null,null,Orientation.SOUTH));
         board[0][0].district.setOrientation(Orientation.WEST);
         board[0][2].district.setOrientation(Orientation.EAST);
         board[2][1].district.setOrientation(Orientation.SOUTH);
 
 
-     //   getVisibleCharacters(detectives,board);
+
+       //getVisibleCharacters(detectives,board);
+        moveDetectiveTokenTwo(DetectiveName.Tobby,detectives);
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+
+                System.out.print(board[i][j].getDistrict().getAlibiCards().getName()+ "  "+ board[i][j].getDistrict().getOrientation()+"     ");
+
+
+            }
+            System.out.println();
+        }
+
+
     }
 
     public void swap(District district1, District district2){
@@ -112,49 +125,217 @@ public class Board {
         district2.setVisible(district3.isVisible());
         System.out.print("test");
     }
-/*
+
+    public void moveDetectiveTokenOne(DetectiveName name, int count,ArrayList<Detective> detectives){
+        int index=0;
+        int detectivePositionX=0;
+        int detectivePositionY=0;
+        Orientation detectiveOrientation=null;
+        for (int i=0;i<detectives.size();i++){
+            if (detectives.get(i).getName().equals(name)){
+                index=i;
+                detectivePositionX=detectives.get(i).getPositionX();
+                detectivePositionY=detectives.get(i).getPositionY();
+                detectiveOrientation=detectives.get(i).getOrientationDetective();
+            }
+
+        }
+        System.out.println ("tobby x = "+ detectivePositionX);
+        System.out.println ("tobby y = "+ detectivePositionY);
+        System.out.println ("orientation = "+ detectiveOrientation);
+        if (count==1){
+            if (detectiveOrientation.equals(Orientation.NORTH)){
+                if (detectivePositionX<2){
+                    detectivePositionX=(detectivePositionX+1);
+                }
+                else{
+                    detectiveOrientation=(Orientation.EAST);
+                    detectivePositionX=(2);
+                    detectivePositionY=0;
+                }
+            }
+
+            if (detectiveOrientation.equals(Orientation.EAST)){
+                if (detectivePositionY<2){
+                   detectivePositionY=(detectivePositionY+1);
+                }
+                else{
+                   detectiveOrientation=(Orientation.SOUTH);
+                   detectivePositionX=2;
+                detectivePositionY=(2);
+                }
+            }
+
+            if (detectiveOrientation.equals(Orientation.SOUTH)){
+                if (detectivePositionX>0){
+                    detectivePositionX=(detectivePositionX-1);
+                    System.out.println("condition 1");
+                }
+                else{
+                    System.out.println("condition 2 mon orientation avant"+detectiveOrientation);
+                    detectiveOrientation=(Orientation.WEST);
+                   detectivePositionX=(0);
+                    detectivePositionY=(2);
+
+                    System.out.println("condition 2 mon orientation avant"+detectiveOrientation);
+                }
+            }
+            if (detectiveOrientation.equals(Orientation.WEST)){
+                if (detectivePositionY>0){
+                    detectivePositionY=(detectivePositionY-1);
+                }
+                else{
+                    detectiveOrientation=(Orientation.NORTH);
+                    detectivePositionX=(0);
+                     detectivePositionY=(0);
+                }
+            }
+
+        }
+
+        detectives.get(index).setPositionX(detectivePositionX);
+        detectives.get(index).setPositionY(detectivePositionY);
+        detectives.get(index).setOrientationDetective(detectiveOrientation);
+        System.out.println( "podition x final = " +detectives.get(index).getPositionX());
+        System.out.println( "podition y final  = "+ detectives.get(index).getPositionY());
+        System.out.println("mon orientation final"+detectives.get(index).getOrientationDetective());
+    }
+        public void moveDetectiveTokenTwo (DetectiveName name,ArrayList<Detective> detectives){
+            int index=0;
+            int detectivePositionX=0;
+            int detectivePositionY=0;
+            Orientation detectiveOrientation;
+            for (int i=0;i<detectives.size();i++){
+                if (detectives.get(i).getName().equals(name)){
+                    index=i;
+                    detectivePositionX=detectives.get(i).getPositionX();
+                    detectivePositionY=detectives.get(i).getPositionY();
+                    detectiveOrientation=detectives.get(i).getOrientationDetective();
+                }
+
+               // if ((detectivePositionX==0 && detectivePositionY==0)||(detectivePositionX==2 && detectivePositionY==2)||(detectivePositionX==0 && detectivePositionY==2)||(detectivePositionX==2 && detectivePositionY==0))
+                //{
+                  //  moveDetectiveTokenOne(name, 1,detectives);
+                //}
+              //  else
+                //{
+                    moveDetectiveTokenOne(name, 1,detectives);
+                    moveDetectiveTokenOne(name, 1,detectives);
+                    break;
+                //}
+
+
+        }
+        }
+
     public List<AlibiName> getVisibleCharacters(ArrayList<Detective> detectives,Cell[][] board)
     {
+       // board[2][1].district.setOrientation(Orientation.WEST);
+       // board[1][1].district.setOrientation(Orientation.NORTH);
         ArrayList<AlibiName> listCharactersVisible = new ArrayList<>();
-        int tobbyPositionX= detectives.get(2).getPositionX();
-        int tobbyPositionY= detectives.get(2).getPositionY();
-        int tobbyPosition=0;
-        Orientation tobbyOrientation=detectives.get(2).getOrientationDetective();
-        if ((tobbyOrientation.equals(Orientation.EAST)||tobbyOrientation.equals(Orientation.WEST)))
-
+        //int tobbyPositionX= detectives.get(2).getPositionX();
+        //int tobbyPositionY= detectives.get(2).getPositionY();
+       //int tobbyPositionX=0;
+        //int tobbyPositionY=0;
+       // detectives.get(2).setOrientationDetective(Orientation.NORTH);
+        int Position=0;
+        //Orientation tobbyOrientation=detectives.get(2).getOrientationDetective();
+       // System.out.println("tobby orientation ="+detectives.get(2).getOrientationDetective());
+        //System.out.println(board[2][1].district.getOrientation());
+        for (int p=0;p<detectives.size();p++){
+        if ((detectives.get(p).getOrientationDetective().equals(Orientation.EAST)))
         {
-            tobbyPosition=tobbyPositionY;
-            for (int i = 0; i < 3; i++)
-            {
-                if (board [i][tobbyPosition].district.getOrientation().equals(detectives.get(2).getOrientationDetective()))
+            Position=detectives.get(p).getPositionY();
+           // System.out.println("tobby posi"+ Position);
+            for (int i =0; i <3; i++)
+            {System.out.println("i" +i);
+
+                if (!board [Position][2-i].district.getOrientation().equals(detectives.get(p).getOrientationDetective()))
                 {
-                    listCharactersVisible.add(board[i][tobbyPosition].district.getAlibiCards().getName());
+
+                    listCharactersVisible.add(board[Position][2-i].district.getAlibiCards().getName());
+                }
+                else
+                {
+                    break;
                 }
 
 
             }
-            System.out.println(tobbyPosition);
+
+        }
+        if ((detectives.get(p).getOrientationDetective().equals(Orientation.WEST)))
+        {
+            Position=detectives.get(p).getPositionY();
+           // System.out.println("tobby posi"+ Position);
+            for (int i =0; i <3; i++)
+            {System.out.println("i" +i);
+
+                if (!board [Position][i].district.getOrientation().equals(detectives.get(p).getOrientationDetective()))
+                {
+
+                    listCharactersVisible.add(board[Position][i].district.getAlibiCards().getName());
+                }
+                else
+                {
+                    break;
+                }
+
+
+            }
+
+        }
+        else if (detectives.get(p).getOrientationDetective().equals(Orientation.SOUTH))
+        {
+            Position=detectives.get(p).getPositionX();
+            for (int i =0; i <3; i++)
+            {System.out.println("i" +i);
+            if (!board [2-i][Position].district.getOrientation().equals(detectives.get(p).getOrientationDetective()))
+            {
+
+                listCharactersVisible.add(board[2-i][Position].district.getAlibiCards().getName());
+            }
+            else
+            {
+                break;
+            }
+
+
+        }
+
+
+        }
+        else if (detectives.get(p).getOrientationDetective().equals(Orientation.NORTH))
+        {
+           Position=detectives.get(p).getPositionX();
+           System.out.println("sherlock");
+            for (int i =0; i <3; i++)
+            {System.out.println("i" +i);
+                if (!board [i][Position].district.getOrientation().equals(detectives.get(p).getOrientationDetective()))
+                {
+
+                    listCharactersVisible.add(board[i][Position].district.getAlibiCards().getName());
+                }
+                else
+                {
+                    break;
+                }
+
+
+            }
+        // a implementer occurence
+
+        }
             System.out.println(listCharactersVisible);
         }
-        else
+        for(int m=0; m<detectives.size();m++)
         {
-            tobbyPosition=tobbyPositionX;
-            for (int i = 0; i < 3; i++)
-            {
-            if (board [tobbyPosition][i].district.getOrientation().equals(detectives.get(2).getOrientationDetective()))
-            {
-                listCharactersVisible.add(board[tobbyPosition][i].district.getAlibiCards().getName());
-            }
-            System.out.println(tobbyPosition);
-                System.out.println(listCharactersVisible);
-        }
 
         }
 
         return listCharactersVisible;
     }
 
-*/
         public void addDetective (DetectiveToken detectiveName){
             if(!(DetectiveList.contains(detectiveName))){
                 DetectiveList.add(detectiveName);
