@@ -110,7 +110,7 @@ public class Board {
         district2.setOrientation(district3.getOrientation());
         district2.setRecto(district3.isRecto());
         district2.setVisible(district3.isVisible());
-
+        System.out.print("test");
     }
 /*
     public List<AlibiName> getVisibleCharacters(ArrayList<Detective> detectives,Cell[][] board)
