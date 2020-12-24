@@ -1,5 +1,9 @@
 package fr.isep.JackPocket;
 
+import fr.isep.JackPocket.Action.ActionToken;
+
+import java.util.List;
+
 public class MrJackPlayer {
     AlibiCard jackCharacter;
     int hourglassMrJack;
@@ -34,4 +38,17 @@ public class MrJackPlayer {
         this.mrJackvisible = mrJackvisible;
     }
 
+
+public void pickJackCharacter(){
+    jackCharacter.setName(AlibiName.values()[(int) Math.random() *AlibiName.values().length]);
+}
+public void launcherActionToken(List<ActionToken> actionTokenList){
+
+    }
+
+
+
+public int countHourglass(){
+   return getHourglassMrJack();
+}
 }

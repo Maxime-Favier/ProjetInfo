@@ -45,4 +45,12 @@ public class District {
     public void setVisible(boolean visible) {
         isVisible = visible;
     }
+
+
+public void rotate (Orientation orientation,District district){
+
+district.setOrientation(orientation);
+
+
+}
 }
