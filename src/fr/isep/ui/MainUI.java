@@ -13,19 +13,21 @@ public class MainUI {
     JFrame f;
     JButton[][] districtBtn;
     JButton[] detectivesBtn;
+    JLabel hourGlassLabel;
 
     public MainUI() {
         initUI();
         initDistrictBtn();
         initDetectivesBtn();
+        initHourglassLbl();
+        initActions();
         endUIInit();
+        updateHourglass(50);
     }
 
     private void initUI() {
         System.out.println("init ui");
         f = new JFrame("Projet Mr Jack");
-        //System.out.println(AlibiName.JEREMY_BART.toString());
-
     }
 
     private void initDistrictBtn() {
@@ -59,6 +61,95 @@ public class MainUI {
             f.add(detectivesBtn[i]);
         }
 
+    }
+
+    private void initHourglassLbl() {
+        Image hourGlassImage = null;
+        try {
+            hourGlassImage = ImageIO.read(getClass().getResource("/hourglass.png"));
+            ImageIcon hourGlassIcon = new ImageIcon(hourGlassImage.getScaledInstance(50, 50, 1));
+            hourGlassLabel = new JLabel("Mr Jack has 0 hourGlass", hourGlassIcon, SwingConstants.RIGHT);
+            hourGlassLabel.setBounds(850, 10, 500, 100);
+            f.add(hourGlassLabel);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void initActions(){
+        JButton alibiBtn = new JButton("loading");
+        alibiBtn.setBounds(1100, 120, 100, 100);
+        try {
+            Image alibimg = ImageIO.read(getClass().getResource("/ALIBI.png"));
+            alibiBtn.setIcon(new ImageIcon(alibimg.getScaledInstance(110, 100, 1)));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        f.add(alibiBtn);
+
+        JButton rotateBtn = new JButton("loading");
+        rotateBtn.setBounds(1200, 120, 100, 100);
+        try {
+            Image rotateImg = ImageIO.read(getClass().getResource("/ROTATE.png"));
+            rotateBtn.setIcon(new ImageIcon(rotateImg.getScaledInstance(110, 100, 1)));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        f.add(rotateBtn);
+
+        JButton swapBtn = new JButton("loading");
+        swapBtn.setBounds(1300, 120, 100, 100);
+        try {
+            Image swapImg = ImageIO.read(getClass().getResource("/SWAP_DISTRICT.png"));
+            swapBtn.setIcon(new ImageIcon(swapImg.getScaledInstance(110, 100, 1)));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        f.add(swapBtn);
+
+        JButton jockerBtn = new JButton("loading");
+        jockerBtn.setBounds(1400, 120, 100, 100);
+        try {
+            Image jockerImg = ImageIO.read(getClass().getResource("/JOKER.png"));
+            jockerBtn.setIcon(new ImageIcon(jockerImg.getScaledInstance(110, 100, 1)));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        f.add(jockerBtn);
+
+        JButton sherlockBtn = new JButton("loading");
+        sherlockBtn.setBounds(1500, 120, 100, 100);
+        try {
+            Image sherlockImg = ImageIO.read(getClass().getResource("/SHERLOCK.png"));
+            sherlockBtn.setIcon(new ImageIcon(sherlockImg.getScaledInstance(110, 100, 1)));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        f.add(sherlockBtn);
+
+        JButton watsonBtn = new JButton("loading");
+        watsonBtn.setBounds(1600, 120, 100, 100);
+        try {
+            Image watsonImg = ImageIO.read(getClass().getResource("/WATSON.png"));
+            watsonBtn.setIcon(new ImageIcon(watsonImg.getScaledInstance(110, 100, 1)));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        f.add(watsonBtn);
+
+        JButton tobbyBtn = new JButton("loading");
+        tobbyBtn.setBounds(1700, 120, 100, 100);
+        try {
+            Image tobbyImg = ImageIO.read(getClass().getResource("/TOBBY.png"));
+            tobbyBtn.setIcon(new ImageIcon(tobbyImg.getScaledInstance(110, 100, 1)));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        f.add(tobbyBtn);
+    }
+
+    public void updateHourglass(int hourglasses){
+        hourGlassLabel.setText("Mr Jack has " + String.valueOf(hourglasses) + " hourGlass(es)");
     }
 
     public void updateUIDistrict(District[][] districtBoard) {
@@ -107,27 +198,29 @@ public class MainUI {
         for (int i = 0; i < 12; i++) {
             ArrayList<DetectiveToken> detectivePlace = detectiveBoard[i];
 
-            if(!detectivePlace.isEmpty()){
+            if (!detectivePlace.isEmpty()) {
                 //System.out.println(i);
                 boolean sherlok, watson, tobby;
                 sherlok = watson = tobby = false;
 
-                for (DetectiveToken detectiveToken: detectivePlace) {
-                    if(detectiveToken.getDetectiveName() == DetectiveName.SHERLOCK){
+                for (DetectiveToken detectiveToken : detectivePlace) {
+                    if (detectiveToken.getDetectiveName() == DetectiveName.SHERLOCK) {
                         sherlok = true;
-                    }else if(detectiveToken.getDetectiveName() == DetectiveName.WATSON){
+                    } else if (detectiveToken.getDetectiveName() == DetectiveName.WATSON) {
                         watson = true;
-                    }else if(detectiveToken.getDetectiveName() == DetectiveName.TOBBY){
+                    } else if (detectiveToken.getDetectiveName() == DetectiveName.TOBBY) {
                         tobby = true;
                     }
                 }
                 StringBuilder fileName = new StringBuilder();
                 fileName.append("/");
-                if(sherlok){
+                if (sherlok) {
                     fileName.append("-SHERLOCK");
-                }if(watson){
+                }
+                if (watson) {
                     fileName.append("-WATSON");
-                }if(tobby){
+                }
+                if (tobby) {
                     fileName.append("-TOBBY");
                 }
                 fileName.append(".png");
@@ -135,15 +228,15 @@ public class MainUI {
                 try {
                     BufferedImage image = ImageIO.read(getClass().getResource(fileName.toString()));
                     detectivesBtn[i].setIcon(new ImageIcon(image.getScaledInstance(205, 200, 1)));
-                }catch (IOException e){
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
 
-            }else{
+            } else {
                 try {
                     BufferedImage image = ImageIO.read(getClass().getResource("/BLANK.png"));
                     detectivesBtn[i].setIcon(new ImageIcon(image.getScaledInstance(255, 255, 1)));
-                }catch (IOException e){
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
 
@@ -165,7 +258,7 @@ public class MainUI {
     }
 
     private void endUIInit() {
-        f.setSize(1000, 1100);
+        f.setSize(1800, 1100);
         f.setLayout(null);
         f.setVisible(true);
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

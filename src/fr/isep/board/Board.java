@@ -11,7 +11,7 @@ public class Board {
         initDetective();
     }
 
-    private void initDistricts(){
+    private void initDistricts() {
         System.out.println("init districts...");
 
         districtBoard = new District[3][3];
@@ -29,7 +29,8 @@ public class Board {
         districtBoard[1][2] = new District(Orientation.NORTH, AlibiName.MADAME);
         districtBoard[2][2] = new District(Orientation.NORTH, AlibiName.WILLIAM_GULL);
     }
-    private void initDetective(){
+
+    private void initDetective() {
         System.out.println("init detective...");
 
         detectiveBoard = new ArrayList[12];
