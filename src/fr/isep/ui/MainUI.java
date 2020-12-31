@@ -1,29 +1,35 @@
 package fr.isep.ui;
 
 import fr.isep.board.*;
+import fr.isep.game.Actions;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 
 public class MainUI {
+    Actions actions;
+    Board board;
     JFrame f;
     JButton[][] districtBtn;
     JButton[] detectivesBtn;
     JLabel hourGlassLabel;
 
-    public MainUI() {
+    public MainUI(Actions actions, Board board) {
+        this.actions = actions;
+        this.board = board;
         initUI();
         initDistrictBtn();
         initDetectivesBtn();
         initHourglassLbl();
         initActions();
         endUIInit();
-        updateHourglass(50);
+        //updateHourglass(50);
     }
 
     private void initUI() {
@@ -46,7 +52,7 @@ public class MainUI {
         }
     }
 
-    private void districtClick(ActionEvent ae, int x, int y){
+    private void districtClick(ActionEvent ae, int x, int y) {
         System.out.println(x + " - " + y);
     }
 
@@ -84,7 +90,7 @@ public class MainUI {
         }
     }
 
-    private void initActions(){
+    private void initActions() {
         JButton alibiBtn = new JButton("loading");
         alibiBtn.setBounds(1100, 120, 100, 100);
         try {
@@ -123,6 +129,9 @@ public class MainUI {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        jockerBtn.addActionListener(e -> {
+
+        });
         f.add(jockerBtn);
 
         JButton sherlockBtn = new JButton("loading");
@@ -133,6 +142,26 @@ public class MainUI {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        sherlockBtn.addActionListener(e -> {
+            Object[] options = {"1", "2"};
+            int n = JOptionPane.showOptionDialog(f,
+                    "How many spaces do you want to move sherlock",
+                    "What do you want ?",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    options,
+                    options[0]);
+            //System.out.println(n);
+            if (n == 1) {
+                actions.moveDetective(DetectiveName.SHERLOCK, 2);
+                updateUIDetective(board.getDetectiveBoard());
+            } else if (n == 0) {
+                actions.moveDetective(DetectiveName.SHERLOCK, 1);
+                updateUIDetective(board.getDetectiveBoard());
+            }
+
+        });
         f.add(sherlockBtn);
 
         JButton watsonBtn = new JButton("loading");
@@ -143,6 +172,25 @@ public class MainUI {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        watsonBtn.addActionListener(e -> {
+            Object[] options = {"1", "2"};
+            int n = JOptionPane.showOptionDialog(f,
+                    "How many spaces do you want to move watson",
+                    "What do you want ?",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    options,
+                    options[0]);
+            //System.out.println(n);
+            if (n == 1) {
+                actions.moveDetective(DetectiveName.WATSON, 2);
+                updateUIDetective(board.getDetectiveBoard());
+            } else if (n == 0) {
+                actions.moveDetective(DetectiveName.WATSON, 1);
+                updateUIDetective(board.getDetectiveBoard());
+            }
+        });
         f.add(watsonBtn);
 
         JButton tobbyBtn = new JButton("loading");
@@ -153,10 +201,29 @@ public class MainUI {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        tobbyBtn.addActionListener(e -> {
+            Object[] options = {"1", "2"};
+            int n = JOptionPane.showOptionDialog(f,
+                    "How many spaces do you want to move tobby",
+                    "What do you want ?",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    options,
+                    options[0]);
+            //System.out.println(n);
+            if (n == 1) {
+                actions.moveDetective(DetectiveName.TOBBY, 2);
+                updateUIDetective(board.getDetectiveBoard());
+            } else if (n == 0) {
+                actions.moveDetective(DetectiveName.TOBBY, 1);
+                updateUIDetective(board.getDetectiveBoard());
+            }
+        });
         f.add(tobbyBtn);
     }
 
-    public void updateHourglass(int hourglasses){
+    public void updateHourglass(int hourglasses) {
         hourGlassLabel.setText("Mr Jack has " + String.valueOf(hourglasses) + " hourGlass(es)");
     }
 

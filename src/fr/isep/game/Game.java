@@ -13,9 +13,10 @@ public class Game {
         System.out.println("Game Playing");
 
         Board board = new Board();
-        MainUI mainUI = new MainUI();
+
         Actions actions = new Actions(board);
-        actions.moveDetective(DetectiveName.SHERLOCK, 0);
+        MainUI mainUI = new MainUI(actions, board);
+
         mainUI.updateUIDistrict(board.getDistrictBoard());
         mainUI.updateUIDetective(board.getDetectiveBoard());
     }
