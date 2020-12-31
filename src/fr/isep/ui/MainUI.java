@@ -15,18 +15,25 @@ import java.util.ArrayList;
 public class MainUI {
     Actions actions;
     Board board;
+    String actionMode;
+    Orientation rotateOrientation;
+    int tmpx;
+    int tmpy;
     JFrame f;
     JButton[][] districtBtn;
     JButton[] detectivesBtn;
     JLabel hourGlassLabel;
+    JLabel tourRoleLabel;
 
     public MainUI(Actions actions, Board board) {
         this.actions = actions;
         this.board = board;
+        actionMode = "NONE";
+
         initUI();
         initDistrictBtn();
         initDetectivesBtn();
-        initHourglassLbl();
+        initotherLbl();
         initActions();
         endUIInit();
         //updateHourglass(50);
@@ -53,6 +60,19 @@ public class MainUI {
     }
 
     private void districtClick(ActionEvent ae, int x, int y) {
+        if(actionMode.equals("ROTATE")){
+            actions.rotateDistrict(x, y, rotateOrientation);
+            actionMode = "NONE";
+            updateUIDistrict(board.getDistrictBoard());
+        }else if(actionMode.equals("SWAP")){
+            tmpx = x;
+            tmpy = y;
+            actionMode = "SWAP2";
+        }else if(actionMode.equals("SWAP2")){
+            actions.swapDistrict(tmpx, tmpy, x, y);
+            actionMode = "NONE";
+            updateUIDistrict(board.getDistrictBoard());
+        }
         System.out.println(x + " - " + y);
     }
 
@@ -77,7 +97,7 @@ public class MainUI {
 
     }
 
-    private void initHourglassLbl() {
+    private void initotherLbl() {
         Image hourGlassImage = null;
         try {
             hourGlassImage = ImageIO.read(getClass().getResource("/hourglass.png"));
@@ -88,6 +108,11 @@ public class MainUI {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        tourRoleLabel = new JLabel("It's the turn of the investigator");
+        tourRoleLabel.setBounds(1100, 200, 500, 100);
+        f.add(tourRoleLabel);
+
     }
 
     private void initActions() {
@@ -109,6 +134,36 @@ public class MainUI {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        rotateBtn.addActionListener(e -> {
+            Object[] options = {Orientation.NORTH.toString(), Orientation.EAST.toString(), Orientation.SOUTH.toString(), Orientation.WEST.toString()};
+            int n = JOptionPane.showOptionDialog(
+                    f,
+                    "Please select the direction and click on the district",
+                    "Rotate a district",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,     //do not use a custom Icon
+                    options,  //the titles of buttons
+                    options[0]); //default button title
+            System.out.println(n);
+            if(n != -1){
+                actionMode = "ROTATE";
+                switch (n){
+                    case 0:
+                        rotateOrientation = Orientation.NORTH;
+                        break;
+                    case 1:
+                        rotateOrientation = Orientation.EAST;
+                        break;
+                    case 2:
+                        rotateOrientation = Orientation.SOUTH;
+                        break;
+                    case 3:
+                        rotateOrientation = Orientation.WEST;
+                        break;
+                }
+            }
+        });
         f.add(rotateBtn);
 
         JButton swapBtn = new JButton("loading");
@@ -119,6 +174,20 @@ public class MainUI {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        swapBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int n = JOptionPane.showConfirmDialog(
+                        f,
+                        "Click on the two district to swap",
+                        "swap districts",
+                        JOptionPane.YES_NO_OPTION);
+                System.out.println(n);
+                if(n == 0){
+                    actionMode = "SWAP";
+                }
+            }
+        });
         f.add(swapBtn);
 
         JButton jockerBtn = new JButton("loading");
@@ -152,7 +221,6 @@ public class MainUI {
                     null,
                     options,
                     options[0]);
-            //System.out.println(n);
             if (n == 1) {
                 actions.moveDetective(DetectiveName.SHERLOCK, 2);
                 updateUIDetective(board.getDetectiveBoard());
