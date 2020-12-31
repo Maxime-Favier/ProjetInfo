@@ -5,6 +5,7 @@ import fr.isep.board.*;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -37,9 +38,16 @@ public class MainUI {
                 districtBtn[x][y] = new JButton("district is loading");
 
                 districtBtn[x][y].setBounds(210 + x * 200, 210 + y * 200, 200, 200);
+                int finalX = x;
+                int finalY = y;
+                districtBtn[x][y].addActionListener(event -> districtClick(event, finalX, finalY));
                 f.add(districtBtn[x][y]);
             }
         }
+    }
+
+    private void districtClick(ActionEvent ae, int x, int y){
+        System.out.println(x + " - " + y);
     }
 
     private void initDetectivesBtn() {
