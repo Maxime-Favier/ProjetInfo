@@ -21,6 +21,7 @@ public class Game {
         initActionCard();
         Actions actions = new Actions(board);
         MainUI mainUI = new MainUI(actions, board);
+        System.out.println(board.getVisibleCharacters(board.getDistrictBoard(), board.getDetectiveBoard()));
 
         mainUI.updateUIDistrict(board.getDistrictBoard());
         mainUI.updateUIDetective(board.getDetectiveBoard());
