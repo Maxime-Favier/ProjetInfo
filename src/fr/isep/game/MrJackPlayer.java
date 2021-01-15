@@ -7,14 +7,13 @@ import java.util.Random;
 public class MrJackPlayer  {
     private AlibiName JackAlibiName;
     private int hourglass;
+    private boolean isVisible;
 
 
-
-
-    public MrJackPlayer( AlibiName jackAlibiName, int hourglass) {
-
+    public MrJackPlayer(AlibiName jackAlibiName, int hourglass, boolean isVisible) {
         JackAlibiName = jackAlibiName;
         this.hourglass = hourglass;
+        this.isVisible = isVisible;
     }
 
     public AlibiName getJackAlibiName() {
@@ -33,7 +32,11 @@ public class MrJackPlayer  {
         this.hourglass = hourglass;
     }
 
+    public boolean isVisible() {
+        return isVisible;
+    }
 
-
-
+    public void setVisible(boolean visible) {
+        isVisible = visible;
+    }
 }

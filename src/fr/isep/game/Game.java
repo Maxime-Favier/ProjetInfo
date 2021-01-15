@@ -2,6 +2,7 @@ package fr.isep.game;
 
 import fr.isep.board.AlibiName;
 import fr.isep.board.Board;
+import fr.isep.board.District;
 import fr.isep.ui.MainUI;
 
 import java.util.ArrayList;
@@ -24,11 +25,13 @@ public class Game {
         System.out.println("Game Playing");
 
         Board board = new Board();
-        MrJackPlayer mrJackPlayer =new MrJackPlayer (null,0);
-        mrJackPlayer.setJackAlibiName(pickIdentityJack());
+
         initActionCard();
         initAlibiCard();
         initSuspects();
+        MrJackPlayer mrJackPlayer =new MrJackPlayer (null,0,false);
+        mrJackPlayer.setJackAlibiName(pickIdentityJack());
+        DetectivePlayer detectivePlayer =new DetectivePlayer();
         Actions actions = new Actions(board);
         mainUI = new MainUI(actions, board);
         System.out.println(board.getVisibleCharacters(board.getDistrictBoard(), board.getDetectiveBoard()));
@@ -36,12 +39,12 @@ public class Game {
         mainUI.updateUIDistrict(board.getDistrictBoard());
         mainUI.updateUIDetective(board.getDetectiveBoard());
 
-        mainUI.showMrJackName(AlibiName.JOHN_PIZER);
-
+        mainUI.showMrJackName(mrJackPlayer.getJackAlibiName());
         turnCount=1;
         whoPlay=0;
         mainUI.setTurn(whoPlay);
         turn();
+
 
     }
 
@@ -72,6 +75,7 @@ public class Game {
 
 
         }
+        mainUI.setTurn(whoPlay);
     }
 
 //    public void gameEnded(){
@@ -132,10 +136,62 @@ public class Game {
 
    public AlibiName pickIdentityJack(){
         Random rand=new Random();
-       AlibiName Jack =AlibiName.values()[(int) rand.nextInt(AlibiName.values().length+1)];
+       AlibiName Jack =AlibiName.values()[(int) rand.nextInt(AlibiName.values().length)];
 
        return Jack;
    }
+
+    public boolean DetectiveConditionToWin(){
+        if(suspectsRestants.size()==1){
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+
+
+    public boolean MrJackConditionToWin(MrJackPlayer mrJackPlayer) {
+        int sablierJack = mrJackPlayer.getHourglass();
+        if (sablierJack >= 6) {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public void appelATemoins (MrJackPlayer mrJackPlayer,Board board){
+        ArrayList<AlibiName>  visiblecharacters ;
+        visiblecharacters= board.getVisibleCharacters(board.getDistrictBoard(), board.getDetectiveBoard());
+        District[][] districtBoard = board.getDistrictBoard();
+        if (mrJackPlayer.isVisible()==false){
+            for (int i=0;i<3;i++){
+                for (int j=0;j<3;j++){
+                    if (visiblecharacters.contains(districtBoard[i][j].getCharacter()))
+                    {
+                       districtBoard[i][j].setRecto(false);
+                       mrJackPlayer.setHourglass(mrJackPlayer.getHourglass()+1);
+                    }
+                }
+            }
+
+        }
+        else{
+            for (int i=0;i<3;i++){
+                for (int j=0;j<3;j++){
+                    if (!visiblecharacters.contains(districtBoard[i][j].getCharacter()))
+                    {
+                        districtBoard[i][j].setRecto(false);
+                    }
+                }
+            }
+        }
+        mainUI.updateUIDistrict(board.getDistrictBoard());
+    }
+
 
 
 
