@@ -27,8 +27,8 @@ public class MainUI {
     private JLabel hourGlassLabel;
     private JLabel tourRoleLabel;
     private JButton alibiBtn, rotateBtn, rotateBtn2, swapBtn, jockerBtn, watsonBtn, sherlockBtn, tobbyBtn;
-    private JList alibiJList;
     private DefaultListModel<String> alibiListModel = new DefaultListModel<>();
+    private int turn;
 
     public MainUI(Actions actions, Board board) {
         this.actions = actions;
@@ -128,18 +128,21 @@ public class MainUI {
         f.add(tourRoleLabel);
 
         //alibiComboBox = new JComboBox();
-        alibiJList = new JList(alibiListModel);
+        JList alibiJList = new JList(alibiListModel);
         alibiJList.setBounds(1100,400, 400,400);
         f.add(alibiJList);
         //addAlibi(new AlibiCard(AlibiName.JOHN_PIZER, 1));
     }
 
-    public void setTurnLabel(String txt) {
+    private void setTurnLabel(String txt) {
         tourRoleLabel.setText(txt);
     }
+
     public void addAlibi(AlibiCard alibiCard){
         alibiListModel.addElement(alibiCard.getName().toString().replace("_", " ") + " - "+ alibiCard.getHourGlassCount() + " hourglasse(s)");
     }
+
+
 
     private void initActions() {
         alibiBtn = new JButton("loading");
@@ -537,6 +540,14 @@ public class MainUI {
             e.printStackTrace();
         }
 
+    }
+    public void setTurn(int turn){
+        this.turn = turn;
+        if(turn == 0){
+            setTurnLabel("It's the turn of the investigator");
+        }else {
+            setTurnLabel("It's the turn of Mr Jack");
+        }
     }
 
     private void endUIInit() {

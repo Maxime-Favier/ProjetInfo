@@ -40,6 +40,7 @@ public class Game {
 
         turnCount=1;
         whoPlay=0;
+        mainUI.setTurn(whoPlay);
         turn();
 
     }
