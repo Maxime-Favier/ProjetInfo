@@ -1,6 +1,7 @@
 package fr.isep.ui;
 
 import fr.isep.board.*;
+import fr.isep.game.ActionToken;
 import fr.isep.game.Actions;
 
 import javax.imageio.ImageIO;
@@ -24,6 +25,7 @@ public class MainUI {
     JButton[] detectivesBtn;
     JLabel hourGlassLabel;
     JLabel tourRoleLabel;
+    JButton alibiBtn, rotateBtn, rotateBtn2, swapBtn, jockerBtn, watsonBtn, sherlockBtn, tobbyBtn;
 
     public MainUI(Actions actions, Board board) {
         this.actions = actions;
@@ -110,13 +112,17 @@ public class MainUI {
         }
 
         tourRoleLabel = new JLabel("It's the turn of the investigator");
-        tourRoleLabel.setBounds(1100, 200, 500, 100);
+        tourRoleLabel.setBounds(1100, 300, 500, 100);
         f.add(tourRoleLabel);
 
     }
 
+    public void setTurnLabel(String txt){
+        tourRoleLabel.setText(txt);
+    }
+
     private void initActions() {
-        JButton alibiBtn = new JButton("loading");
+        alibiBtn = new JButton("loading");
         alibiBtn.setBounds(1100, 120, 100, 100);
         try {
             Image alibimg = ImageIO.read(getClass().getResource("/ALIBI.png"));
@@ -126,7 +132,7 @@ public class MainUI {
         }
         f.add(alibiBtn);
 
-        JButton rotateBtn = new JButton("loading");
+        rotateBtn = new JButton("loading");
         rotateBtn.setBounds(1200, 120, 100, 100);
         try {
             Image rotateImg = ImageIO.read(getClass().getResource("/ROTATE.png"));
@@ -166,7 +172,47 @@ public class MainUI {
         });
         f.add(rotateBtn);
 
-        JButton swapBtn = new JButton("loading");
+        rotateBtn2 = new JButton("loading");
+        rotateBtn2.setBounds(1400, 220, 100, 100);
+        try {
+            Image rotateImg = ImageIO.read(getClass().getResource("/ROTATE.png"));
+            rotateBtn2.setIcon(new ImageIcon(rotateImg.getScaledInstance(110, 100, 1)));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        rotateBtn2.addActionListener(e -> {
+            Object[] options = {Orientation.NORTH.toString(), Orientation.EAST.toString(), Orientation.SOUTH.toString(), Orientation.WEST.toString()};
+            int n = JOptionPane.showOptionDialog(
+                    f,
+                    "Please select the direction and click on the district",
+                    "Rotate a district",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,     //do not use a custom Icon
+                    options,  //the titles of buttons
+                    options[0]); //default button title
+            System.out.println(n);
+            if(n != -1){
+                actionMode = "ROTATE";
+                switch (n){
+                    case 0:
+                        rotateOrientation = Orientation.NORTH;
+                        break;
+                    case 1:
+                        rotateOrientation = Orientation.EAST;
+                        break;
+                    case 2:
+                        rotateOrientation = Orientation.SOUTH;
+                        break;
+                    case 3:
+                        rotateOrientation = Orientation.WEST;
+                        break;
+                }
+            }
+        });
+        f.add(rotateBtn2);
+
+        swapBtn = new JButton("loading");
         swapBtn.setBounds(1300, 120, 100, 100);
         try {
             Image swapImg = ImageIO.read(getClass().getResource("/SWAP_DISTRICT.png"));
@@ -190,7 +236,7 @@ public class MainUI {
         });
         f.add(swapBtn);
 
-        JButton jockerBtn = new JButton("loading");
+        jockerBtn = new JButton("loading");
         jockerBtn.setBounds(1400, 120, 100, 100);
         try {
             Image jockerImg = ImageIO.read(getClass().getResource("/JOKER.png"));
@@ -203,8 +249,8 @@ public class MainUI {
         });
         f.add(jockerBtn);
 
-        JButton sherlockBtn = new JButton("loading");
-        sherlockBtn.setBounds(1500, 120, 100, 100);
+        sherlockBtn = new JButton("loading");
+        sherlockBtn.setBounds(1100, 220, 100, 100);
         try {
             Image sherlockImg = ImageIO.read(getClass().getResource("/SHERLOCK.png"));
             sherlockBtn.setIcon(new ImageIcon(sherlockImg.getScaledInstance(110, 100, 1)));
@@ -232,8 +278,8 @@ public class MainUI {
         });
         f.add(sherlockBtn);
 
-        JButton watsonBtn = new JButton("loading");
-        watsonBtn.setBounds(1600, 120, 100, 100);
+        watsonBtn = new JButton("loading");
+        watsonBtn.setBounds(1200, 220, 100, 100);
         try {
             Image watsonImg = ImageIO.read(getClass().getResource("/WATSON.png"));
             watsonBtn.setIcon(new ImageIcon(watsonImg.getScaledInstance(110, 100, 1)));
@@ -261,8 +307,8 @@ public class MainUI {
         });
         f.add(watsonBtn);
 
-        JButton tobbyBtn = new JButton("loading");
-        tobbyBtn.setBounds(1700, 120, 100, 100);
+        tobbyBtn = new JButton("loading");
+        tobbyBtn.setBounds(1300, 220, 100, 100);
         try {
             Image tobbyImg = ImageIO.read(getClass().getResource("/TOBBY.png"));
             tobbyBtn.setIcon(new ImageIcon(tobbyImg.getScaledInstance(110, 100, 1)));
@@ -289,6 +335,48 @@ public class MainUI {
             }
         });
         f.add(tobbyBtn);
+    }
+
+    public void setActionsEnabled(ArrayList<ActionToken> actionTokens){
+        //alibiBtn, rotateBtn, rotateBtn2, swapBtn, jockerBtn, watsonBtn, sherlockBtn, tobbyBtn;
+        alibiBtn.setVisible(false);
+        rotateBtn.setVisible(false);
+        rotateBtn2.setVisible(false);
+        swapBtn.setVisible(false);
+        jockerBtn.setVisible(false);
+        watsonBtn.setVisible(false);
+        sherlockBtn.setVisible(false);
+        tobbyBtn.setVisible(false);
+        for (ActionToken actionToken: actionTokens) {
+            switch (actionToken){
+                case ALIBI:
+                    alibiBtn.setVisible(true);
+                    break;
+                case JOKER:
+                    jockerBtn.setVisible(true);
+                    break;
+                case HOLMES:
+                    sherlockBtn.setVisible(true);
+                    break;
+                case WATSON:
+                    watsonBtn.setVisible(true);
+                    break;
+                case LE_CHIEN:
+                    tobbyBtn.setVisible(true);
+                    break;
+                case ECHANGE:
+                    swapBtn.setVisible(true);
+                    break;
+                case ROTATION:
+                    System.out.println("here1");
+                    if(rotateBtn.isVisible()){
+                        rotateBtn2.setVisible(true);
+                    }else {
+                        rotateBtn.setVisible(true);
+                    }
+                    break;
+            }
+        }
     }
 
     public void updateHourglass(int hourglasses) {
