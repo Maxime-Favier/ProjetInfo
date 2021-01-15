@@ -8,12 +8,12 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Game {
-    private ArrayList<AlibiCard> alibiCards;
+    public ArrayList<AlibiCard> alibiCards;
     private ArrayList<ActionCard> actionCards;
-    private ArrayList<AlibiName> suspectsRestants =new ArrayList<>();
+    public ArrayList<AlibiName> suspectsRestants ;
     private MainUI mainUI;
     public int turnCount;
-    public boolean whoPlay;
+    public int whoPlay;
     public ActionToken actionChoose;
     public Game() {
         play();
@@ -24,8 +24,11 @@ public class Game {
         System.out.println("Game Playing");
 
         Board board = new Board();
+        MrJackPlayer mrJackPlayer =new MrJackPlayer (null,0);
+        mrJackPlayer.setJackAlibiName(pickIdentityJack());
         initActionCard();
         initAlibiCard();
+        initSuspects();
         Actions actions = new Actions(board);
         mainUI = new MainUI(actions, board);
         System.out.println(board.getVisibleCharacters(board.getDistrictBoard(), board.getDetectiveBoard()));
@@ -36,8 +39,9 @@ public class Game {
         mainUI.showMrJackName(AlibiName.JOHN_PIZER);
 
         turnCount=1;
-        whoPlay=true;
+        whoPlay=0;
         turn();
+
     }
 
     public void turn(){
@@ -99,21 +103,38 @@ public class Game {
     }
 
     public void initSuspects(){
-        //TODO
-
+        suspectsRestants  = new ArrayList<>();
+        suspectsRestants.add(AlibiName.MADAME);
+        suspectsRestants.add(AlibiName.SERGENT_GOODLEY);
+        suspectsRestants.add(AlibiName.JEREMY_BART);
+        suspectsRestants.add(AlibiName.WILLIAM_GULL);
+        suspectsRestants.add(AlibiName.MISS_STEALTHY);
+        suspectsRestants.add(AlibiName.JOHN_SMITH);
+        suspectsRestants.add(AlibiName.LESTRADE);
+        suspectsRestants.add(AlibiName.JOHN_PIZER);
+        suspectsRestants.add(AlibiName.JOSEPH_LANG);
     }
 
 
-   // public void suspectsRestants(Board board){
-     //   ArrayList<AlibiName>  visiblecharacters =new ArrayList<AlibiName>();
+    public void suspectsRestants(Board board){
+      ArrayList<AlibiName>  visiblecharacters ;
 
-     //  visiblecharacters= board.getVisibleCharacters(board.getDistrictBoard(), board.getDetectiveBoard());
-      // for (int i=0;i<visiblecharacters.size();i++){
-        //   if (visiblecharacters.get(i).
-       //}
+       visiblecharacters= board.getVisibleCharacters(board.getDistrictBoard(), board.getDetectiveBoard());
+      for (int i=0;i<visiblecharacters.size();i++){
+          if (suspectsRestants.contains(visiblecharacters.get(i))){
+              suspectsRestants.remove((visiblecharacters.get(i)));
+          }
+       }
 
 
-   // }
+   }
+
+   public AlibiName pickIdentityJack(){
+        Random rand=new Random();
+       AlibiName Jack =AlibiName.values()[(int) rand.nextInt(AlibiName.values().length+1)];
+
+       return Jack;
+   }
 
 
 

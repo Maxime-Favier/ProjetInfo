@@ -3,6 +3,7 @@ package fr.isep.game;
 import fr.isep.board.*;
 import fr.isep.game.*;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Actions {
     public ActionToken actionTokenPlayed;
@@ -67,10 +68,43 @@ public class Actions {
         actionTokenPlayed=ActionToken.ECHANGE;
     }
 
-   // public void alibi(boolean whoPlay){
-     //   if (whoPlay==true){
+    public void alibi(int whoPlay,Game game,MrJackPlayer mrJackPlayer, Board board){
+        District[][] districtBoard = board.getDistrictBoard();
+        ArrayList<AlibiCard>  alibicards ;
+        ArrayList<AlibiName> suspects;
+        alibicards= game.alibiCards;
+        suspects=game.suspectsRestants;
+        Random random=new Random();
+        int pioche = random.nextInt(alibicards.size()+1);
+       if (whoPlay==0){ // detective qui joue
+           int sablierAlibi;
+           sablierAlibi=alibicards.get(pioche).getHourGlassCount();
+            mrJackPlayer.setHourglass(mrJackPlayer.getHourglass()+sablierAlibi);
+            alibicards.remove(alibicards.get(pioche));
+       }
+       else{
+           AlibiCard carteEnqueteur;
+           carteEnqueteur=alibicards.get(pioche);
+           int colonnes=0;
+           int lignes=0;
+           if(suspects.contains(carteEnqueteur.getName()))
+           {
+               for (int i=0;i<2;i++){
+                   for (int j=0;j<2;j++){
+                    if (districtBoard[i][j].getCharacter().equals(carteEnqueteur.getName()))
+                    {
+                        colonnes=i;
+                        lignes=j;
+                    }
+                   }
+               }
+               districtBoard[colonnes][lignes].setRecto(false);
 
-       // }
+           }
+           alibicards.remove(alibicards.get(pioche));
+       }
+
+        }
 
     public ActionToken getLastActionPlayed() {
         return lastActionPlayed;

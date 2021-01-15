@@ -2,17 +2,17 @@ package fr.isep.game;
 
 import fr.isep.board.AlibiName;
 
-public class MrJackPlayer extends Player {
+import java.util.Random;
+
+public class MrJackPlayer  {
     private AlibiName JackAlibiName;
     private int hourglass;
 
 
-    public MrJackPlayer(String name, boolean whoPlay) {
-        super(name, whoPlay);
-    }
 
-    public MrJackPlayer(String name, boolean whoPlay, AlibiName jackAlibiName, int hourglass) {
-        super(name, whoPlay);
+
+    public MrJackPlayer( AlibiName jackAlibiName, int hourglass) {
+
         JackAlibiName = jackAlibiName;
         this.hourglass = hourglass;
     }
@@ -32,4 +32,8 @@ public class MrJackPlayer extends Player {
     public void setHourglass(int hourglass) {
         this.hourglass = hourglass;
     }
+
+
+
+
 }
