@@ -42,7 +42,7 @@ public class Game {
         mainUI.showMrJackName(mrJackPlayer.getJackAlibiName());
         turnCount=1;
         whoPlay=0;
-        mainUI.setTurn(whoPlay);
+
         turn();
 
 
@@ -148,6 +148,7 @@ public class Game {
         else {
             return false;
         }
+        //mainUI.setTurn(whoPlay);
     }
 
 

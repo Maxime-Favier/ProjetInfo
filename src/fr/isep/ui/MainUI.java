@@ -28,7 +28,7 @@ public class MainUI {
     private JLabel tourRoleLabel;
     private JButton alibiBtn, rotateBtn, rotateBtn2, swapBtn, jockerBtn, watsonBtn, sherlockBtn, tobbyBtn;
     private DefaultListModel<String> alibiListModel = new DefaultListModel<>();
-    private int turn;
+    private int turn = 0;
 
     public MainUI(Actions actions, Board board) {
         this.actions = actions;
@@ -142,8 +142,6 @@ public class MainUI {
         alibiListModel.addElement(alibiCard.getName().toString().replace("_", " ") + " - "+ alibiCard.getHourGlassCount() + " hourglasse(s)");
     }
 
-
-
     private void initActions() {
         alibiBtn = new JButton("loading");
         alibiBtn.setBounds(1100, 120, 100, 100);
@@ -154,6 +152,7 @@ public class MainUI {
             e.printStackTrace();
         }
         alibiBtn.addActionListener(e -> {
+
             actions.setLastActionPlayed(ActionToken.ALIBI);
             alibiBtn.setVisible(false);
         });
@@ -269,8 +268,68 @@ public class MainUI {
             e.printStackTrace();
         }
         jockerBtn.addActionListener(e -> {
-            actions.setLastActionPlayed(ActionToken.JOKER);
-            jockerBtn.setVisible(false);
+            if(turn == 0){
+                // detective
+                Object[] options = {DetectiveName.SHERLOCK.toString(), DetectiveName.WATSON.toString(), DetectiveName.TOBBY.toString()};
+                int n = JOptionPane.showOptionDialog(f,
+                        "Which investigator do you want to move",
+                        "What do you want ?",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE,
+                        null,
+                        options,
+                        options[0]);
+                switch (n){
+                    case 0:
+                        actions.moveDetective(DetectiveName.SHERLOCK, 1);
+                        actions.setLastActionPlayed(ActionToken.JOKER);
+                        jockerBtn.setVisible(false);
+                        break;
+                    case 1:
+                        actions.moveDetective(DetectiveName.WATSON, 1);
+                        actions.setLastActionPlayed(ActionToken.JOKER);
+                        jockerBtn.setVisible(false);
+                        break;
+                    case 2:
+                        actions.moveDetective(DetectiveName.TOBBY,1);
+                        actions.setLastActionPlayed(ActionToken.JOKER);
+                        jockerBtn.setVisible(false);
+                        break;
+                }
+                //System.out.println(n);
+            }else {
+                Object[] options = {DetectiveName.SHERLOCK.toString(), DetectiveName.WATSON.toString(), DetectiveName.TOBBY.toString(), "Do nothing"};
+                int n = JOptionPane.showOptionDialog(f,
+                        "Which investigator do you want to move",
+                        "What do you want ?",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE,
+                        null,
+                        options,
+                        options[0]);
+                switch (n){
+                    case 0:
+                        actions.moveDetective(DetectiveName.SHERLOCK, 1);
+                        actions.setLastActionPlayed(ActionToken.JOKER);
+                        jockerBtn.setVisible(false);
+                        break;
+                    case 1:
+                        actions.moveDetective(DetectiveName.WATSON, 1);
+                        actions.setLastActionPlayed(ActionToken.JOKER);
+                        jockerBtn.setVisible(false);
+                        break;
+                    case 2:
+                        actions.moveDetective(DetectiveName.TOBBY,1);
+                        actions.setLastActionPlayed(ActionToken.JOKER);
+                        jockerBtn.setVisible(false);
+                        break;
+                    case 3:
+                        actions.setLastActionPlayed(ActionToken.JOKER);
+                        jockerBtn.setVisible(false);
+                        break;
+                }
+            }
+            updateUIDetective(board.getDetectiveBoard());
         });
         f.add(jockerBtn);
 
