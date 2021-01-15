@@ -71,9 +71,7 @@ public class Actions {
     public void alibi(int whoPlay,Game game,MrJackPlayer mrJackPlayer, Board board){
         District[][] districtBoard = board.getDistrictBoard();
         ArrayList<AlibiCard>  alibicards ;
-        ArrayList<AlibiName> suspects;
         alibicards= game.alibiCards;
-        suspects=game.suspectsRestants;
         Random random=new Random();
         int pioche = random.nextInt(alibicards.size()+1);
        if (whoPlay==0){ // detective qui joue
@@ -85,22 +83,16 @@ public class Actions {
        else{
            AlibiCard carteEnqueteur;
            carteEnqueteur=alibicards.get(pioche);
-           int colonnes=0;
-           int lignes=0;
-           if(suspects.contains(carteEnqueteur.getName()))
-           {
+
+
                for (int i=0;i<3;i++){
                    for (int j=0;j<3;j++){
                     if (districtBoard[i][j].getCharacter().equals(carteEnqueteur.getName()))
                     {
-                        colonnes=i;
-                        lignes=j;
+                        districtBoard[i][j].setRecto(false);
                     }
                    }
                }
-               districtBoard[colonnes][lignes].setRecto(false);
-
-           }
            alibicards.remove(alibicards.get(pioche));
        }
 

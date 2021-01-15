@@ -11,7 +11,6 @@ import java.util.Random;
 public class Game {
     public ArrayList<AlibiCard> alibiCards;
     private ArrayList<ActionCard> actionCards;
-    public ArrayList<AlibiName> suspectsRestants ;
     private MainUI mainUI;
     public int turnCount;
     public int whoPlay;
@@ -28,7 +27,7 @@ public class Game {
 
         initActionCard();
         initAlibiCard();
-        initSuspects();
+
         MrJackPlayer mrJackPlayer =new MrJackPlayer (null,0,false);
         mrJackPlayer.setJackAlibiName(pickIdentityJack());
         DetectivePlayer detectivePlayer =new DetectivePlayer();
@@ -107,32 +106,7 @@ public class Game {
 
     }
 
-    public void initSuspects(){
-        suspectsRestants  = new ArrayList<>();
-        suspectsRestants.add(AlibiName.MADAME);
-        suspectsRestants.add(AlibiName.SERGENT_GOODLEY);
-        suspectsRestants.add(AlibiName.JEREMY_BART);
-        suspectsRestants.add(AlibiName.WILLIAM_GULL);
-        suspectsRestants.add(AlibiName.MISS_STEALTHY);
-        suspectsRestants.add(AlibiName.JOHN_SMITH);
-        suspectsRestants.add(AlibiName.LESTRADE);
-        suspectsRestants.add(AlibiName.JOHN_PIZER);
-        suspectsRestants.add(AlibiName.JOSEPH_LANG);
-    }
 
-
-    public void suspectsRestants(Board board){
-      ArrayList<AlibiName>  visiblecharacters ;
-
-       visiblecharacters= board.getVisibleCharacters(board.getDistrictBoard(), board.getDetectiveBoard());
-      for (int i=0;i<visiblecharacters.size();i++){
-          if (suspectsRestants.contains(visiblecharacters.get(i))){
-              suspectsRestants.remove((visiblecharacters.get(i)));
-          }
-       }
-
-
-   }
 
    public AlibiName pickIdentityJack(){
         Random rand=new Random();
@@ -141,14 +115,24 @@ public class Game {
        return Jack;
    }
 
-    public boolean DetectiveConditionToWin(){
-        if(suspectsRestants.size()==1){
+    public boolean DetectiveConditionToWin(Board board){
+        District[][] districtBoard = board.getDistrictBoard();
+       int somme=0;
+       for (int i =0;i<3;i++){
+           for (int j =0;j<3;j++){
+               if (districtBoard[i][j].isRecto()==false){
+                   somme=somme+1;
+               }
+           }
+
+       }
+        if(somme==1){
             return true;
         }
         else {
             return false;
         }
-        //mainUI.setTurn(whoPlay);
+
     }
 
 
