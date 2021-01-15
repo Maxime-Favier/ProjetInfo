@@ -1,14 +1,20 @@
 package fr.isep.game;
 
+import fr.isep.board.AlibiName;
 import fr.isep.board.Board;
-import fr.isep.board.DetectiveName;
 import fr.isep.ui.MainUI;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Game {
+    private ArrayList<AlibiCard> alibiCards;
     private ArrayList<ActionCard> actionCards;
+    private ArrayList<AlibiName> suspectsRestants =new ArrayList<>();
+    private MainUI mainUI;
     public int turnCount;
+    public boolean whoPlay;
+    public ActionToken actionChoose;
     public Game() {
         play();
 
@@ -19,25 +25,17 @@ public class Game {
 
         Board board = new Board();
         initActionCard();
+        initAlibiCard();
         Actions actions = new Actions(board);
-        MainUI mainUI = new MainUI(actions, board);
+        mainUI = new MainUI(actions, board);
         System.out.println(board.getVisibleCharacters(board.getDistrictBoard(), board.getDetectiveBoard()));
 
         mainUI.updateUIDistrict(board.getDistrictBoard());
         mainUI.updateUIDetective(board.getDetectiveBoard());
-        ArrayList<ActionToken> act = new ArrayList<ActionToken>();
-        act.add(ActionToken.ALIBI);
-        act.add(ActionToken.WATSON);
-        act.add(ActionToken.ECHANGE);
-        act.add(ActionToken.HOLMES);
-        act.add(ActionToken.LE_CHIEN);
-        act.add(ActionToken.JOKER);
-        act.add(ActionToken.ROTATION);
-        act.add(ActionToken.ROTATION);
-        mainUI.setActionsEnabled(act);
 
         turnCount=1;
-
+        whoPlay=true;
+        turn();
     }
 
     public void turn(){
@@ -45,23 +43,37 @@ public class Game {
         ArrayList<ActionToken> actionTokensImpair= new ArrayList<>();
 
         if(turnCount%2==0){
-
+            mainUI.setActionsEnabled(actionTokensPair);
         }
 
        else{
             for (int i=0;i<actionCards.size();i++){
-                int a =(int) Math.random()*1;
+                Random random= new Random();
+                int a = random.nextInt(2);
+                System.out.println(a);
                 if (a==0) {
                     actionTokensPair.add(actionCards.get(i).getRecto());
+                    actionTokensImpair.add(actionCards.get(i).getVerso());
                 }
                 else{
                     actionTokensImpair.add(actionCards.get(i).getRecto());
+                    actionTokensPair.add(actionCards.get(i).getVerso());
                 }
             }
+            mainUI.setActionsEnabled(actionTokensImpair);
+
 
 
         }
     }
+
+//    public void gameEnded(){
+  //      if (turnCount>8)
+    //}
+
+
+
+
 
     public void initActionCard(){
         actionCards = new ArrayList<>();
@@ -70,5 +82,37 @@ public class Game {
         actionCards.add(new ActionCard(ActionToken.ROTATION,ActionToken.ECHANGE));
         actionCards.add(new ActionCard(ActionToken.ROTATION,ActionToken.JOKER));
     }
+    public void initAlibiCard(){
+        alibiCards = new ArrayList<>();
+        alibiCards.add(new AlibiCard(AlibiName.MADAME,2));
+        alibiCards.add(new AlibiCard(AlibiName.SERGENT_GOODLEY,0));
+        alibiCards.add(new AlibiCard(AlibiName.JEREMY_BART,1));
+        alibiCards.add(new AlibiCard(AlibiName.WILLIAM_GULL,1));
+        alibiCards.add(new AlibiCard(AlibiName.MISS_STEALTHY,1));
+        alibiCards.add(new AlibiCard(AlibiName.JOHN_SMITH,1));
+        alibiCards.add(new AlibiCard(AlibiName.LESTRADE,0));
+        alibiCards.add(new AlibiCard(AlibiName.JOHN_PIZER,1));
+        alibiCards.add(new AlibiCard(AlibiName.JOSEPH_LANG,1));
+
+    }
+
+    public void initSuspects(){
+        //TODO
+
+    }
+
+
+   // public void suspectsRestants(Board board){
+     //   ArrayList<AlibiName>  visiblecharacters =new ArrayList<AlibiName>();
+
+     //  visiblecharacters= board.getVisibleCharacters(board.getDistrictBoard(), board.getDetectiveBoard());
+      // for (int i=0;i<visiblecharacters.size();i++){
+        //   if (visiblecharacters.get(i).
+       //}
+
+
+   // }
+
+
 
 }

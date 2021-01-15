@@ -1,16 +1,24 @@
 package fr.isep.game;
 
 import fr.isep.board.*;
-
+import fr.isep.game.*;
 import java.util.ArrayList;
 
 public class Actions {
+    public ActionToken actionTokenPlayed;
     private Board board;
     private ActionToken lastActionPlayed;
+
 
     public Actions(Board board) {
         this.board = board;
     }
+
+    public void actionPlayed(){
+
+    }
+
+
 
     public void moveDetective(DetectiveName detectiveName, int numberOfCase) {
         ArrayList<DetectiveToken>[] detectiveBoard = board.getDetectiveBoard();
@@ -39,6 +47,7 @@ public class Actions {
         }else {
             System.out.println("detective not found");
         }
+       // faire un action token played
 
     }
 
@@ -46,6 +55,7 @@ public class Actions {
         District[][] districtBoard = board.getDistrictBoard();
         districtBoard[x][y].setOrientation(orientation);
         board.setDistrictBoard(districtBoard);
+        actionTokenPlayed=ActionToken.ECHANGE;
     }
 
     public void swapDistrict(int x1, int y1, int x2, int y2){
@@ -54,7 +64,13 @@ public class Actions {
         districtBoard[x1][y1] = districtBoard[x2][y2];
         districtBoard[x2][y2] = tmp;
         board.setDistrictBoard(districtBoard);
+        actionTokenPlayed=ActionToken.ECHANGE;
     }
+
+   // public void alibi(boolean whoPlay){
+     //   if (whoPlay==true){
+
+       // }
 
     public ActionToken getLastActionPlayed() {
         return lastActionPlayed;
