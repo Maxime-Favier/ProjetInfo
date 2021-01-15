@@ -3,6 +3,7 @@ package fr.isep.ui;
 import fr.isep.board.*;
 import fr.isep.game.ActionToken;
 import fr.isep.game.Actions;
+import fr.isep.game.AlibiCard;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -14,18 +15,20 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class MainUI {
-    Actions actions;
-    Board board;
-    String actionMode;
-    Orientation rotateOrientation;
-    int tmpx;
-    int tmpy;
-    JFrame f;
-    JButton[][] districtBtn;
-    JButton[] detectivesBtn;
-    JLabel hourGlassLabel;
-    JLabel tourRoleLabel;
-    JButton alibiBtn, rotateBtn, rotateBtn2, swapBtn, jockerBtn, watsonBtn, sherlockBtn, tobbyBtn;
+    private Actions actions;
+    private Board board;
+    private String actionMode;
+    private Orientation rotateOrientation;
+    private int tmpx;
+    private int tmpy;
+    private JFrame f;
+    private JButton[][] districtBtn;
+    private JButton[] detectivesBtn;
+    private JLabel hourGlassLabel;
+    private JLabel tourRoleLabel;
+    private JButton alibiBtn, rotateBtn, rotateBtn2, swapBtn, jockerBtn, watsonBtn, sherlockBtn, tobbyBtn;
+    private JList alibiJList;
+    private DefaultListModel<String> alibiListModel = new DefaultListModel<>();
 
     public MainUI(Actions actions, Board board) {
         this.actions = actions;
@@ -124,10 +127,18 @@ public class MainUI {
         tourRoleLabel.setBounds(1100, 300, 500, 100);
         f.add(tourRoleLabel);
 
+        //alibiComboBox = new JComboBox();
+        alibiJList = new JList(alibiListModel);
+        alibiJList.setBounds(1100,400, 400,400);
+        f.add(alibiJList);
+        //addAlibi(new AlibiCard(AlibiName.JOHN_PIZER, 1));
     }
 
     public void setTurnLabel(String txt) {
         tourRoleLabel.setText(txt);
+    }
+    public void addAlibi(AlibiCard alibiCard){
+        alibiListModel.addElement(alibiCard.getName().toString().replace("_", " ") + " - "+ alibiCard.getHourGlassCount() + " hourglasse(s)");
     }
 
     private void initActions() {
