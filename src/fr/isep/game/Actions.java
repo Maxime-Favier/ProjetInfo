@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 public class Actions {
     private Board board;
+    private ActionToken lastActionPlayed;
 
     public Actions(Board board) {
         this.board = board;
@@ -55,5 +56,11 @@ public class Actions {
         board.setDistrictBoard(districtBoard);
     }
 
+    public ActionToken getLastActionPlayed() {
+        return lastActionPlayed;
+    }
 
+    public void setLastActionPlayed(ActionToken lastActionPlayed) {
+        this.lastActionPlayed = lastActionPlayed;
+    }
 }

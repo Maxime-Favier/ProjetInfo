@@ -64,6 +64,12 @@ public class MainUI {
     private void districtClick(ActionEvent ae, int x, int y) {
         if(actionMode.equals("ROTATE")){
             actions.rotateDistrict(x, y, rotateOrientation);
+            actions.setLastActionPlayed(ActionToken.ROTATION);
+            if(rotateBtn2.isVisible()){
+                rotateBtn2.setVisible(false);
+            }else {
+                rotateBtn.setVisible(false);
+            }
             actionMode = "NONE";
             updateUIDistrict(board.getDistrictBoard());
         }else if(actionMode.equals("SWAP")){
@@ -72,8 +78,11 @@ public class MainUI {
             actionMode = "SWAP2";
         }else if(actionMode.equals("SWAP2")){
             actions.swapDistrict(tmpx, tmpy, x, y);
+            actions.setLastActionPlayed(ActionToken.ECHANGE);
+            swapBtn.setVisible(false);
             actionMode = "NONE";
             updateUIDistrict(board.getDistrictBoard());
+
         }
         System.out.println(x + " - " + y);
     }
@@ -130,6 +139,10 @@ public class MainUI {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        alibiBtn.addActionListener(e -> {
+            actions.setLastActionPlayed(ActionToken.ALIBI);
+            alibiBtn.setVisible(false);
+        });
         f.add(alibiBtn);
 
         rotateBtn = new JButton("loading");
@@ -220,18 +233,15 @@ public class MainUI {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        swapBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                int n = JOptionPane.showConfirmDialog(
-                        f,
-                        "Click on the two district to swap",
-                        "swap districts",
-                        JOptionPane.YES_NO_OPTION);
-                System.out.println(n);
-                if(n == 0){
-                    actionMode = "SWAP";
-                }
+        swapBtn.addActionListener(e -> {
+            int n = JOptionPane.showConfirmDialog(
+                    f,
+                    "Click on the two district to swap",
+                    "swap districts",
+                    JOptionPane.YES_NO_OPTION);
+            System.out.println(n);
+            if(n == 0){
+                actionMode = "SWAP";
             }
         });
         f.add(swapBtn);
@@ -245,7 +255,8 @@ public class MainUI {
             e.printStackTrace();
         }
         jockerBtn.addActionListener(e -> {
-
+            actions.setLastActionPlayed(ActionToken.JOKER);
+            jockerBtn.setVisible(false);
         });
         f.add(jockerBtn);
 
@@ -270,10 +281,15 @@ public class MainUI {
             if (n == 1) {
                 actions.moveDetective(DetectiveName.SHERLOCK, 2);
                 updateUIDetective(board.getDetectiveBoard());
+                actions.setLastActionPlayed(ActionToken.HOLMES);
+                sherlockBtn.setVisible(false);
             } else if (n == 0) {
                 actions.moveDetective(DetectiveName.SHERLOCK, 1);
                 updateUIDetective(board.getDetectiveBoard());
+                actions.setLastActionPlayed(ActionToken.HOLMES);
+                sherlockBtn.setVisible(false);
             }
+
 
         });
         f.add(sherlockBtn);
@@ -300,10 +316,15 @@ public class MainUI {
             if (n == 1) {
                 actions.moveDetective(DetectiveName.WATSON, 2);
                 updateUIDetective(board.getDetectiveBoard());
+                actions.setLastActionPlayed(ActionToken.WATSON);
+                watsonBtn.setVisible(false);
             } else if (n == 0) {
                 actions.moveDetective(DetectiveName.WATSON, 1);
                 updateUIDetective(board.getDetectiveBoard());
+                actions.setLastActionPlayed(ActionToken.WATSON);
+                watsonBtn.setVisible(false);
             }
+            ;
         });
         f.add(watsonBtn);
 
@@ -329,10 +350,15 @@ public class MainUI {
             if (n == 1) {
                 actions.moveDetective(DetectiveName.TOBBY, 2);
                 updateUIDetective(board.getDetectiveBoard());
+                actions.setLastActionPlayed(ActionToken.LE_CHIEN);
+                tobbyBtn.setVisible(false);
             } else if (n == 0) {
                 actions.moveDetective(DetectiveName.TOBBY, 1);
                 updateUIDetective(board.getDetectiveBoard());
+                actions.setLastActionPlayed(ActionToken.LE_CHIEN);
+                tobbyBtn.setVisible(false);
             }
+
         });
         f.add(tobbyBtn);
     }

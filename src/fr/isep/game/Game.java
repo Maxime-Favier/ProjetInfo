@@ -27,7 +27,11 @@ public class Game {
         mainUI.updateUIDetective(board.getDetectiveBoard());
         ArrayList<ActionToken> act = new ArrayList<ActionToken>();
         act.add(ActionToken.ALIBI);
+        act.add(ActionToken.WATSON);
         act.add(ActionToken.ECHANGE);
+        act.add(ActionToken.HOLMES);
+        act.add(ActionToken.LE_CHIEN);
+        act.add(ActionToken.JOKER);
         act.add(ActionToken.ROTATION);
         act.add(ActionToken.ROTATION);
         mainUI.setActionsEnabled(act);
