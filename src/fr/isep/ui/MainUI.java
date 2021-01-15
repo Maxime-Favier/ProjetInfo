@@ -62,21 +62,21 @@ public class MainUI {
     }
 
     private void districtClick(ActionEvent ae, int x, int y) {
-        if(actionMode.equals("ROTATE")){
+        if (actionMode.equals("ROTATE")) {
             actions.rotateDistrict(x, y, rotateOrientation);
             actions.setLastActionPlayed(ActionToken.ROTATION);
-            if(rotateBtn2.isVisible()){
+            if (rotateBtn2.isVisible()) {
                 rotateBtn2.setVisible(false);
-            }else {
+            } else {
                 rotateBtn.setVisible(false);
             }
             actionMode = "NONE";
             updateUIDistrict(board.getDistrictBoard());
-        }else if(actionMode.equals("SWAP")){
+        } else if (actionMode.equals("SWAP")) {
             tmpx = x;
             tmpy = y;
             actionMode = "SWAP2";
-        }else if(actionMode.equals("SWAP2")){
+        } else if (actionMode.equals("SWAP2")) {
             actions.swapDistrict(tmpx, tmpy, x, y);
             actions.setLastActionPlayed(ActionToken.ECHANGE);
             swapBtn.setVisible(false);
@@ -126,7 +126,7 @@ public class MainUI {
 
     }
 
-    public void setTurnLabel(String txt){
+    public void setTurnLabel(String txt) {
         tourRoleLabel.setText(txt);
     }
 
@@ -165,9 +165,9 @@ public class MainUI {
                     options,  //the titles of buttons
                     options[0]); //default button title
             System.out.println(n);
-            if(n != -1){
+            if (n != -1) {
                 actionMode = "ROTATE";
-                switch (n){
+                switch (n) {
                     case 0:
                         rotateOrientation = Orientation.NORTH;
                         break;
@@ -205,9 +205,9 @@ public class MainUI {
                     options,  //the titles of buttons
                     options[0]); //default button title
             System.out.println(n);
-            if(n != -1){
+            if (n != -1) {
                 actionMode = "ROTATE";
-                switch (n){
+                switch (n) {
                     case 0:
                         rotateOrientation = Orientation.NORTH;
                         break;
@@ -240,7 +240,7 @@ public class MainUI {
                     "swap districts",
                     JOptionPane.YES_NO_OPTION);
             System.out.println(n);
-            if(n == 0){
+            if (n == 0) {
                 actionMode = "SWAP";
             }
         });
@@ -363,7 +363,7 @@ public class MainUI {
         f.add(tobbyBtn);
     }
 
-    public void setActionsEnabled(ArrayList<ActionToken> actionTokens){
+    public void setActionsEnabled(ArrayList<ActionToken> actionTokens) {
         //alibiBtn, rotateBtn, rotateBtn2, swapBtn, jockerBtn, watsonBtn, sherlockBtn, tobbyBtn;
         alibiBtn.setVisible(false);
         rotateBtn.setVisible(false);
@@ -373,8 +373,8 @@ public class MainUI {
         watsonBtn.setVisible(false);
         sherlockBtn.setVisible(false);
         tobbyBtn.setVisible(false);
-        for (ActionToken actionToken: actionTokens) {
-            switch (actionToken){
+        for (ActionToken actionToken : actionTokens) {
+            switch (actionToken) {
                 case ALIBI:
                     alibiBtn.setVisible(true);
                     break;
@@ -395,9 +395,9 @@ public class MainUI {
                     break;
                 case ROTATION:
                     System.out.println("here1");
-                    if(rotateBtn.isVisible()){
+                    if (rotateBtn.isVisible()) {
                         rotateBtn2.setVisible(true);
-                    }else {
+                    } else {
                         rotateBtn.setVisible(true);
                     }
                     break;
@@ -512,6 +512,20 @@ public class MainUI {
         graphic.drawImage(bimg, null, 0, 0);
         graphic.dispose();
         return rotated;
+    }
+
+    public void showMrJackName(AlibiName alibiName) {
+        try {
+            Image icon = ImageIO.read(getClass().getResource("/" + alibiName + "-district.png")).getScaledInstance(300, 300, Image.SCALE_SMOOTH);
+            JOptionPane.showMessageDialog(
+                    f,
+                    "Mr Jack is " + alibiName,
+                    "Mr Jack is " + alibiName, JOptionPane.INFORMATION_MESSAGE,
+                    new ImageIcon(icon));
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+
     }
 
     private void endUIInit() {

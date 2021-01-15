@@ -33,6 +33,8 @@ public class Game {
         mainUI.updateUIDistrict(board.getDistrictBoard());
         mainUI.updateUIDetective(board.getDetectiveBoard());
 
+        mainUI.showMrJackName(AlibiName.JOHN_PIZER);
+
         turnCount=1;
         whoPlay=true;
         turn();
@@ -50,7 +52,7 @@ public class Game {
             for (int i=0;i<actionCards.size();i++){
                 Random random= new Random();
                 int a = random.nextInt(2);
-                System.out.println(a);
+                //System.out.println(a);
                 if (a==0) {
                     actionTokensPair.add(actionCards.get(i).getRecto());
                     actionTokensImpair.add(actionCards.get(i).getVerso());
