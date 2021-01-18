@@ -46,7 +46,6 @@ public class MainUI {
         initotherLbl();
         initActions();
         endUIInit();
-        //updateHourglass(50);
     }
 
     private void initUI() {
@@ -580,7 +579,7 @@ public class MainUI {
         }
     }
 
-    public static BufferedImage rotate(BufferedImage bimg, double angle) {
+    private static BufferedImage rotate(BufferedImage bimg, double angle) {
 
         int w = bimg.getWidth();
         int h = bimg.getHeight();
@@ -604,7 +603,14 @@ public class MainUI {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
 
+    public void showMrJackAlibiCard(AlibiCard alibiCard) {
+        JOptionPane.showMessageDialog(
+                f,
+                "AlibiCard :" + alibiCard.getName().toString().replace("_", " ") + " (" + alibiCard.getHourGlassCount() + ")",
+                "Alibi card", JOptionPane.INFORMATION_MESSAGE,
+                null);
     }
 
     public void setTurn(int turn) {
