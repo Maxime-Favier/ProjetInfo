@@ -74,7 +74,7 @@ public class Actions {
         ArrayList<AlibiCard> alibicards;
         alibicards = game.alibiCards;
         Random random = new Random();
-        int pioche = random.nextInt(alibicards.size() + 1);
+        int pioche = random.nextInt(alibicards.size() );
         AlibiCard carte = alibicards.get(pioche);
         if (whoPlay == 1) { //mr jack
             int sablierAlibi;

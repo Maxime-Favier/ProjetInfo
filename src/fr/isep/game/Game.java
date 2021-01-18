@@ -11,8 +11,9 @@ import java.util.Random;
 public class Game {
     public ArrayList<AlibiCard> alibiCards;
     private ArrayList<ActionCard> actionCards;
-    public  ArrayList<ActionToken> actionTokensPair ;
-    public ArrayList<ActionToken> actionTokensImpair ;
+    public ArrayList<ActionToken> actionTokensPair = new ArrayList<>();
+    public ArrayList<ActionToken> actionTokensImpair = new ArrayList<>();
+
     private MainUI mainUI;
     public int turnCount;
     public int whoPlay;
@@ -35,9 +36,9 @@ public class Game {
         MrJackPlayer mrJackPlayer = new MrJackPlayer(null, 0, false);
         mrJackPlayer.setJackAlibiName(pickIdentityJack());
         DetectivePlayer detectivePlayer = new DetectivePlayer();
-         actions = new Actions(board);
-        mainUI = new MainUI(actions, board,this, mrJackPlayer);
-       // System.out.println(board.getVisibleCharacters(board.getDistrictBoard(), board.getDetectiveBoard()));
+        actions = new Actions(board);
+        mainUI = new MainUI(actions, board, this, mrJackPlayer);
+        // System.out.println(board.getVisibleCharacters(board.getDistrictBoard(), board.getDetectiveBoard()));
 
         mainUI.updateUIDistrict(board.getDistrictBoard());
         mainUI.updateUIDetective(board.getDetectiveBoard());
@@ -46,14 +47,14 @@ public class Game {
         turnCount = 1;
         whoPlay = 0;
 
-     //turn(board,mrJackPlayer);
-        tourImpair(actions,mrJackPlayer,board);
+        //turn(board,mrJackPlayer);
+        tourImpair(actions, mrJackPlayer, board);
 
     }
 
-    public void initTurnToken(){
-        actionTokensPair = new ArrayList<>();
-       actionTokensImpair = new ArrayList<>();
+    public void initTurnToken() {
+
+
         for (int i = 0; i < actionCards.size(); i++) {
             Random random = new Random();
             int a = random.nextInt(2);
@@ -67,60 +68,60 @@ public class Game {
             }
         }
 
+
     }
 
-    public void tourImpair(Actions actions,MrJackPlayer mrJackPlayer,Board board){
+    public void tourImpair(Actions actions, MrJackPlayer mrJackPlayer, Board board) {
+        for(int a=0;a<actionTokensPair.size();a++){
+            System.out.println(actionTokensPair.get(a));
+        }
         initTurnToken();
-
+        mainUI.updateUIDistrict(board.getDistrictBoard());
         mainUI.setActionsEnabled(actionTokensImpair);
 
-       // int numeroTour =actionTokensImpair.size();
-        while (actionTokensImpair.size()!=0) {
+        while (actionTokensImpair.size() != 0) {
             ActionToken lastActionPlayed = actions.getLastActionPlayed();
-            int nbRotate=0;
-            if (lastActionPlayed==ActionToken.ROTATION){
-                for (int i=0;i<actionTokensImpair.size();i++){
-                    if (actionTokensImpair.get(i).equals(ActionToken.ROTATION)){
-                        nbRotate=nbRotate+1;
+            int nbRotate = 0;
+
+            if (lastActionPlayed == ActionToken.ROTATION) {
+                for (int i = 0; i < actionTokensImpair.size(); i++) {
+                    if (actionTokensImpair.get(i).equals(ActionToken.ROTATION)) {
+                        nbRotate = nbRotate + 1;
+
                     }
                 }
-                if(nbRotate==2){
-                    actionTokensImpair.remove(ActionToken.ROTATION);
-                    actionTokensImpair.add(ActionToken.ROTATION);
+                if (nbRotate == 2) {
+                    actionTokensPair.remove(ActionToken.ROTATION);
+                    actionTokensPair.remove(ActionToken.ROTATION);
+
                 }
-                if(nbRotate==1){
+               else {
                     actionTokensImpair.remove(ActionToken.ROTATION);
+
                 }
             }
-            else{
+            else {
                 actionTokensImpair.remove(lastActionPlayed);
             }
 
-                switch (actionTokensImpair.size()) {
+            switch (actionTokensImpair.size()) {
 
                 case 4:
-                    whoPlay=0;
-                    //mainUI.setTurn(whoPlay);
+                    whoPlay = 0;
                     break;
-                case 3 :
-                    whoPlay=1;
-                    //mainUI.setTurn(whoPlay);
+                case 3:
+                    whoPlay = 1;
                     break;
                 case 2:
-                    whoPlay=1;
-                   // mainUI.setTurn(whoPlay);
+                    whoPlay = 1;;
                     break;
 
                 case 1:
-                    whoPlay=0;
-
+                    whoPlay = 0;
                     break;
                 case 0:
-                    appelATemoins(mrJackPlayer,board);
-
-                   // turnCount=turnCount+1;
-                  //  tourPair();
-
+                    appelATemoins(mrJackPlayer, board);
+                    break;
             }
             mainUI.setTurn(whoPlay);
 
@@ -129,57 +130,58 @@ public class Game {
 
     }
 
-    public void tourPair(Actions actions,MrJackPlayer mrJackPlayer,Board board){
+    public void tourPair(Actions actions, MrJackPlayer mrJackPlayer, Board board) {
 
         mainUI.setActionsEnabled(actionTokensPair);
-
-
-        // int numeroTour =actionTokensImpair.size();
-        while (actionTokensPair.size()!=0) {
+        mainUI.updateUIDistrict(board.getDistrictBoard());
+        while (actionTokensPair.size() != 0) {
+            for(int a=0;a<actionTokensPair.size();a++){
+                System.out.println(actionTokensPair.get(a));
+            }
 
             ActionToken lastActionPlayed = actions.getLastActionPlayed();
-            int nbRotate=0;
-            if (lastActionPlayed==ActionToken.ROTATION){
-                for (int i=0;i<actionTokensPair.size();i++){
-                    if (actionTokensPair.get(i).equals(ActionToken.ROTATION)){
-                        nbRotate=nbRotate+1;
+            int nbRotate = 0;
+
+            if (lastActionPlayed == ActionToken.ROTATION) {
+                for (int i = 0; i < actionTokensPair.size(); i++) {
+                    if (actionTokensPair.get(i).equals(ActionToken.ROTATION)) {
+                        nbRotate = nbRotate + 1;
+
                     }
                 }
-                if(nbRotate==2){
+                if (nbRotate == 2) {
                     actionTokensPair.remove(ActionToken.ROTATION);
-                    actionTokensPair.add(ActionToken.ROTATION);
+                    actionTokensPair.remove(ActionToken.ROTATION);
                 }
-                if(nbRotate==1){
+                else {
                     actionTokensPair.remove(ActionToken.ROTATION);
+
                 }
             }
-            else{
+            else {
                 actionTokensPair.remove(lastActionPlayed);
             }
 
             switch (actionTokensPair.size()) {
 
                 case 4:
-                    whoPlay=1;
-                    //mainUI.setTurn(whoPlay);
+                    whoPlay = 1;
                     break;
-                case 3 :
-                    whoPlay=0;
-                    //mainUI.setTurn(whoPlay);
+                case 3:
+                    whoPlay = 0;
                     break;
                 case 2:
-                    whoPlay=0;
-                    // mainUI.setTurn(whoPlay);
+                    whoPlay = 0;
                     break;
 
                 case 1:
-                    whoPlay=1;
-
+                    whoPlay = 1;
                     break;
                 case 0:
-                   // turnCount=turnCount+1;
-                    appelATemoins(mrJackPlayer,board);
-                    //tourPair();
+
+                    appelATemoins(mrJackPlayer, board);
+                    break;
+
 
             }
             mainUI.setTurn(whoPlay);
@@ -188,35 +190,8 @@ public class Game {
         }
 
 
-
     }
 
-    /*public void turn(Board board,MrJackPlayer mrJackPlayer) {
-       boolean detectivecondition= DetectiveConditionToWin (board);
-       boolean jackCondition=MrJackConditionToWin(mrJackPlayer);
-
-        
-        while((turnCount<8)||(jackCondition==false)||(detectivecondition==false)) {
-           
-            if (turnCount % 2 != 0){
-            tourImpair(actions,mrJackPlayer,board);
-            break;
-            }
-            else {
-                tourPair(actions, mrJackPlayer, board);
-                break;
-                //mainUI.setActionsEnabled(actionTokensPair);
-
-            }
-
-        }
-    }
-
-     */
-
-//    public void gameEnded(){
-    //      if (turnCount>8)
-    //}
 
 
     public void initActionCard() {
@@ -250,17 +225,19 @@ public class Game {
     }
 
     public boolean DetectiveConditionToWin(Board board) {
+
         District[][] districtBoard = board.getDistrictBoard();
-        int somme = 0;
+        ArrayList<AlibiName> personnagesRestant = new ArrayList<>();
+
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                if (districtBoard[i][j].isRecto() == false) {
-                    somme = somme + 1;
+                if (districtBoard[i][j].isRecto() == true) {
+                    personnagesRestant.add(districtBoard[i][j].getCharacter());
                 }
             }
 
         }
-        if (somme == 1) {
+        if (personnagesRestant.size()==1) {
             return true;
         } else {
             return false;
@@ -278,34 +255,51 @@ public class Game {
         }
     }
 
-    public boolean DetectiveSeeJack(MrJackPlayer mrJackPlayer, Board board){
+    public boolean DetectiveSeeJack(MrJackPlayer mrJackPlayer, Board board) {
         ArrayList<AlibiName> visiblecharacters;
         visiblecharacters = board.getVisibleCharacters(board.getDistrictBoard(), board.getDetectiveBoard());
-        if (visiblecharacters.contains(mrJackPlayer.getJackAlibiName())){
+        if (visiblecharacters.contains(mrJackPlayer.getJackAlibiName())) {
             return true;
-        }
-        else{
+        } else {
             return false;
         }
-
     }
+    public void InvisibleCharacters(MrJackPlayer mrJackPlayer, Board board) {
+        ArrayList<AlibiName> visiblecharacters;
+        visiblecharacters = board.getVisibleCharacters(board.getDistrictBoard(), board.getDetectiveBoard());
+        ArrayList<AlibiName> invisiblecharacters=new ArrayList<>();
+        District[][] districtBoard = board.getDistrictBoard();
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (!visiblecharacters.contains(districtBoard[i][j].getCharacter())) {
+                    invisiblecharacters.add(districtBoard[i][j].getCharacter());
+
+                }
+            }
+        }
+    }
+
     public void appelATemoins(MrJackPlayer mrJackPlayer, Board board) {
         ArrayList<AlibiName> visiblecharacters;
         visiblecharacters = board.getVisibleCharacters(board.getDistrictBoard(), board.getDetectiveBoard());
+
         District[][] districtBoard = board.getDistrictBoard();
-        boolean iSVisibleByDetectives =DetectiveSeeJack( mrJackPlayer, board);
-        if (iSVisibleByDetectives== false) {
+        boolean iSVisibleByDetectives = DetectiveSeeJack(mrJackPlayer, board);
+        if (iSVisibleByDetectives == false) {
             for (int i = 0; i < 3; i++) {
                 for (int j = 0; j < 3; j++) {
                     if (visiblecharacters.contains(districtBoard[i][j].getCharacter())) {
                         districtBoard[i][j].setRecto(false);
-                        mrJackPlayer.setHourglass(mrJackPlayer.getHourglass() + 1);
+
                     }
                 }
-
             }
+            mrJackPlayer.setHourglass(mrJackPlayer.getHourglass()+1);
+            mainUI.updateHourglass(mrJackPlayer.getHourglass());
             mainUI.updateUIDistrict(board.getDistrictBoard());
-        } else {
+        }
+        else   if (iSVisibleByDetectives == true){
+            mainUI.showpopup("jack est visible","Informations");
             for (int i = 0; i < 3; i++) {
                 for (int j = 0; j < 3; j++) {
                     if (!visiblecharacters.contains(districtBoard[i][j].getCharacter())) {
@@ -314,27 +308,46 @@ public class Game {
                 }
             }
             mainUI.updateUIDistrict(board.getDistrictBoard());
+
         }
 
-        if((turnCount<8)&&(MrJackConditionToWin( mrJackPlayer)==false)||(turnCount<8)&&((DetectiveConditionToWin(board)==false)))
-        {   turnCount=turnCount+1;
-            if (turnCount%2==0){
-                tourPair(actions,mrJackPlayer,board);
+        turnCount = turnCount + 1;
+        if (turnCount<8){
 
-            }
-            else if (turnCount%2!=0){
-                tourImpair(actions,mrJackPlayer,board);
-            }
+            mainUI.showpopup("Tour terminé : appel à temoins","Informations");
+            conditionSatistisfield(mrJackPlayer,board);
         }
         else{
-       hasWin();
+            mainUI.showpopup("vous avez fini les 8 tours","jack gagnant");
         }
 
     }
 
-    public void hasWin(){
-        mainUI.setTurn(198);
+
+    public void conditionSatistisfield(MrJackPlayer mrJackPlayer,Board board) {
+        mainUI.updateUIDistrict(board.getDistrictBoard());
+        if((MrJackConditionToWin(mrJackPlayer) == false)&&(DetectiveConditionToWin(board) == false)){
+            mainUI.showpopup("tour  "+turnCount,"jack gagnant");
+            if (turnCount % 2 == 0) {
+                tourPair(actions, mrJackPlayer, board);
+
+
+            } else {
+                tourImpair(actions, mrJackPlayer, board);
+            }
+        }
+        else if((MrJackConditionToWin(mrJackPlayer) ==true)&&(DetectiveConditionToWin(board) == false)){
+            mainUI.showpopup("jack gagne avec ses 6 sabliers","Victoire");
+        }
+        else if((MrJackConditionToWin(mrJackPlayer) ==false)&&(DetectiveConditionToWin(board) == true)){
+            mainUI.updateUIDistrict(board.getDistrictBoard());
+            mainUI.showpopup("detective gagne","Victoi");
+
+        }
+
     }
 
 
 }
+
+
