@@ -2,6 +2,8 @@ package fr.isep.game;
 
 import fr.isep.board.*;
 import fr.isep.game.*;
+import fr.isep.ui.MainUI;
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -68,13 +70,14 @@ public class Actions {
         actionTokenPlayed=ActionToken.ECHANGE;
     }
 
-    public void alibi(int whoPlay,Game game,MrJackPlayer mrJackPlayer, Board board){
+    public void alibi(int whoPlay,Game game,MrJackPlayer mrJackPlayer, Board board,MainUI mainUI){
         District[][] districtBoard = board.getDistrictBoard();
         ArrayList<AlibiCard>  alibicards ;
         alibicards= game.alibiCards;
         Random random=new Random();
         int pioche = random.nextInt(alibicards.size()+1);
-       if (whoPlay==1){ // detective qui joue
+      AlibiCard carte = alibicards.get(pioche);
+       if (whoPlay==1){ //mr jack
            int sablierAlibi;
            sablierAlibi=alibicards.get(pioche).getHourGlassCount();
             mrJackPlayer.setHourglass(mrJackPlayer.getHourglass()+sablierAlibi);
@@ -93,7 +96,10 @@ public class Actions {
                     }
                    }
                }
+           mainUI.updateUIDistrict(districtBoard);
+           mainUI.addAlibi(carte);
            alibicards.remove(alibicards.get(pioche));
+
        }
 
         }

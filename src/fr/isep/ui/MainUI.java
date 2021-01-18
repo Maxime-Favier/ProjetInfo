@@ -155,7 +155,8 @@ public class MainUI {
             e.printStackTrace();
         }
         alibiBtn.addActionListener(e -> {
-            actions.alibi(turn, game, mrJackPlayer, board);
+
+            actions.alibi(turn, game, mrJackPlayer, board,this);
             actions.setLastActionPlayed(ActionToken.ALIBI);
             alibiBtn.setVisible(false);
         });
