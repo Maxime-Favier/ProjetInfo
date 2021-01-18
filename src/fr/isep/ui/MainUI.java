@@ -613,6 +613,14 @@ public class MainUI {
                 null);
     }
 
+    public void showpopup(String msg, String windowTitle) {
+        JOptionPane.showMessageDialog(
+                f,
+                msg,
+                windowTitle, JOptionPane.INFORMATION_MESSAGE,
+                null);
+    }
+
     public void setTurn(int turn) {
         this.turn = turn;
         if (turn == 0) {
