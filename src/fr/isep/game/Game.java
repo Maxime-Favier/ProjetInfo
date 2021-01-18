@@ -72,9 +72,13 @@ public class Game {
     }
 
     public void tourImpair(Actions actions, MrJackPlayer mrJackPlayer, Board board) {
-        for(int a=0;a<actionTokensPair.size();a++){
-            System.out.println(actionTokensPair.get(a));
+        for(int a =0;a<actionTokensImpair.size();a++){
+            System.out.print(actionTokensImpair.get(a)+"  ");
         }
+
+        System.out.println("  ");
+
+
         initTurnToken();
         mainUI.updateUIDistrict(board.getDistrictBoard());
         mainUI.setActionsEnabled(actionTokensImpair);
@@ -82,17 +86,27 @@ public class Game {
         while (actionTokensImpair.size() != 0) {
             ActionToken lastActionPlayed = actions.getLastActionPlayed();
             int nbRotate = 0;
-
+            int index=0;
             if (lastActionPlayed == ActionToken.ROTATION) {
                 for (int i = 0; i < actionTokensImpair.size(); i++) {
                     if (actionTokensImpair.get(i).equals(ActionToken.ROTATION)) {
                         nbRotate = nbRotate + 1;
 
+
                     }
                 }
                 if (nbRotate == 2) {
-                    actionTokensPair.remove(ActionToken.ROTATION);
-                    actionTokensPair.remove(ActionToken.ROTATION);
+                    ArrayList<ActionToken> listeintermediaire = new ArrayList<>();
+                    for (int i = 0; i < actionTokensImpair.size(); i++) {
+                        if (!actionTokensImpair.get(i).equals(ActionToken.ROTATION)) {
+                            listeintermediaire.add(actionTokensImpair.get(i));
+
+                        }
+                    }
+                    listeintermediaire.add(ActionToken.ROTATION);
+                    actionTokensImpair.clear();
+                    actionTokensImpair.addAll(listeintermediaire);
+                    listeintermediaire.clear();
 
                 }
                else {
@@ -131,7 +145,11 @@ public class Game {
     }
 
     public void tourPair(Actions actions, MrJackPlayer mrJackPlayer, Board board) {
+        for(int a =0;a<actionTokensPair.size();a++){
+            System.out.print(actionTokensPair.get(a)+"  ");
+        }
 
+        System.out.println("  ");
         mainUI.setActionsEnabled(actionTokensPair);
         mainUI.updateUIDistrict(board.getDistrictBoard());
         while (actionTokensPair.size() != 0) {
@@ -141,7 +159,7 @@ public class Game {
 
             ActionToken lastActionPlayed = actions.getLastActionPlayed();
             int nbRotate = 0;
-
+            int index=0;
             if (lastActionPlayed == ActionToken.ROTATION) {
                 for (int i = 0; i < actionTokensPair.size(); i++) {
                     if (actionTokensPair.get(i).equals(ActionToken.ROTATION)) {
@@ -150,8 +168,18 @@ public class Game {
                     }
                 }
                 if (nbRotate == 2) {
-                    actionTokensPair.remove(ActionToken.ROTATION);
-                    actionTokensPair.remove(ActionToken.ROTATION);
+
+                    ArrayList<ActionToken> listeintermediaire = new ArrayList<>();
+                    for (int i = 0; i < actionTokensPair.size(); i++) {
+                        if (!actionTokensPair.get(i).equals(ActionToken.ROTATION)) {
+                            listeintermediaire.add(actionTokensPair.get(i));
+
+                        }
+                    }
+                    listeintermediaire.add(ActionToken.ROTATION);
+                    actionTokensPair.clear();
+                   actionTokensPair.addAll(listeintermediaire);
+                   listeintermediaire.clear();
                 }
                 else {
                     actionTokensPair.remove(ActionToken.ROTATION);
