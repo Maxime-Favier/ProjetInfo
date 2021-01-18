@@ -13,6 +13,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class MainUI {
+    private static final float X_SCALE = 0.8f;
+    private static final float Y_SCALE = 0.8f;
     private Actions actions;
     private Board board;
     private Game game;
@@ -58,7 +60,7 @@ public class MainUI {
             for (int y = 0; y < 3; y++) {
                 districtBtn[x][y] = new JButton("district is loading");
 
-                districtBtn[x][y].setBounds(210 + x * 200, 210 + y * 200, 200, 200);
+                districtBtn[x][y].setBounds((int) ((210 + x * 200) * X_SCALE), (int) ((210 + y * 200) * Y_SCALE), (int) (200 * X_SCALE), (int) (200 * Y_SCALE));
                 int finalX = x;
                 int finalY = y;
                 districtBtn[x][y].addActionListener(event -> districtClick(event, finalX, finalY));
@@ -90,7 +92,7 @@ public class MainUI {
             updateUIDistrict(board.getDistrictBoard());
 
         }
-        System.out.println(x + " - " + y);
+        //System.out.println(x + " - " + y);
     }
 
     private void initDetectivesBtn() {
@@ -100,13 +102,13 @@ public class MainUI {
             detectivesBtn[i] = new JButton("Loading");
 
             if (i <= 2) {
-                detectivesBtn[i].setBounds(210 + i * 200, 10, 200, 200);
+                detectivesBtn[i].setBounds((int) ((210 * X_SCALE + i * 200 * X_SCALE)), (int) (10 * Y_SCALE), (int) (200 * X_SCALE), (int) (200 * Y_SCALE));
             } else if (i <= 5) {
-                detectivesBtn[i].setBounds(810, 210 + (i - 3) * 200, 200, 200);
+                detectivesBtn[i].setBounds((int) (810 * X_SCALE), (int) ((210 * Y_SCALE + (i - 3) * 200 * Y_SCALE)), (int) (200 * X_SCALE), (int) (200 * Y_SCALE));
             } else if (i <= 8) {
-                detectivesBtn[i].setBounds(610 - ((i - 6) * 200), 810, 200, 200);
+                detectivesBtn[i].setBounds((int) (610 * X_SCALE - ((i - 6) * 200 * X_SCALE)), (int) (810 * Y_SCALE), (int) (200 * X_SCALE), (int) (200 * Y_SCALE));
             } else {
-                detectivesBtn[i].setBounds(10, 610 - ((i - 9) * 200), 200, 200);
+                detectivesBtn[i].setBounds((int) (10 * X_SCALE), (int) (610 * Y_SCALE - ((i - 9) * 200 * Y_SCALE)), (int) (200 * X_SCALE), (int) (200 * Y_SCALE));
             }
 
             f.add(detectivesBtn[i]);
@@ -118,21 +120,21 @@ public class MainUI {
         Image hourGlassImage = null;
         try {
             hourGlassImage = ImageIO.read(getClass().getResource("/hourglass.png"));
-            ImageIcon hourGlassIcon = new ImageIcon(hourGlassImage.getScaledInstance(50, 50, 1));
+            ImageIcon hourGlassIcon = new ImageIcon(hourGlassImage.getScaledInstance((int) (50 * X_SCALE), (int) (50 * Y_SCALE), 1));
             hourGlassLabel = new JLabel("Mr Jack has 0 hourGlass", hourGlassIcon, SwingConstants.RIGHT);
-            hourGlassLabel.setBounds(850, 10, 500, 100);
+            hourGlassLabel.setBounds((int) (850 * X_SCALE), (int) (10 * Y_SCALE), (int) (500 * X_SCALE), (int) (100 * Y_SCALE));
             f.add(hourGlassLabel);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         tourRoleLabel = new JLabel("It's the turn of the investigator");
-        tourRoleLabel.setBounds(1100, 300, 500, 100);
+        tourRoleLabel.setBounds((int) (1100 * X_SCALE), (int) (300 * Y_SCALE), (int) (500 * X_SCALE), (int) (100 * Y_SCALE));
         f.add(tourRoleLabel);
 
         //alibiComboBox = new JComboBox();
         JList alibiJList = new JList(alibiListModel);
-        alibiJList.setBounds(1100, 400, 400, 400);
+        alibiJList.setBounds((int) (1100 * X_SCALE), (int) (400 * Y_SCALE), (int) (400 * X_SCALE), (int) (400 * Y_SCALE));
         f.add(alibiJList);
         //addAlibi(new AlibiCard(AlibiName.JOHN_PIZER, 1));
     }
@@ -147,26 +149,26 @@ public class MainUI {
 
     private void initActions() {
         alibiBtn = new JButton("loading");
-        alibiBtn.setBounds(1100, 120, 100, 100);
+        alibiBtn.setBounds((int) (1100 * X_SCALE), (int) (120 * Y_SCALE), (int) (100 * X_SCALE), (int) (100 * Y_SCALE));
         try {
             Image alibimg = ImageIO.read(getClass().getResource("/ALIBI.png"));
-            alibiBtn.setIcon(new ImageIcon(alibimg.getScaledInstance(110, 100, 1)));
+            alibiBtn.setIcon(new ImageIcon(alibimg.getScaledInstance((int) (110 * X_SCALE), (int) (100 * Y_SCALE), 1)));
         } catch (IOException e) {
             e.printStackTrace();
         }
         alibiBtn.addActionListener(e -> {
 
-            actions.alibi(turn, game, mrJackPlayer, board,this);
+            actions.alibi(turn, game, mrJackPlayer, board, this);
             actions.setLastActionPlayed(ActionToken.ALIBI);
             alibiBtn.setVisible(false);
         });
         f.add(alibiBtn);
 
         rotateBtn = new JButton("loading");
-        rotateBtn.setBounds(1200, 120, 100, 100);
+        rotateBtn.setBounds((int) (1200 * X_SCALE), (int) (120 * Y_SCALE), (int) (100 * X_SCALE), (int) (100 * Y_SCALE));
         try {
             Image rotateImg = ImageIO.read(getClass().getResource("/ROTATE.png"));
-            rotateBtn.setIcon(new ImageIcon(rotateImg.getScaledInstance(110, 100, 1)));
+            rotateBtn.setIcon(new ImageIcon(rotateImg.getScaledInstance((int) (110 * X_SCALE), (int) (100 * Y_SCALE), 1)));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -181,7 +183,7 @@ public class MainUI {
                     null,     //do not use a custom Icon
                     options,  //the titles of buttons
                     options[0]); //default button title
-            System.out.println(n);
+            //System.out.println(n);
             if (n != -1) {
                 actionMode = "ROTATE";
                 switch (n) {
@@ -203,10 +205,10 @@ public class MainUI {
         f.add(rotateBtn);
 
         rotateBtn2 = new JButton("loading");
-        rotateBtn2.setBounds(1400, 220, 100, 100);
+        rotateBtn2.setBounds((int) (1400 * X_SCALE), (int) (220 * Y_SCALE), (int) (100 * X_SCALE), (int) (100 * Y_SCALE));
         try {
             Image rotateImg = ImageIO.read(getClass().getResource("/ROTATE.png"));
-            rotateBtn2.setIcon(new ImageIcon(rotateImg.getScaledInstance(110, 100, 1)));
+            rotateBtn2.setIcon(new ImageIcon(rotateImg.getScaledInstance((int) (110 * X_SCALE), (int) (100 * Y_SCALE), 1)));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -221,7 +223,7 @@ public class MainUI {
                     null,     //do not use a custom Icon
                     options,  //the titles of buttons
                     options[0]); //default button title
-            System.out.println(n);
+            //System.out.println(n);
             if (n != -1) {
                 actionMode = "ROTATE";
                 switch (n) {
@@ -243,10 +245,10 @@ public class MainUI {
         f.add(rotateBtn2);
 
         swapBtn = new JButton("loading");
-        swapBtn.setBounds(1300, 120, 100, 100);
+        swapBtn.setBounds((int) (1300 * X_SCALE), (int) (120 * Y_SCALE), (int) (100 * X_SCALE), (int) (100 * Y_SCALE));
         try {
             Image swapImg = ImageIO.read(getClass().getResource("/SWAP_DISTRICT.png"));
-            swapBtn.setIcon(new ImageIcon(swapImg.getScaledInstance(110, 100, 1)));
+            swapBtn.setIcon(new ImageIcon(swapImg.getScaledInstance((int) (110 * X_SCALE), (int) (100 * Y_SCALE), 1)));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -256,7 +258,7 @@ public class MainUI {
                     "Click on the two district to swap",
                     "swap districts",
                     JOptionPane.YES_NO_OPTION);
-            System.out.println(n);
+            //System.out.println(n);
             if (n == 0) {
                 actionMode = "SWAP";
             }
@@ -264,10 +266,10 @@ public class MainUI {
         f.add(swapBtn);
 
         jockerBtn = new JButton("loading");
-        jockerBtn.setBounds(1400, 120, 100, 100);
+        jockerBtn.setBounds((int) (1400 * X_SCALE), (int) (120 * Y_SCALE), (int) (100 * X_SCALE), (int) (100 * Y_SCALE));
         try {
             Image jockerImg = ImageIO.read(getClass().getResource("/JOKER.png"));
-            jockerBtn.setIcon(new ImageIcon(jockerImg.getScaledInstance(110, 100, 1)));
+            jockerBtn.setIcon(new ImageIcon(jockerImg.getScaledInstance((int) (110 * X_SCALE), (int) (100 * Y_SCALE), 1)));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -338,10 +340,10 @@ public class MainUI {
         f.add(jockerBtn);
 
         sherlockBtn = new JButton("loading");
-        sherlockBtn.setBounds(1100, 220, 100, 100);
+        sherlockBtn.setBounds((int) (1100 * X_SCALE), (int) (220 * Y_SCALE), (int) (100 * X_SCALE), (int) (100 * Y_SCALE));
         try {
             Image sherlockImg = ImageIO.read(getClass().getResource("/SHERLOCK.png"));
-            sherlockBtn.setIcon(new ImageIcon(sherlockImg.getScaledInstance(110, 100, 1)));
+            sherlockBtn.setIcon(new ImageIcon(sherlockImg.getScaledInstance((int) (110 * X_SCALE), (int) (100 * Y_SCALE), 1)));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -372,10 +374,10 @@ public class MainUI {
         f.add(sherlockBtn);
 
         watsonBtn = new JButton("loading");
-        watsonBtn.setBounds(1200, 220, 100, 100);
+        watsonBtn.setBounds((int) (1200 * X_SCALE), (int) (220 * Y_SCALE), (int) (100 * X_SCALE), (int) (100 * Y_SCALE));
         try {
             Image watsonImg = ImageIO.read(getClass().getResource("/WATSON.png"));
-            watsonBtn.setIcon(new ImageIcon(watsonImg.getScaledInstance(110, 100, 1)));
+            watsonBtn.setIcon(new ImageIcon(watsonImg.getScaledInstance((int) (110 * X_SCALE), (int) (100 * Y_SCALE), 1)));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -406,10 +408,10 @@ public class MainUI {
         f.add(watsonBtn);
 
         tobbyBtn = new JButton("loading");
-        tobbyBtn.setBounds(1300, 220, 100, 100);
+        tobbyBtn.setBounds((int) (1300 * X_SCALE), (int) (220 * Y_SCALE), (int) (100 * X_SCALE), (int) (100 * Y_SCALE));
         try {
             Image tobbyImg = ImageIO.read(getClass().getResource("/TOBBY.png"));
-            tobbyBtn.setIcon(new ImageIcon(tobbyImg.getScaledInstance(110, 100, 1)));
+            tobbyBtn.setIcon(new ImageIcon(tobbyImg.getScaledInstance((int) (110 * X_SCALE), (int) (100 * Y_SCALE), 1)));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -471,7 +473,7 @@ public class MainUI {
                     swapBtn.setVisible(true);
                     break;
                 case ROTATION:
-                    System.out.println("here1");
+                    //System.out.println("here1");
                     if (rotateBtn.isVisible()) {
                         rotateBtn2.setVisible(true);
                     } else {
@@ -519,7 +521,7 @@ public class MainUI {
                                 break;
                         }
                     }
-                    districtBtn[i][j].setIcon(new ImageIcon(image.getScaledInstance(255, 255, 1)));
+                    districtBtn[i][j].setIcon(new ImageIcon(image.getScaledInstance((int) (255 * X_SCALE), (int) (255 * Y_SCALE), 1)));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -561,7 +563,7 @@ public class MainUI {
                 //System.out.println(fileName.toString());
                 try {
                     BufferedImage image = ImageIO.read(getClass().getResource(fileName.toString()));
-                    detectivesBtn[i].setIcon(new ImageIcon(image.getScaledInstance(205, 200, 1)));
+                    detectivesBtn[i].setIcon(new ImageIcon(image.getScaledInstance((int) (205 * X_SCALE), (int) (200 * Y_SCALE), 1)));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -569,7 +571,7 @@ public class MainUI {
             } else {
                 try {
                     BufferedImage image = ImageIO.read(getClass().getResource("/BLANK.png"));
-                    detectivesBtn[i].setIcon(new ImageIcon(image.getScaledInstance(255, 255, 1)));
+                    detectivesBtn[i].setIcon(new ImageIcon(image.getScaledInstance((int) (255 * X_SCALE), (int) (255 * Y_SCALE), 1)));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -615,7 +617,7 @@ public class MainUI {
     }
 
     private void endUIInit() {
-        f.setSize(1800, 1100);
+        f.setSize((int) (1800 * X_SCALE), (int) (1100 * Y_SCALE));
         f.setLayout(null);
         f.setVisible(true);
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
