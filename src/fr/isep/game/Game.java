@@ -15,6 +15,7 @@ public class Game {
     public int turnCount;
     public int whoPlay;
     public ActionToken actionChoose;
+
     public Game() {
         play();
 
@@ -28,43 +29,40 @@ public class Game {
         initActionCard();
         initAlibiCard();
 
-        MrJackPlayer mrJackPlayer =new MrJackPlayer (null,0,false);
+        MrJackPlayer mrJackPlayer = new MrJackPlayer(null, 0, false);
         mrJackPlayer.setJackAlibiName(pickIdentityJack());
-        DetectivePlayer detectivePlayer =new DetectivePlayer();
+        DetectivePlayer detectivePlayer = new DetectivePlayer();
         Actions actions = new Actions(board);
-        mainUI = new MainUI(actions, board);
+        mainUI = new MainUI(actions, board,this, mrJackPlayer);
         System.out.println(board.getVisibleCharacters(board.getDistrictBoard(), board.getDetectiveBoard()));
 
         mainUI.updateUIDistrict(board.getDistrictBoard());
         mainUI.updateUIDetective(board.getDetectiveBoard());
 
         mainUI.showMrJackName(mrJackPlayer.getJackAlibiName());
-        turnCount=1;
-        whoPlay=0;
+        turnCount = 1;
+        whoPlay = 0;
 
         turn();
 
 
     }
 
-    public void turn(){
-        ArrayList<ActionToken> actionTokensPair= new ArrayList<>();
-        ArrayList<ActionToken> actionTokensImpair= new ArrayList<>();
+    public void turn() {
+        ArrayList<ActionToken> actionTokensPair = new ArrayList<>();
+        ArrayList<ActionToken> actionTokensImpair = new ArrayList<>();
 
-        if(turnCount%2==0){
+        if (turnCount % 2 == 0) {
             mainUI.setActionsEnabled(actionTokensPair);
-        }
-
-       else{
-            for (int i=0;i<actionCards.size();i++){
-                Random random= new Random();
+        } else {
+            for (int i = 0; i < actionCards.size(); i++) {
+                Random random = new Random();
                 int a = random.nextInt(2);
                 //System.out.println(a);
-                if (a==0) {
+                if (a == 0) {
                     actionTokensPair.add(actionCards.get(i).getRecto());
                     actionTokensImpair.add(actionCards.get(i).getVerso());
-                }
-                else{
+                } else {
                     actionTokensImpair.add(actionCards.get(i).getRecto());
                     actionTokensPair.add(actionCards.get(i).getVerso());
                 }
@@ -72,103 +70,92 @@ public class Game {
             mainUI.setActionsEnabled(actionTokensImpair);
 
 
-
         }
         mainUI.setTurn(whoPlay);
     }
 
 //    public void gameEnded(){
-  //      if (turnCount>8)
+    //      if (turnCount>8)
     //}
 
 
-
-
-
-    public void initActionCard(){
+    public void initActionCard() {
         actionCards = new ArrayList<>();
-        actionCards.add(new ActionCard(ActionToken.ALIBI,ActionToken.HOLMES));
-        actionCards.add(new ActionCard(ActionToken.LE_CHIEN,ActionToken.WATSON));
-        actionCards.add(new ActionCard(ActionToken.ROTATION,ActionToken.ECHANGE));
-        actionCards.add(new ActionCard(ActionToken.ROTATION,ActionToken.JOKER));
+        actionCards.add(new ActionCard(ActionToken.ALIBI, ActionToken.HOLMES));
+        actionCards.add(new ActionCard(ActionToken.LE_CHIEN, ActionToken.WATSON));
+        actionCards.add(new ActionCard(ActionToken.ROTATION, ActionToken.ECHANGE));
+        actionCards.add(new ActionCard(ActionToken.ROTATION, ActionToken.JOKER));
     }
-    public void initAlibiCard(){
+
+    public void initAlibiCard() {
         alibiCards = new ArrayList<>();
-        alibiCards.add(new AlibiCard(AlibiName.MADAME,2));
-        alibiCards.add(new AlibiCard(AlibiName.SERGENT_GOODLEY,0));
-        alibiCards.add(new AlibiCard(AlibiName.JEREMY_BART,1));
-        alibiCards.add(new AlibiCard(AlibiName.WILLIAM_GULL,1));
-        alibiCards.add(new AlibiCard(AlibiName.MISS_STEALTHY,1));
-        alibiCards.add(new AlibiCard(AlibiName.JOHN_SMITH,1));
-        alibiCards.add(new AlibiCard(AlibiName.LESTRADE,0));
-        alibiCards.add(new AlibiCard(AlibiName.JOHN_PIZER,1));
-        alibiCards.add(new AlibiCard(AlibiName.JOSEPH_LANG,1));
+        alibiCards.add(new AlibiCard(AlibiName.MADAME, 2));
+        alibiCards.add(new AlibiCard(AlibiName.SERGENT_GOODLEY, 0));
+        alibiCards.add(new AlibiCard(AlibiName.JEREMY_BART, 1));
+        alibiCards.add(new AlibiCard(AlibiName.WILLIAM_GULL, 1));
+        alibiCards.add(new AlibiCard(AlibiName.MISS_STEALTHY, 1));
+        alibiCards.add(new AlibiCard(AlibiName.JOHN_SMITH, 1));
+        alibiCards.add(new AlibiCard(AlibiName.LESTRADE, 0));
+        alibiCards.add(new AlibiCard(AlibiName.JOHN_PIZER, 1));
+        alibiCards.add(new AlibiCard(AlibiName.JOSEPH_LANG, 1));
 
     }
 
 
+    public AlibiName pickIdentityJack() {
+        Random rand = new Random();
+        AlibiName Jack = AlibiName.values()[(int) rand.nextInt(AlibiName.values().length)];
 
-   public AlibiName pickIdentityJack(){
-        Random rand=new Random();
-       AlibiName Jack =AlibiName.values()[(int) rand.nextInt(AlibiName.values().length)];
+        return Jack;
+    }
 
-       return Jack;
-   }
-
-    public boolean DetectiveConditionToWin(Board board){
+    public boolean DetectiveConditionToWin(Board board) {
         District[][] districtBoard = board.getDistrictBoard();
-       int somme=0;
-       for (int i =0;i<3;i++){
-           for (int j =0;j<3;j++){
-               if (districtBoard[i][j].isRecto()==false){
-                   somme=somme+1;
-               }
-           }
+        int somme = 0;
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (districtBoard[i][j].isRecto() == false) {
+                    somme = somme + 1;
+                }
+            }
 
-       }
-        if(somme==1){
-            return true;
         }
-        else {
+        if (somme == 1) {
+            return true;
+        } else {
             return false;
         }
 
     }
-
 
 
     public boolean MrJackConditionToWin(MrJackPlayer mrJackPlayer) {
         int sablierJack = mrJackPlayer.getHourglass();
         if (sablierJack >= 6) {
             return true;
-        }
-        else
-        {
+        } else {
             return false;
         }
     }
 
-    public void appelATemoins (MrJackPlayer mrJackPlayer,Board board){
-        ArrayList<AlibiName>  visiblecharacters ;
-        visiblecharacters= board.getVisibleCharacters(board.getDistrictBoard(), board.getDetectiveBoard());
+    public void appelATemoins(MrJackPlayer mrJackPlayer, Board board) {
+        ArrayList<AlibiName> visiblecharacters;
+        visiblecharacters = board.getVisibleCharacters(board.getDistrictBoard(), board.getDetectiveBoard());
         District[][] districtBoard = board.getDistrictBoard();
-        if (mrJackPlayer.isVisible()==false){
-            for (int i=0;i<3;i++){
-                for (int j=0;j<3;j++){
-                    if (visiblecharacters.contains(districtBoard[i][j].getCharacter()))
-                    {
-                       districtBoard[i][j].setRecto(false);
-                       mrJackPlayer.setHourglass(mrJackPlayer.getHourglass()+1);
+        if (mrJackPlayer.isVisible() == false) {
+            for (int i = 0; i < 3; i++) {
+                for (int j = 0; j < 3; j++) {
+                    if (visiblecharacters.contains(districtBoard[i][j].getCharacter())) {
+                        districtBoard[i][j].setRecto(false);
+                        mrJackPlayer.setHourglass(mrJackPlayer.getHourglass() + 1);
                     }
                 }
             }
 
-        }
-        else{
-            for (int i=0;i<3;i++){
-                for (int j=0;j<3;j++){
-                    if (!visiblecharacters.contains(districtBoard[i][j].getCharacter()))
-                    {
+        } else {
+            for (int i = 0; i < 3; i++) {
+                for (int j = 0; j < 3; j++) {
+                    if (!visiblecharacters.contains(districtBoard[i][j].getCharacter())) {
                         districtBoard[i][j].setRecto(false);
                     }
                 }
@@ -176,8 +163,6 @@ public class Game {
         }
         mainUI.updateUIDistrict(board.getDistrictBoard());
     }
-
-
 
 
 }

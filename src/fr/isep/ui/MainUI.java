@@ -1,9 +1,7 @@
 package fr.isep.ui;
 
 import fr.isep.board.*;
-import fr.isep.game.ActionToken;
-import fr.isep.game.Actions;
-import fr.isep.game.AlibiCard;
+import fr.isep.game.*;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -17,6 +15,8 @@ import java.util.ArrayList;
 public class MainUI {
     private Actions actions;
     private Board board;
+    private Game game;
+    private MrJackPlayer mrJackPlayer;
     private String actionMode;
     private Orientation rotateOrientation;
     private int tmpx;
@@ -30,9 +30,12 @@ public class MainUI {
     private DefaultListModel<String> alibiListModel = new DefaultListModel<>();
     private int turn = 0;
 
-    public MainUI(Actions actions, Board board) {
+    public MainUI(Actions actions, Board board, Game game, MrJackPlayer mrJackPlayer) {
         this.actions = actions;
         this.board = board;
+        this.game = game;
+        this.mrJackPlayer = mrJackPlayer;
+
         actionMode = "NONE";
 
         initUI();
@@ -129,7 +132,7 @@ public class MainUI {
 
         //alibiComboBox = new JComboBox();
         JList alibiJList = new JList(alibiListModel);
-        alibiJList.setBounds(1100,400, 400,400);
+        alibiJList.setBounds(1100, 400, 400, 400);
         f.add(alibiJList);
         //addAlibi(new AlibiCard(AlibiName.JOHN_PIZER, 1));
     }
@@ -138,8 +141,8 @@ public class MainUI {
         tourRoleLabel.setText(txt);
     }
 
-    public void addAlibi(AlibiCard alibiCard){
-        alibiListModel.addElement(alibiCard.getName().toString().replace("_", " ") + " - "+ alibiCard.getHourGlassCount() + " hourglasse(s)");
+    public void addAlibi(AlibiCard alibiCard) {
+        alibiListModel.addElement(alibiCard.getName().toString().replace("_", " ") + " - " + alibiCard.getHourGlassCount() + " hourglasse(s)");
     }
 
     private void initActions() {
@@ -152,7 +155,7 @@ public class MainUI {
             e.printStackTrace();
         }
         alibiBtn.addActionListener(e -> {
-
+            actions.alibi(turn, game, mrJackPlayer, board);
             actions.setLastActionPlayed(ActionToken.ALIBI);
             alibiBtn.setVisible(false);
         });
@@ -268,7 +271,7 @@ public class MainUI {
             e.printStackTrace();
         }
         jockerBtn.addActionListener(e -> {
-            if(turn == 0){
+            if (turn == 0) {
                 // detective
                 Object[] options = {DetectiveName.SHERLOCK.toString(), DetectiveName.WATSON.toString(), DetectiveName.TOBBY.toString()};
                 int n = JOptionPane.showOptionDialog(f,
@@ -279,7 +282,7 @@ public class MainUI {
                         null,
                         options,
                         options[0]);
-                switch (n){
+                switch (n) {
                     case 0:
                         actions.moveDetective(DetectiveName.SHERLOCK, 1);
                         actions.setLastActionPlayed(ActionToken.JOKER);
@@ -291,13 +294,13 @@ public class MainUI {
                         jockerBtn.setVisible(false);
                         break;
                     case 2:
-                        actions.moveDetective(DetectiveName.TOBBY,1);
+                        actions.moveDetective(DetectiveName.TOBBY, 1);
                         actions.setLastActionPlayed(ActionToken.JOKER);
                         jockerBtn.setVisible(false);
                         break;
                 }
                 //System.out.println(n);
-            }else {
+            } else {
                 Object[] options = {DetectiveName.SHERLOCK.toString(), DetectiveName.WATSON.toString(), DetectiveName.TOBBY.toString(), "Do nothing"};
                 int n = JOptionPane.showOptionDialog(f,
                         "Which investigator do you want to move",
@@ -307,7 +310,7 @@ public class MainUI {
                         null,
                         options,
                         options[0]);
-                switch (n){
+                switch (n) {
                     case 0:
                         actions.moveDetective(DetectiveName.SHERLOCK, 1);
                         actions.setLastActionPlayed(ActionToken.JOKER);
@@ -319,7 +322,7 @@ public class MainUI {
                         jockerBtn.setVisible(false);
                         break;
                     case 2:
-                        actions.moveDetective(DetectiveName.TOBBY,1);
+                        actions.moveDetective(DetectiveName.TOBBY, 1);
                         actions.setLastActionPlayed(ActionToken.JOKER);
                         jockerBtn.setVisible(false);
                         break;
@@ -595,16 +598,17 @@ public class MainUI {
                     "Mr Jack is " + alibiName,
                     "Mr Jack is " + alibiName, JOptionPane.INFORMATION_MESSAGE,
                     new ImageIcon(icon));
-        }catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
     }
-    public void setTurn(int turn){
+
+    public void setTurn(int turn) {
         this.turn = turn;
-        if(turn == 0){
+        if (turn == 0) {
             setTurnLabel("It's the turn of the investigator");
-        }else {
+        } else {
             setTurnLabel("It's the turn of Mr Jack");
         }
     }
