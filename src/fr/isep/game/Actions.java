@@ -74,7 +74,7 @@ public class Actions {
         alibicards= game.alibiCards;
         Random random=new Random();
         int pioche = random.nextInt(alibicards.size()+1);
-       if (whoPlay==0){ // detective qui joue
+       if (whoPlay==1){ // detective qui joue
            int sablierAlibi;
            sablierAlibi=alibicards.get(pioche).getHourGlassCount();
             mrJackPlayer.setHourglass(mrJackPlayer.getHourglass()+sablierAlibi);
