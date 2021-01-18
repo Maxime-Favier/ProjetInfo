@@ -302,8 +302,9 @@ public class Game {
                         mrJackPlayer.setHourglass(mrJackPlayer.getHourglass() + 1);
                     }
                 }
-            }
 
+            }
+            mainUI.updateUIDistrict(board.getDistrictBoard());
         } else {
             for (int i = 0; i < 3; i++) {
                 for (int j = 0; j < 3; j++) {
@@ -312,9 +313,10 @@ public class Game {
                     }
                 }
             }
+            mainUI.updateUIDistrict(board.getDistrictBoard());
         }
-        mainUI.updateUIDistrict(board.getDistrictBoard());
-        if((turnCount<8)||(MrJackConditionToWin( mrJackPlayer)==false)||(DetectiveConditionToWin(board)==false))
+
+        if((turnCount<8)&&(MrJackConditionToWin( mrJackPlayer)==false)||(turnCount<8)&&((DetectiveConditionToWin(board)==false)))
         {   turnCount=turnCount+1;
             if (turnCount%2==0){
                 tourPair(actions,mrJackPlayer,board);
@@ -324,12 +326,14 @@ public class Game {
                 tourImpair(actions,mrJackPlayer,board);
             }
         }
-        else if ((turnCount>8)||(MrJackConditionToWin( mrJackPlayer)==true)||(DetectiveConditionToWin(board)==true)){
-            System.out.println(whoPlay+"a gagne");
+        else{
+       hasWin();
         }
-        System.out.println("sablier" + turnCount);
-        System.out.println("condition jacke " + MrJackConditionToWin( mrJackPlayer));
-        System.out.println("condition detect " + DetectiveConditionToWin(board));
+
+    }
+
+    public void hasWin(){
+        mainUI.setTurn(198);
     }
 
 
