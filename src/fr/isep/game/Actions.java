@@ -82,6 +82,7 @@ public class Actions {
            sablierAlibi=alibicards.get(pioche).getHourGlassCount();
             mrJackPlayer.setHourglass(mrJackPlayer.getHourglass()+sablierAlibi);
             alibicards.remove(alibicards.get(pioche));
+            mainUI.updateHourglass(mrJackPlayer.getHourglass());
        }
        else{
            AlibiCard carteEnqueteur;
