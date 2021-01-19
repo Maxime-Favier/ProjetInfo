@@ -72,15 +72,27 @@ public class MainUI {
         if (actionMode.equals("ROTATE")) {
             actions.rotateDistrict(x, y, rotateOrientation);
             actions.setLastActionPlayed(ActionToken.ROTATION);
-            if (rotateBtn2.isVisible()) {
-                rotateBtn2.setVisible(false);
-            } else {
-                rotateBtn.setVisible(false);
-            }
+            //if (rotateBtn2.isVisible()) {
+              //  rotateBtn2.setVisible(false);
+            //} else {
+               rotateBtn.setVisible(false);
+            //}
             updateActionsTodoNumber();
             actionMode = "NONE";
             updateUIDistrict(board.getDistrictBoard());
-        } else if (actionMode.equals("SWAP")) {
+        } if (actionMode.equals("ROTATE2")) {
+            actions.rotateDistrict(x, y, rotateOrientation);
+            actions.setLastActionPlayed(ActionToken.ROTATION2);
+            //if (rotateBtn2.isVisible()) {
+            //  rotateBtn2.setVisible(false);
+            //} else {
+               rotateBtn2.setVisible(false);
+            //}
+            updateActionsTodoNumber();
+            actionMode = "NONE";
+            updateUIDistrict(board.getDistrictBoard());
+        }
+        else if (actionMode.equals("SWAP")) {
             tmpx = x;
             tmpy = y;
             actionMode = "SWAP2";
@@ -244,6 +256,7 @@ public class MainUI {
             e.printStackTrace();
         }
         rotateBtn2.addActionListener(e -> {
+
             Object[] options = {Orientation.NORTH.toString(), Orientation.EAST.toString(), Orientation.SOUTH.toString(), Orientation.WEST.toString()};
             int n = JOptionPane.showOptionDialog(
                     f,
@@ -256,7 +269,7 @@ public class MainUI {
                     options[0]); //default button title
             //System.out.println(n);
             if (n != -1) {
-                actionMode = "ROTATE";
+                actionMode = "ROTATE2";
                 switch (n) {
                     case 0:
                         rotateOrientation = Orientation.NORTH;
@@ -518,11 +531,14 @@ public class MainUI {
                     break;
                 case ROTATION:
                     //System.out.println("here1");
-                    if (rotateBtn.isVisible()) {
-                        rotateBtn2.setVisible(true);
-                    } else {
+                    //if (rotateBtn.isVisible()) {
                         rotateBtn.setVisible(true);
-                    }
+                    //} else {
+                       // rotateBtn.setVisible(true);
+                 //   }
+                    break;
+                case ROTATION2:
+                    rotateBtn2.setVisible(true);
                     break;
             }
         }

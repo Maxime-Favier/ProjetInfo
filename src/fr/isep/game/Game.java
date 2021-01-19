@@ -29,13 +29,14 @@ public class Game {
         System.out.println("Game Playing");
 
         Board board = new Board();
-
-        initActionCard();
-        initAlibiCard();
-
         MrJackPlayer mrJackPlayer = new MrJackPlayer(null, 0, false);
         mrJackPlayer.setJackAlibiName(pickIdentityJack());
+        initActionCard();
+        initAlibiCard(mrJackPlayer);
+
+
         DetectivePlayer detectivePlayer = new DetectivePlayer();
+
         actions = new Actions(board);
         mainUI = new MainUI(actions, board, this, mrJackPlayer);
         // System.out.println(board.getVisibleCharacters(board.getDistrictBoard(), board.getDetectiveBoard()));
@@ -53,7 +54,15 @@ public class Game {
     }
 
     public void initTurnToken() {
+        /*
+        if(!actionTokensPair.isEmpty()){
+            actionTokensPair.clear();
+        }
+        if(!actionTokensImpair.isEmpty()){
+            actionTokensImpair.clear();
+        }
 
+         */
 
         for (int i = 0; i < actionCards.size(); i++) {
             Random random = new Random();
@@ -69,25 +78,25 @@ public class Game {
         }
 
 
+
+
     }
 
     public void tourImpair(Actions actions, MrJackPlayer mrJackPlayer, Board board) {
-        for(int a =0;a<actionTokensImpair.size();a++){
-            System.out.print(actionTokensImpair.get(a)+"  ");
-        }
-
-        System.out.println("  ");
 
 
         initTurnToken();
         mainUI.updateUIDistrict(board.getDistrictBoard());
         mainUI.setActionsEnabled(actionTokensImpair);
+       // whoPlay = 0;
+        //actions.setActionTodo(4);
 
-        while (actionTokensImpair.size() != 0) {
+        while (actionTokensImpair.size()!=0) {
             ActionToken lastActionPlayed = actions.getLastActionPlayed();
+            actionTokensImpair.remove(lastActionPlayed);
             int nbRotate = 0;
             int index=0;
-            if (lastActionPlayed == ActionToken.ROTATION) {
+            /*if (lastActionPlayed == ActionToken.ROTATION) {
                 for (int i = 0; i < actionTokensImpair.size(); i++) {
                     if (actionTokensImpair.get(i).equals(ActionToken.ROTATION)) {
                         nbRotate = nbRotate + 1;
@@ -109,7 +118,7 @@ public class Game {
                     listeintermediaire.clear();
 
                 }
-               else {
+                else {
                     actionTokensImpair.remove(ActionToken.ROTATION);
 
                 }
@@ -118,46 +127,55 @@ public class Game {
                 actionTokensImpair.remove(lastActionPlayed);
             }
 
+             */
+            System.out.println("iswitc  "+actions.getActionTodo());
+
             switch (actionTokensImpair.size()) {
 
                 case 4:
                     whoPlay = 0;
+                    //System.out.println("i"+actions.getActionTodo());
                     break;
                 case 3:
+
                     whoPlay = 1;
-                    break;
+                   // System.out.println("i"+actions.getActionTodo());
+                break;
                 case 2:
+                    //System.out.println("i"+actions.getActionTodo());
                     whoPlay = 1;;
                     break;
 
                 case 1:
+                   // System.out.println("i"+actions.getActionTodo());
                     whoPlay = 0;
                     break;
                 case 0:
+                   // System.out.println("i"+actions.getActionTodo());
                     appelATemoins(mrJackPlayer, board);
-                    break;
-            }
-            mainUI.setTurn(whoPlay);
+                   // actionTokensImpair.clear();
+                   break;
+           }
 
+        mainUI.setTurn(whoPlay);
         }
 
 
     }
 
     public void tourPair(Actions actions, MrJackPlayer mrJackPlayer, Board board) {
-        for(int a =0;a<actionTokensPair.size();a++){
-            System.out.print(actionTokensPair.get(a)+"  ");
-        }
 
-        System.out.println("  ");
-        mainUI.setActionsEnabled(actionTokensPair);
+
         mainUI.updateUIDistrict(board.getDistrictBoard());
-        while (actionTokensPair.size() != 0) {
-            for(int a=0;a<actionTokensPair.size();a++){
-                System.out.println(actionTokensPair.get(a));
-            }
+        mainUI.setActionsEnabled(actionTokensPair);
 
+        whoPlay = 1;
+       // actions.setActionTodo(4);
+
+        while (actionTokensPair.size()!=0) {
             ActionToken lastActionPlayed = actions.getLastActionPlayed();
+            actionTokensPair.remove(lastActionPlayed);
+            /*
             int nbRotate = 0;
             int index=0;
             if (lastActionPlayed == ActionToken.ROTATION) {
@@ -165,10 +183,10 @@ public class Game {
                     if (actionTokensPair.get(i).equals(ActionToken.ROTATION)) {
                         nbRotate = nbRotate + 1;
 
+
                     }
                 }
                 if (nbRotate == 2) {
-
                     ArrayList<ActionToken> listeintermediaire = new ArrayList<>();
                     for (int i = 0; i < actionTokensPair.size(); i++) {
                         if (!actionTokensPair.get(i).equals(ActionToken.ROTATION)) {
@@ -178,8 +196,9 @@ public class Game {
                     }
                     listeintermediaire.add(ActionToken.ROTATION);
                     actionTokensPair.clear();
-                   actionTokensPair.addAll(listeintermediaire);
-                   listeintermediaire.clear();
+                    actionTokensPair.addAll(listeintermediaire);
+                    listeintermediaire.clear();
+
                 }
                 else {
                     actionTokensPair.remove(ActionToken.ROTATION);
@@ -190,32 +209,40 @@ public class Game {
                 actionTokensPair.remove(lastActionPlayed);
             }
 
-            switch (actionTokensPair.size()) {
+             */
+        //    System.out.println("iswitc  "+actions.getActionTodo());
 
+            switch (actionTokensPair.size()) {
                 case 4:
+
                     whoPlay = 1;
+                  //  System.out.println("i"+actions.getActionTodo());
                     break;
+
                 case 3:
+
                     whoPlay = 0;
+                   // System.out.println("i"+actions.getActionTodo());
                     break;
                 case 2:
-                    whoPlay = 0;
+                   // System.out.println("i"+actions.getActionTodo());
+                    whoPlay = 0;;
                     break;
 
                 case 1:
+                 //   System.out.println("i"+actions.getActionTodo());
                     whoPlay = 1;
                     break;
                 case 0:
-
+                 //   System.out.println("i"+actions.getActionTodo());
                     appelATemoins(mrJackPlayer, board);
+
                     break;
-
-
             }
+
             mainUI.setTurn(whoPlay);
-
-
         }
+
 
 
     }
@@ -227,10 +254,10 @@ public class Game {
         actionCards.add(new ActionCard(ActionToken.ALIBI, ActionToken.HOLMES));
         actionCards.add(new ActionCard(ActionToken.LE_CHIEN, ActionToken.WATSON));
         actionCards.add(new ActionCard(ActionToken.ROTATION, ActionToken.ECHANGE));
-        actionCards.add(new ActionCard(ActionToken.ROTATION, ActionToken.JOKER));
+        actionCards.add(new ActionCard(ActionToken.ROTATION2, ActionToken.JOKER));
     }
 
-    public void initAlibiCard() {
+    public void initAlibiCard(MrJackPlayer mrJackPlayer) {
         alibiCards = new ArrayList<>();
         alibiCards.add(new AlibiCard(AlibiName.MADAME, 2));
         alibiCards.add(new AlibiCard(AlibiName.SERGENT_GOODLEY, 0));
@@ -241,7 +268,16 @@ public class Game {
         alibiCards.add(new AlibiCard(AlibiName.LESTRADE, 0));
         alibiCards.add(new AlibiCard(AlibiName.JOHN_PIZER, 1));
         alibiCards.add(new AlibiCard(AlibiName.JOSEPH_LANG, 1));
-
+        AlibiName jackIdentity = mrJackPlayer.getJackAlibiName();
+        for (int i=0;i<alibiCards.size();i++)
+        { if(alibiCards.get(i).getName().equals(jackIdentity)){
+            alibiCards.remove(alibiCards.get(i));
+        }
+        }
+for (int i=0;i< alibiCards.size();i++){
+    System.out.println(alibiCards.get(i).getName());
+}
+System.out.println(jackIdentity+"hui");
     }
 
 
@@ -361,6 +397,7 @@ public class Game {
 
 
             } else {
+
                 tourImpair(actions, mrJackPlayer, board);
             }
         }

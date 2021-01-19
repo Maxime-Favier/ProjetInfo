@@ -6,6 +6,7 @@ public enum ActionToken {
     LE_CHIEN,
     JOKER,
     ROTATION,
+    ROTATION2,
     ECHANGE,
     ALIBI;
 
