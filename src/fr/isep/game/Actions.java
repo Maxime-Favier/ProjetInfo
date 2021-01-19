@@ -11,6 +11,7 @@ public class Actions {
     public ActionToken actionTokenPlayed;
     private Board board;
     private ActionToken lastActionPlayed;
+    private int actionTodo;
 
 
     public Actions(Board board) {
@@ -109,5 +110,13 @@ public class Actions {
 
     public void setLastActionPlayed(ActionToken lastActionPlayed) {
         this.lastActionPlayed = lastActionPlayed;
+    }
+
+    public void setActionTodo(int actionTodo) {
+        this.actionTodo = actionTodo;
+    }
+
+    public int getActionTodo() {
+        return actionTodo;
     }
 }

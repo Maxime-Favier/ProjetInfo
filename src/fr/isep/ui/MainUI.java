@@ -77,6 +77,7 @@ public class MainUI {
             } else {
                 rotateBtn.setVisible(false);
             }
+            updateActionsTodoNumber();
             actionMode = "NONE";
             updateUIDistrict(board.getDistrictBoard());
         } else if (actionMode.equals("SWAP")) {
@@ -87,11 +88,41 @@ public class MainUI {
             actions.swapDistrict(tmpx, tmpy, x, y);
             actions.setLastActionPlayed(ActionToken.ECHANGE);
             swapBtn.setVisible(false);
+            updateActionsTodoNumber();
             actionMode = "NONE";
             updateUIDistrict(board.getDistrictBoard());
 
         }
         //System.out.println(x + " - " + y);
+    }
+    private void updateActionsTodoNumber(){
+        // alibiBtn, rotateBtn, rotateBtn2, swapBtn, jockerBtn, watsonBtn, sherlockBtn, tobbyBtn;
+        int i = 0;
+        if(alibiBtn.isVisible()){
+            i++;
+        }
+        if(rotateBtn.isVisible()){
+            i++;
+        }
+        if(rotateBtn2.isVisible()){
+            i++;
+        }
+        if(swapBtn.isVisible()){
+            i++;
+        }
+        if(jockerBtn.isVisible()){
+            i++;
+        }
+        if(watsonBtn.isVisible()){
+            i++;
+        }
+        if(sherlockBtn.isVisible()){
+            i++;
+        }
+        if(tobbyBtn.isVisible()){
+            i++;
+        }
+        actions.setActionTodo(i);
     }
 
     private void initDetectivesBtn() {
@@ -160,6 +191,7 @@ public class MainUI {
             actions.alibi(turn, game, mrJackPlayer, board, this);
             actions.setLastActionPlayed(ActionToken.ALIBI);
             alibiBtn.setVisible(false);
+            updateActionsTodoNumber();
         });
         f.add(alibiBtn);
 
@@ -289,16 +321,19 @@ public class MainUI {
                         actions.moveDetective(DetectiveName.SHERLOCK, 1);
                         actions.setLastActionPlayed(ActionToken.JOKER);
                         jockerBtn.setVisible(false);
+                        updateActionsTodoNumber();
                         break;
                     case 1:
                         actions.moveDetective(DetectiveName.WATSON, 1);
                         actions.setLastActionPlayed(ActionToken.JOKER);
                         jockerBtn.setVisible(false);
+                        updateActionsTodoNumber();
                         break;
                     case 2:
                         actions.moveDetective(DetectiveName.TOBBY, 1);
                         actions.setLastActionPlayed(ActionToken.JOKER);
                         jockerBtn.setVisible(false);
+                        updateActionsTodoNumber();
                         break;
                 }
                 //System.out.println(n);
@@ -317,20 +352,24 @@ public class MainUI {
                         actions.moveDetective(DetectiveName.SHERLOCK, 1);
                         actions.setLastActionPlayed(ActionToken.JOKER);
                         jockerBtn.setVisible(false);
+                        updateActionsTodoNumber();
                         break;
                     case 1:
                         actions.moveDetective(DetectiveName.WATSON, 1);
                         actions.setLastActionPlayed(ActionToken.JOKER);
                         jockerBtn.setVisible(false);
+                        updateActionsTodoNumber();
                         break;
                     case 2:
                         actions.moveDetective(DetectiveName.TOBBY, 1);
                         actions.setLastActionPlayed(ActionToken.JOKER);
                         jockerBtn.setVisible(false);
+                        updateActionsTodoNumber();
                         break;
                     case 3:
                         actions.setLastActionPlayed(ActionToken.JOKER);
                         jockerBtn.setVisible(false);
+                        updateActionsTodoNumber();
                         break;
                 }
             }
@@ -361,11 +400,13 @@ public class MainUI {
                 updateUIDetective(board.getDetectiveBoard());
                 actions.setLastActionPlayed(ActionToken.HOLMES);
                 sherlockBtn.setVisible(false);
+                updateActionsTodoNumber();
             } else if (n == 0) {
                 actions.moveDetective(DetectiveName.SHERLOCK, 1);
                 updateUIDetective(board.getDetectiveBoard());
                 actions.setLastActionPlayed(ActionToken.HOLMES);
                 sherlockBtn.setVisible(false);
+                updateActionsTodoNumber();
             }
 
 
@@ -396,11 +437,13 @@ public class MainUI {
                 updateUIDetective(board.getDetectiveBoard());
                 actions.setLastActionPlayed(ActionToken.WATSON);
                 watsonBtn.setVisible(false);
+                updateActionsTodoNumber();
             } else if (n == 0) {
                 actions.moveDetective(DetectiveName.WATSON, 1);
                 updateUIDetective(board.getDetectiveBoard());
                 actions.setLastActionPlayed(ActionToken.WATSON);
                 watsonBtn.setVisible(false);
+                updateActionsTodoNumber();
             }
             ;
         });
@@ -430,11 +473,13 @@ public class MainUI {
                 updateUIDetective(board.getDetectiveBoard());
                 actions.setLastActionPlayed(ActionToken.LE_CHIEN);
                 tobbyBtn.setVisible(false);
+                updateActionsTodoNumber();
             } else if (n == 0) {
                 actions.moveDetective(DetectiveName.TOBBY, 1);
                 updateUIDetective(board.getDetectiveBoard());
                 actions.setLastActionPlayed(ActionToken.LE_CHIEN);
                 tobbyBtn.setVisible(false);
+                updateActionsTodoNumber();
             }
 
         });
