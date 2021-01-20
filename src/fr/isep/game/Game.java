@@ -41,7 +41,7 @@ public class Game {
 
         mainUI.updateUIDistrict(board.getDistrictBoard());
         mainUI.updateUIDetective(board.getDetectiveBoard());
-
+        mainUI.showpopup("Attention l'information qui va s'afficher par la suite ne concerne que Mr Jack : detectives, fermez vos yeux","Information relative à Mr Jack");
         mainUI.showMrJackName(mrJackPlayer.getJackAlibiName());
         turnCount = 1;
         whoPlay = 0;
@@ -104,6 +104,7 @@ public class Game {
                     whoPlay = 0;
                     break;
                 case 0:
+                    mainUI.showpopup("Tour "+ (turnCount)+ " terminé "+" : appel à temoins","Informations");
                     appelATemoins(mrJackPlayer, board);
 
 
@@ -147,6 +148,7 @@ public class Game {
                     whoPlay = 1;
                     break;
                 case 0:
+                    mainUI.showpopup("Tour "+ (turnCount)+ " terminé "+" : appel à temoins","Informations");
                     appelATemoins(mrJackPlayer, board);
                     break;
             }
@@ -244,6 +246,7 @@ public class Game {
         District[][] districtBoard = board.getDistrictBoard();
         boolean iSVisibleByDetectives = DetectiveSeeJack(mrJackPlayer, board);
         if (iSVisibleByDetectives == false) {
+            mainUI.showpopup("Verdict de l'appel à témoins : Mr Jack est invisible","Informations");
             for (int i = 0; i < 3; i++) {
                 for (int j = 0; j < 3; j++) {
                     if (visiblecharacters.contains(districtBoard[i][j].getCharacter())) {
@@ -257,7 +260,7 @@ public class Game {
             mainUI.updateUIDistrict(board.getDistrictBoard());
         }
         else   if (iSVisibleByDetectives == true){
-            mainUI.showpopup("jack est visible","Informations");
+            mainUI.showpopup("Verdict de l'appel à témoins : Mr Jack est visible","Informations");
             for (int i = 0; i < 3; i++) {
                 for (int j = 0; j < 3; j++) {
                     if (!visiblecharacters.contains(districtBoard[i][j].getCharacter())) {
@@ -270,22 +273,37 @@ public class Game {
         }
 
         turnCount = turnCount + 1;
-        if (turnCount<8){
+        if (turnCount<=8){
 
-            mainUI.showpopup("Tour terminé : appel à temoins","Informations");
+
             conditionSatistisfield(mrJackPlayer,board);
         }
         else{
-            mainUI.showpopup("vous avez fini les 8 tours","jack gagnant");
+                if ((MrJackConditionToWin(mrJackPlayer) == false)&&(DetectiveConditionToWin(board) == false)){
+                    mainUI.showpopup("Jack gagne. Aucun des joueurs n'a atteint son objectif avant les 8 tours ","Fin du jeu");
+                    mainUI.showMrJackName(mrJackPlayer.getJackAlibiName());
+                }
+                else if((MrJackConditionToWin(mrJackPlayer) == true)&&(DetectiveConditionToWin(board) == true)){
+                    if (iSVisibleByDetectives==true){
+                        mainUI.showpopup("Les detectives gagnent. Tous les joueurs ont atteint leur objectif mais jack était visible à la fin du jeu","Fin du jeu");
+                        mainUI.showMrJackName(mrJackPlayer.getJackAlibiName());
+                    }
+                    else if (iSVisibleByDetectives==false){
+                        mainUI.showpopup("Mr Jack gagne. Tous les joueurs ont atteint leur objectif mais jack était invisible à la fin du jeu","Fin du jeu");
+                        mainUI.showMrJackName(mrJackPlayer.getJackAlibiName());
+                    }
+                }
+
         }
 
     }
 
 
     public void conditionSatistisfield(MrJackPlayer mrJackPlayer,Board board) {
+        boolean iSVisibleByDetectives = DetectiveSeeJack(mrJackPlayer, board);
         mainUI.updateUIDistrict(board.getDistrictBoard());
         if((MrJackConditionToWin(mrJackPlayer) == false)&&(DetectiveConditionToWin(board) == false)){
-            mainUI.showpopup("tour  "+turnCount,"jack gagnant");
+            mainUI.showpopup("debut du tour  "+turnCount,"Informations");
             if (turnCount % 2 == 0) {
                 tourPair(actions, mrJackPlayer, board);
 
@@ -296,12 +314,30 @@ public class Game {
             }
         }
         else if((MrJackConditionToWin(mrJackPlayer) ==true)&&(DetectiveConditionToWin(board) == false)){
-            mainUI.showpopup("jack gagne avec ses 6 sabliers","Victoire");
+            mainUI.showpopup("Mr Jack gagne avec ses 6 sabliers","Fin du jeu");
+            mainUI.showMrJackName(mrJackPlayer.getJackAlibiName());
         }
         else if((MrJackConditionToWin(mrJackPlayer) ==false)&&(DetectiveConditionToWin(board) == true)){
             mainUI.updateUIDistrict(board.getDistrictBoard());
-            mainUI.showpopup("detective gagne","Victoi");
+            mainUI.showpopup("Les detective gagnent","Fin du jeu");
+            mainUI.showMrJackName(mrJackPlayer.getJackAlibiName());
+        }
+        else if ((MrJackConditionToWin(mrJackPlayer) ==true)&&(DetectiveConditionToWin(board) == true)){
+            if (iSVisibleByDetectives==true){
+                mainUI.showpopup("Les detectives gagnent. Tous les joueurs ont atteint leur objectif mais jack a été découverte avant la fin du jeu","Fin du jeu");
+                mainUI.showMrJackName(mrJackPlayer.getJackAlibiName());
+            }
+            else{mainUI.showpopup("Course poursuite du tour " +turnCount ,"Course poursuite");
+                if (turnCount % 2 == 0) {
+                    tourPair(actions, mrJackPlayer, board);
 
+
+                } else {
+
+                    tourImpair(actions, mrJackPlayer, board);
+                }
+
+            }
         }
 
     }

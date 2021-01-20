@@ -81,6 +81,7 @@ public class Actions {
             int sablierAlibi;
             sablierAlibi = alibicards.get(pioche).getHourGlassCount();
             mrJackPlayer.setHourglass(mrJackPlayer.getHourglass() + sablierAlibi);
+            mainUI.showpopup("Attention l'information qui va s'afficher par la suite ne concerne que Mr Jack : detectives, fermez vos yeux","Information relative à Mr Jack");
             mainUI.showMrJackAlibiCard(alibicards.get(pioche));
             alibicards.remove(alibicards.get(pioche));
             mainUI.updateHourglass(mrJackPlayer.getHourglass());
