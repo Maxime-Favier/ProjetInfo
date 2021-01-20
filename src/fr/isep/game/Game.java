@@ -38,7 +38,6 @@ public class Game {
 
         actions = new Actions(board);
         mainUI = new MainUI(actions, board, this, mrJackPlayer);
-        // System.out.println(board.getVisibleCharacters(board.getDistrictBoard(), board.getDetectiveBoard()));
 
         mainUI.updateUIDistrict(board.getDistrictBoard());
         mainUI.updateUIDetective(board.getDetectiveBoard());
@@ -54,9 +53,9 @@ public class Game {
     public void initTurnToken() {
 
         actionTokensPair =new ArrayList<>();
-         actionTokensImpair =new ArrayList<>();
+        actionTokensImpair =new ArrayList<>();
 
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < actionCards.size(); i++) {
             Random random = new Random();
             int a = random.nextInt(2);
             if (a == 0) {
@@ -80,19 +79,14 @@ public class Game {
         initTurnToken();
         mainUI.updateUIDistrict(board.getDistrictBoard());
         mainUI.setActionsEnabled(actionTokensImpair);
-        for(int i=0;i<actionTokensImpair.size();i++){
-            System.out.print(actionTokensImpair.get(i)+ " ");
-        }
-        System.out.println();
+
+
         actions.setLastActionPlayed(null);
         while (actionTokensImpair.size()!=0) {
             ActionToken lastActionPlayed = actions.getLastActionPlayed();
             actionTokensImpair.remove(lastActionPlayed);
 
-              for(int i=0;i<actionTokensImpair.size();i++){
-                System.out.print(actionTokensImpair.get(i)+ " ");
-            }
-            System.out.println();
+
             switch (actionTokensImpair.size()) {
 
                 case 4:
@@ -191,10 +185,7 @@ public class Game {
             alibiCards.remove(alibiCards.get(i));
         }
         }
-for (int i=0;i< alibiCards.size();i++){
-    System.out.println(alibiCards.get(i).getName());
-}
-System.out.println(jackIdentity+"hui");
+
     }
 
 
