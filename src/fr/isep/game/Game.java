@@ -28,7 +28,7 @@ public class Game {
         System.out.println("Game Playing");
 
         Board board = new Board();
-        MrJackPlayer mrJackPlayer = new MrJackPlayer(null, 0, false);
+        MrJackPlayer mrJackPlayer = new MrJackPlayer(null, 0);
         mrJackPlayer.setJackAlibiName(pickIdentityJack());
         initActionCard();
         initAlibiCard(mrJackPlayer);
