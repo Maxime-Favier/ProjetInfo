@@ -11,13 +11,12 @@ import java.util.Random;
 public class Game {
     public ArrayList<AlibiCard> alibiCards;
     private ArrayList<ActionCard> actionCards;
-    public ArrayList<ActionToken> actionTokensPair = new ArrayList<>();
-    public ArrayList<ActionToken> actionTokensImpair = new ArrayList<>();
+    public ArrayList<ActionToken> actionTokensPair ;
+    public ArrayList<ActionToken> actionTokensImpair ;
 
     private MainUI mainUI;
     public int turnCount;
     public int whoPlay;
-    public ActionToken actionChoose;
     public Actions actions;
 
     public Game() {
@@ -48,26 +47,18 @@ public class Game {
         turnCount = 1;
         whoPlay = 0;
 
-        //turn(board,mrJackPlayer);
         tourImpair(actions, mrJackPlayer, board);
 
     }
 
     public void initTurnToken() {
-        /*
-        if(!actionTokensPair.isEmpty()){
-            actionTokensPair.clear();
-        }
-        if(!actionTokensImpair.isEmpty()){
-            actionTokensImpair.clear();
-        }
 
-         */
+        actionTokensPair =new ArrayList<>();
+         actionTokensImpair =new ArrayList<>();
 
-        for (int i = 0; i < actionCards.size(); i++) {
+        for (int i = 0; i < 4; i++) {
             Random random = new Random();
             int a = random.nextInt(2);
-            //System.out.println(a);
             if (a == 0) {
                 actionTokensPair.add(actionCards.get(i).getRecto());
                 actionTokensImpair.add(actionCards.get(i).getVerso());
@@ -80,6 +71,7 @@ public class Game {
 
 
 
+
     }
 
     public void tourImpair(Actions actions, MrJackPlayer mrJackPlayer, Board board) {
@@ -88,72 +80,39 @@ public class Game {
         initTurnToken();
         mainUI.updateUIDistrict(board.getDistrictBoard());
         mainUI.setActionsEnabled(actionTokensImpair);
-       // whoPlay = 0;
-        //actions.setActionTodo(4);
-
+        for(int i=0;i<actionTokensImpair.size();i++){
+            System.out.print(actionTokensImpair.get(i)+ " ");
+        }
+        System.out.println();
+        actions.setLastActionPlayed(null);
         while (actionTokensImpair.size()!=0) {
             ActionToken lastActionPlayed = actions.getLastActionPlayed();
             actionTokensImpair.remove(lastActionPlayed);
-            int nbRotate = 0;
-            int index=0;
-            /*if (lastActionPlayed == ActionToken.ROTATION) {
-                for (int i = 0; i < actionTokensImpair.size(); i++) {
-                    if (actionTokensImpair.get(i).equals(ActionToken.ROTATION)) {
-                        nbRotate = nbRotate + 1;
 
-
-                    }
-                }
-                if (nbRotate == 2) {
-                    ArrayList<ActionToken> listeintermediaire = new ArrayList<>();
-                    for (int i = 0; i < actionTokensImpair.size(); i++) {
-                        if (!actionTokensImpair.get(i).equals(ActionToken.ROTATION)) {
-                            listeintermediaire.add(actionTokensImpair.get(i));
-
-                        }
-                    }
-                    listeintermediaire.add(ActionToken.ROTATION);
-                    actionTokensImpair.clear();
-                    actionTokensImpair.addAll(listeintermediaire);
-                    listeintermediaire.clear();
-
-                }
-                else {
-                    actionTokensImpair.remove(ActionToken.ROTATION);
-
-                }
+              for(int i=0;i<actionTokensImpair.size();i++){
+                System.out.print(actionTokensImpair.get(i)+ " ");
             }
-            else {
-                actionTokensImpair.remove(lastActionPlayed);
-            }
-
-             */
-            System.out.println("iswitc  "+actions.getActionTodo());
-
+            System.out.println();
             switch (actionTokensImpair.size()) {
 
                 case 4:
                     whoPlay = 0;
-                    //System.out.println("i"+actions.getActionTodo());
                     break;
                 case 3:
 
                     whoPlay = 1;
-                   // System.out.println("i"+actions.getActionTodo());
                 break;
                 case 2:
-                    //System.out.println("i"+actions.getActionTodo());
                     whoPlay = 1;;
                     break;
 
                 case 1:
-                   // System.out.println("i"+actions.getActionTodo());
                     whoPlay = 0;
                     break;
                 case 0:
-                   // System.out.println("i"+actions.getActionTodo());
                     appelATemoins(mrJackPlayer, board);
-                   // actionTokensImpair.clear();
+
+
                    break;
            }
 
@@ -168,75 +127,33 @@ public class Game {
 
         mainUI.updateUIDistrict(board.getDistrictBoard());
         mainUI.setActionsEnabled(actionTokensPair);
-
+        actions.setLastActionPlayed(null);
         whoPlay = 1;
-       // actions.setActionTodo(4);
+
 
         while (actionTokensPair.size()!=0) {
             ActionToken lastActionPlayed = actions.getLastActionPlayed();
             actionTokensPair.remove(lastActionPlayed);
-            /*
-            int nbRotate = 0;
-            int index=0;
-            if (lastActionPlayed == ActionToken.ROTATION) {
-                for (int i = 0; i < actionTokensPair.size(); i++) {
-                    if (actionTokensPair.get(i).equals(ActionToken.ROTATION)) {
-                        nbRotate = nbRotate + 1;
-
-
-                    }
-                }
-                if (nbRotate == 2) {
-                    ArrayList<ActionToken> listeintermediaire = new ArrayList<>();
-                    for (int i = 0; i < actionTokensPair.size(); i++) {
-                        if (!actionTokensPair.get(i).equals(ActionToken.ROTATION)) {
-                            listeintermediaire.add(actionTokensPair.get(i));
-
-                        }
-                    }
-                    listeintermediaire.add(ActionToken.ROTATION);
-                    actionTokensPair.clear();
-                    actionTokensPair.addAll(listeintermediaire);
-                    listeintermediaire.clear();
-
-                }
-                else {
-                    actionTokensPair.remove(ActionToken.ROTATION);
-
-                }
-            }
-            else {
-                actionTokensPair.remove(lastActionPlayed);
-            }
-
-             */
-        //    System.out.println("iswitc  "+actions.getActionTodo());
 
             switch (actionTokensPair.size()) {
                 case 4:
 
                     whoPlay = 1;
-                  //  System.out.println("i"+actions.getActionTodo());
                     break;
 
                 case 3:
 
                     whoPlay = 0;
-                   // System.out.println("i"+actions.getActionTodo());
                     break;
                 case 2:
-                   // System.out.println("i"+actions.getActionTodo());
                     whoPlay = 0;;
                     break;
 
                 case 1:
-                 //   System.out.println("i"+actions.getActionTodo());
                     whoPlay = 1;
                     break;
                 case 0:
-                 //   System.out.println("i"+actions.getActionTodo());
                     appelATemoins(mrJackPlayer, board);
-
                     break;
             }
 
@@ -326,20 +243,6 @@ System.out.println(jackIdentity+"hui");
             return true;
         } else {
             return false;
-        }
-    }
-    public void InvisibleCharacters(MrJackPlayer mrJackPlayer, Board board) {
-        ArrayList<AlibiName> visiblecharacters;
-        visiblecharacters = board.getVisibleCharacters(board.getDistrictBoard(), board.getDetectiveBoard());
-        ArrayList<AlibiName> invisiblecharacters=new ArrayList<>();
-        District[][] districtBoard = board.getDistrictBoard();
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                if (!visiblecharacters.contains(districtBoard[i][j].getCharacter())) {
-                    invisiblecharacters.add(districtBoard[i][j].getCharacter());
-
-                }
-            }
         }
     }
 

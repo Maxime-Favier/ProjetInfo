@@ -72,22 +72,15 @@ public class MainUI {
         if (actionMode.equals("ROTATE")) {
             actions.rotateDistrict(x, y, rotateOrientation);
             actions.setLastActionPlayed(ActionToken.ROTATION);
-            //if (rotateBtn2.isVisible()) {
-              //  rotateBtn2.setVisible(false);
-            //} else {
                rotateBtn.setVisible(false);
-            //}
             updateActionsTodoNumber();
             actionMode = "NONE";
             updateUIDistrict(board.getDistrictBoard());
-        } if (actionMode.equals("ROTATE2")) {
+
+        } else if (actionMode.equals("ROTATE2")) {
             actions.rotateDistrict(x, y, rotateOrientation);
             actions.setLastActionPlayed(ActionToken.ROTATION2);
-            //if (rotateBtn2.isVisible()) {
-            //  rotateBtn2.setVisible(false);
-            //} else {
                rotateBtn2.setVisible(false);
-            //}
             updateActionsTodoNumber();
             actionMode = "NONE";
             updateUIDistrict(board.getDistrictBoard());
