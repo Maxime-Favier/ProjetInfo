@@ -1,15 +1,15 @@
 package fr.isep.board;
 
 public class District {
-    Orientation orientation;
-    AlibiName character;
-    boolean isRecto;
-    boolean cross;
+    private Orientation orientation;
+    private AlibiName character;
+    private boolean isRecto;
+    private boolean cross;
 
     public District(Orientation orientation, AlibiName character) {
         this.orientation = orientation;
         this.character = character;
-        System.out.println(character==AlibiName.JOSEPH_LANG);
+        //System.out.println(character==AlibiName.JOSEPH_LANG);
         isRecto = true;
         cross = false;
     }

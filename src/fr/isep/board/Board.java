@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Board {
-    District[][] districtBoard;
-    ArrayList<DetectiveToken>[] detectiveBoard;
+    private District[][] districtBoard;
+    private ArrayList<DetectiveToken>[] detectiveBoard;
 
     public Board() {
         initDistricts();
