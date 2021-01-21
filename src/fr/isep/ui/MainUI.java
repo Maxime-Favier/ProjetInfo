@@ -31,6 +31,7 @@ public class MainUI {
     private JButton alibiBtn, rotateBtn, rotateBtn2, swapBtn, jockerBtn, watsonBtn, sherlockBtn, tobbyBtn;
     private DefaultListModel<String> alibiListModel = new DefaultListModel<>();
     private int turn = 0;
+    private int lastrotateX, lastrotateY;
 
     public MainUI(Actions actions, Board board, Game game, MrJackPlayer mrJackPlayer) {
         this.actions = actions;
@@ -39,6 +40,8 @@ public class MainUI {
         this.mrJackPlayer = mrJackPlayer;
 
         actionMode = "NONE";
+        lastrotateX = -1;
+        lastrotateY = -1;
 
         initUI();
         initDistrictBtn();
@@ -70,20 +73,39 @@ public class MainUI {
 
     private void districtClick(ActionEvent ae, int x, int y) {
         if (actionMode.equals("ROTATE")) {
-            actions.rotateDistrict(x, y, rotateOrientation);
-            actions.setLastActionPlayed(ActionToken.ROTATION);
-               rotateBtn.setVisible(false);
-            updateActionsTodoNumber();
-            actionMode = "NONE";
-            updateUIDistrict(board.getDistrictBoard());
+            //System.out.println(lastrotateX + "-" + x + "  " + lastrotateY + "-" + y);
+            if(lastrotateX == x && lastrotateY ==y){
+                // aloready rotated
+                showpopup("You can't rotate the same district at the same turn", "message");
+                actionMode = "NONE";
+            }else {
+                actions.rotateDistrict(x, y, rotateOrientation);
+                actions.setLastActionPlayed(ActionToken.ROTATION);
+                rotateBtn.setVisible(false);
+                updateActionsTodoNumber();
+                actionMode = "NONE";
+                updateUIDistrict(board.getDistrictBoard());
+                lastrotateX = x;
+                lastrotateY = y;
+            }
+
 
         } else if (actionMode.equals("ROTATE2")) {
-            actions.rotateDistrict(x, y, rotateOrientation);
-            actions.setLastActionPlayed(ActionToken.ROTATION2);
-               rotateBtn2.setVisible(false);
-            updateActionsTodoNumber();
-            actionMode = "NONE";
-            updateUIDistrict(board.getDistrictBoard());
+            //System.out.println(lastrotateX + "-" + x + "  " + lastrotateY + "-" + y);
+            if(lastrotateX == x && lastrotateY ==y){
+                // aloready rotated
+                showpopup("You can't rotate the same district at the same turn", "message");
+                actionMode = "NONE";
+            }else {
+                actions.rotateDistrict(x, y, rotateOrientation);
+                actions.setLastActionPlayed(ActionToken.ROTATION2);
+                rotateBtn2.setVisible(false);
+                updateActionsTodoNumber();
+                actionMode = "NONE";
+                updateUIDistrict(board.getDistrictBoard());
+                lastrotateX = x;
+                lastrotateY = y;
+            }
         }
         else if (actionMode.equals("SWAP")) {
             tmpx = x;
@@ -128,6 +150,10 @@ public class MainUI {
             i++;
         }
         actions.setActionTodo(i);
+        if(i == 0){
+            lastrotateX = -1;
+            lastrotateY = -1;
+        }
     }
 
     private void initDetectivesBtn() {
