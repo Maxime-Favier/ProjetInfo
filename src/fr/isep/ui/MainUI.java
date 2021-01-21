@@ -548,12 +548,17 @@ public class MainUI {
                 Orientation orientation = districtBoard[i][j].getOrientation();
                 AlibiName detectiveName = districtBoard[i][j].getCharacter();
                 boolean isRecto = districtBoard[i][j].isRecto();
+                boolean isCross = districtBoard[i][j].isCross();
 
                 String fileName;
                 if (isRecto) {
                     fileName = "/" + detectiveName.toString() + "-district.png";
                 } else {
                     fileName = "/empty-district.png";
+                    if(isCross){
+                        fileName = "/cross-district.png";
+                    }
+
                 }
 
                 try {
