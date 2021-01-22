@@ -1,6 +1,7 @@
 package fr.isep.board;
 
 public class District {
+    // classe qui prend en argument : l'orientation de chaque district et le nom de chaque personnage
     private Orientation orientation;
     private AlibiName character;
     private boolean isRecto;

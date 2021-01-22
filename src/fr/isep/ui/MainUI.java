@@ -13,25 +13,29 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class MainUI {
+    // facteurs de dimensionnement de l'UI
     private static final float X_SCALE = 0.8f;
     private static final float Y_SCALE = 0.8f;
+    // objets du game
     private Actions actions;
     private Board board;
     private Game game;
     private MrJackPlayer mrJackPlayer;
-    private String actionMode;
+
+    private String actionMode; // type d'action
     private Orientation rotateOrientation;
-    private int tmpx;
-    private int tmpy;
+    private int tmpx, tmpy; // memoire swap
+    // widjet UI
     private JFrame f;
     private JButton[][] districtBtn;
     private JButton[] detectivesBtn;
     private JLabel hourGlassLabel;
     private JLabel tourRoleLabel;
     private JButton alibiBtn, rotateBtn, rotateBtn2, swapBtn, jockerBtn, watsonBtn, sherlockBtn, tobbyBtn;
+    // liste alibi
     private DefaultListModel<String> alibiListModel = new DefaultListModel<>();
-    private int turn = 0;
-    private int lastrotateX, lastrotateY;
+    private int turn = 0; // tour nb
+    private int lastrotateX, lastrotateY; // dernier rotate coordonée
 
     public MainUI(Actions actions, Board board, Game game, MrJackPlayer mrJackPlayer) {
         this.actions = actions;
@@ -52,11 +56,13 @@ public class MainUI {
     }
 
     private void initUI() {
+        // creation de la fenetre
         System.out.println("init ui");
         f = new JFrame("Projet Mr Jack");
     }
 
     private void initDistrictBtn() {
+        // création des boutton du district
         districtBtn = new JButton[3][3];
         for (int x = 0; x < 3; x++) {
             for (int y = 0; y < 3; y++) {
@@ -71,92 +77,8 @@ public class MainUI {
         }
     }
 
-    private void districtClick(ActionEvent ae, int x, int y) {
-        if (actionMode.equals("ROTATE")) {
-            //System.out.println(lastrotateX + "-" + x + "  " + lastrotateY + "-" + y);
-            if(lastrotateX == x && lastrotateY ==y){
-                // aloready rotated
-                showpopup("You can't rotate the same district at the same turn", "message");
-                actionMode = "NONE";
-            }else {
-                actions.rotateDistrict(x, y, rotateOrientation);
-                actions.setLastActionPlayed(ActionToken.ROTATION);
-                rotateBtn.setVisible(false);
-                updateActionsTodoNumber();
-                actionMode = "NONE";
-                updateUIDistrict(board.getDistrictBoard());
-                lastrotateX = x;
-                lastrotateY = y;
-            }
-
-
-        } else if (actionMode.equals("ROTATE2")) {
-            //System.out.println(lastrotateX + "-" + x + "  " + lastrotateY + "-" + y);
-            if(lastrotateX == x && lastrotateY ==y){
-                // aloready rotated
-                showpopup("You can't rotate the same district at the same turn", "message");
-                actionMode = "NONE";
-            }else {
-                actions.rotateDistrict(x, y, rotateOrientation);
-                actions.setLastActionPlayed(ActionToken.ROTATION2);
-                rotateBtn2.setVisible(false);
-                updateActionsTodoNumber();
-                actionMode = "NONE";
-                updateUIDistrict(board.getDistrictBoard());
-                lastrotateX = x;
-                lastrotateY = y;
-            }
-        }
-        else if (actionMode.equals("SWAP")) {
-            tmpx = x;
-            tmpy = y;
-            actionMode = "SWAP2";
-        } else if (actionMode.equals("SWAP2")) {
-            actions.swapDistrict(tmpx, tmpy, x, y);
-            actions.setLastActionPlayed(ActionToken.ECHANGE);
-            swapBtn.setVisible(false);
-            updateActionsTodoNumber();
-            actionMode = "NONE";
-            updateUIDistrict(board.getDistrictBoard());
-
-        }
-        //System.out.println(x + " - " + y);
-    }
-    private void updateActionsTodoNumber(){
-        // alibiBtn, rotateBtn, rotateBtn2, swapBtn, jockerBtn, watsonBtn, sherlockBtn, tobbyBtn;
-        int i = 0;
-        if(alibiBtn.isVisible()){
-            i++;
-        }
-        if(rotateBtn.isVisible()){
-            i++;
-        }
-        if(rotateBtn2.isVisible()){
-            i++;
-        }
-        if(swapBtn.isVisible()){
-            i++;
-        }
-        if(jockerBtn.isVisible()){
-            i++;
-        }
-        if(watsonBtn.isVisible()){
-            i++;
-        }
-        if(sherlockBtn.isVisible()){
-            i++;
-        }
-        if(tobbyBtn.isVisible()){
-            i++;
-        }
-        actions.setActionTodo(i);
-        if(i == 0){
-            lastrotateX = -1;
-            lastrotateY = -1;
-        }
-    }
-
     private void initDetectivesBtn() {
+        // definition et ajout des bouttons pour les detectives
         detectivesBtn = new JButton[12];
 
         for (int i = 0; i < 12; i++) {
@@ -178,8 +100,10 @@ public class MainUI {
     }
 
     private void initotherLbl() {
+        // divers widjets UI
         Image hourGlassImage = null;
         try {
+            // affichage nombre de sablier
             hourGlassImage = ImageIO.read(getClass().getResource("/hourglass.png"));
             ImageIcon hourGlassIcon = new ImageIcon(hourGlassImage.getScaledInstance((int) (50 * X_SCALE), (int) (50 * Y_SCALE), 1));
             hourGlassLabel = new JLabel("Mr Jack has 0 hourGlass", hourGlassIcon, SwingConstants.RIGHT);
@@ -188,44 +112,43 @@ public class MainUI {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        // affiche le tour
         tourRoleLabel = new JLabel("It's the turn of the investigator");
         tourRoleLabel.setBounds((int) (1100 * X_SCALE), (int) (300 * Y_SCALE), (int) (500 * X_SCALE), (int) (100 * Y_SCALE));
         f.add(tourRoleLabel);
 
-        //alibiComboBox = new JComboBox();
+        // affiche liste de carte alibi
         JList alibiJList = new JList(alibiListModel);
         alibiJList.setBounds((int) (1100 * X_SCALE), (int) (400 * Y_SCALE), (int) (400 * X_SCALE), (int) (400 * Y_SCALE));
         f.add(alibiJList);
-        //addAlibi(new AlibiCard(AlibiName.JOHN_PIZER, 1));
-    }
-
-    private void setTurnLabel(String txt) {
-        tourRoleLabel.setText(txt);
-    }
-
-    public void addAlibi(AlibiCard alibiCard) {
-        alibiListModel.addElement(alibiCard.getName().toString().replace("_", " ") + " - " + alibiCard.getHourGlassCount() + " hourglasse(s)");
     }
 
     private void initActions() {
+        // definition des cartes actions
+
+        // action alibi carte
         alibiBtn = new JButton("loading");
+        // definition position
         alibiBtn.setBounds((int) (1100 * X_SCALE), (int) (120 * Y_SCALE), (int) (100 * X_SCALE), (int) (100 * Y_SCALE));
         try {
+            // ajout de l'image sur le boutton
             Image alibimg = ImageIO.read(getClass().getResource("/ALIBI.png"));
             alibiBtn.setIcon(new ImageIcon(alibimg.getScaledInstance((int) (110 * X_SCALE), (int) (100 * Y_SCALE), 1)));
         } catch (IOException e) {
             e.printStackTrace();
         }
+        // ajout evenement clic
         alibiBtn.addActionListener(e -> {
-
+            // appel controleur
             actions.alibi(turn, game, mrJackPlayer, board, this);
             actions.setLastActionPlayed(ActionToken.ALIBI);
+            // suppression de l'action
             alibiBtn.setVisible(false);
             updateActionsTodoNumber();
         });
         f.add(alibiBtn);
 
+        // action rotation 1
         rotateBtn = new JButton("loading");
         rotateBtn.setBounds((int) (1200 * X_SCALE), (int) (120 * Y_SCALE), (int) (100 * X_SCALE), (int) (100 * Y_SCALE));
         try {
@@ -235,6 +158,7 @@ public class MainUI {
             e.printStackTrace();
         }
         rotateBtn.addActionListener(e -> {
+            // boite de dialogue pour la rotation
             Object[] options = {Orientation.NORTH.toString(), Orientation.EAST.toString(), Orientation.SOUTH.toString(), Orientation.WEST.toString()};
             int n = JOptionPane.showOptionDialog(
                     f,
@@ -242,11 +166,12 @@ public class MainUI {
                     "Rotate a district",
                     JOptionPane.YES_NO_OPTION,
                     JOptionPane.QUESTION_MESSAGE,
-                    null,     //do not use a custom Icon
-                    options,  //the titles of buttons
-                    options[0]); //default button title
+                    null,
+                    options,
+                    options[0]);
             //System.out.println(n);
             if (n != -1) {
+                // enregistement des parametres pour le clic sur district
                 actionMode = "ROTATE";
                 switch (n) {
                     case 0:
@@ -266,6 +191,7 @@ public class MainUI {
         });
         f.add(rotateBtn);
 
+        // seconde action de rotation
         rotateBtn2 = new JButton("loading");
         rotateBtn2.setBounds((int) (1400 * X_SCALE), (int) (220 * Y_SCALE), (int) (100 * X_SCALE), (int) (100 * Y_SCALE));
         try {
@@ -283,10 +209,9 @@ public class MainUI {
                     "Rotate a district",
                     JOptionPane.YES_NO_OPTION,
                     JOptionPane.QUESTION_MESSAGE,
-                    null,     //do not use a custom Icon
-                    options,  //the titles of buttons
-                    options[0]); //default button title
-            //System.out.println(n);
+                    null,
+                    options,
+                    options[0]);
             if (n != -1) {
                 actionMode = "ROTATE2";
                 switch (n) {
@@ -307,6 +232,7 @@ public class MainUI {
         });
         f.add(rotateBtn2);
 
+        // action echange de district
         swapBtn = new JButton("loading");
         swapBtn.setBounds((int) (1300 * X_SCALE), (int) (120 * Y_SCALE), (int) (100 * X_SCALE), (int) (100 * Y_SCALE));
         try {
@@ -321,13 +247,14 @@ public class MainUI {
                     "Click on the two district to swap",
                     "swap districts",
                     JOptionPane.YES_NO_OPTION);
-            //System.out.println(n);
             if (n == 0) {
+                // mode echange en vue d'un clic sur un district
                 actionMode = "SWAP";
             }
         });
         f.add(swapBtn);
 
+        // action jocker
         jockerBtn = new JButton("loading");
         jockerBtn.setBounds((int) (1400 * X_SCALE), (int) (120 * Y_SCALE), (int) (100 * X_SCALE), (int) (100 * Y_SCALE));
         try {
@@ -338,8 +265,9 @@ public class MainUI {
         }
         jockerBtn.addActionListener(e -> {
             if (turn == 0) {
-                // detective
+                // tour detective
                 Object[] options = {DetectiveName.SHERLOCK.toString(), DetectiveName.WATSON.toString(), DetectiveName.TOBBY.toString()};
+                // selection de l'enqueteur
                 int n = JOptionPane.showOptionDialog(f,
                         "Which investigator do you want to move",
                         "What do you want ?",
@@ -350,8 +278,10 @@ public class MainUI {
                         options[0]);
                 switch (n) {
                     case 0:
+                        // bouge sherlock
                         actions.moveDetective(DetectiveName.SHERLOCK, 1);
                         actions.setLastActionPlayed(ActionToken.JOKER);
+                        // suppression de l'action
                         jockerBtn.setVisible(false);
                         updateActionsTodoNumber();
                         break;
@@ -368,8 +298,9 @@ public class MainUI {
                         updateActionsTodoNumber();
                         break;
                 }
-                //System.out.println(n);
+
             } else {
+                // tour mr Jack
                 Object[] options = {DetectiveName.SHERLOCK.toString(), DetectiveName.WATSON.toString(), DetectiveName.TOBBY.toString(), "Do nothing"};
                 int n = JOptionPane.showOptionDialog(f,
                         "Which investigator do you want to move",
@@ -405,10 +336,12 @@ public class MainUI {
                         break;
                 }
             }
+            // maj du plateau de jeu
             updateUIDetective(board.getDetectiveBoard());
         });
         f.add(jockerBtn);
 
+        // action bouger sherlock
         sherlockBtn = new JButton("loading");
         sherlockBtn.setBounds((int) (1100 * X_SCALE), (int) (220 * Y_SCALE), (int) (100 * X_SCALE), (int) (100 * Y_SCALE));
         try {
@@ -418,6 +351,7 @@ public class MainUI {
             e.printStackTrace();
         }
         sherlockBtn.addActionListener(e -> {
+            // dialogue nombre de case à bouger
             Object[] options = {"1", "2"};
             int n = JOptionPane.showOptionDialog(f,
                     "How many spaces do you want to move sherlock",
@@ -428,6 +362,7 @@ public class MainUI {
                     options,
                     options[0]);
             if (n == 1) {
+                // bouge detective
                 actions.moveDetective(DetectiveName.SHERLOCK, 2);
                 updateUIDetective(board.getDetectiveBoard());
                 actions.setLastActionPlayed(ActionToken.HOLMES);
@@ -440,11 +375,10 @@ public class MainUI {
                 sherlockBtn.setVisible(false);
                 updateActionsTodoNumber();
             }
-
-
         });
         f.add(sherlockBtn);
 
+        // action bouge watson
         watsonBtn = new JButton("loading");
         watsonBtn.setBounds((int) (1200 * X_SCALE), (int) (220 * Y_SCALE), (int) (100 * X_SCALE), (int) (100 * Y_SCALE));
         try {
@@ -481,6 +415,7 @@ public class MainUI {
         });
         f.add(watsonBtn);
 
+        // action bouge Tobby
         tobbyBtn = new JButton("loading");
         tobbyBtn.setBounds((int) (1300 * X_SCALE), (int) (220 * Y_SCALE), (int) (100 * X_SCALE), (int) (100 * Y_SCALE));
         try {
@@ -518,8 +453,247 @@ public class MainUI {
         f.add(tobbyBtn);
     }
 
+    private void endUIInit() {
+        // fin de l'initialisation de la fenetre
+        f.setSize((int) (1800 * X_SCALE), (int) (1100 * Y_SCALE));
+        f.setLayout(null);
+        f.setVisible(true);
+        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+
+    private void districtClick(ActionEvent ae, int x, int y) {
+        // évenement click boutton district
+        if (actionMode.equals("ROTATE")) {
+            // action rotation
+            if (lastrotateX == x && lastrotateY == y) {
+                // cas de la rotation 2x même tour
+                showpopup("You can't rotate the same district at the same turn", "message");
+                actionMode = "NONE";
+            } else {
+                actions.rotateDistrict(x, y, rotateOrientation);
+                actions.setLastActionPlayed(ActionToken.ROTATION);
+                // suppression de l'action
+                rotateBtn.setVisible(false);
+                updateActionsTodoNumber();
+                // maj ui
+                actionMode = "NONE";
+                updateUIDistrict(board.getDistrictBoard());
+                lastrotateX = x;
+                lastrotateY = y;
+            }
+
+
+        } else if (actionMode.equals("ROTATE2")) {
+            //action 2 eme carte rotation
+            if (lastrotateX == x && lastrotateY == y) {
+                // aloready rotated
+                showpopup("You can't rotate the same district at the same turn", "message");
+                actionMode = "NONE";
+            } else {
+                actions.rotateDistrict(x, y, rotateOrientation);
+                actions.setLastActionPlayed(ActionToken.ROTATION2);
+                rotateBtn2.setVisible(false);
+                updateActionsTodoNumber();
+                actionMode = "NONE";
+                updateUIDistrict(board.getDistrictBoard());
+                lastrotateX = x;
+                lastrotateY = y;
+            }
+        } else if (actionMode.equals("SWAP")) {
+            // action swap 2 district
+            tmpx = x;
+            tmpy = y;
+            actionMode = "SWAP2";
+        } else if (actionMode.equals("SWAP2")) {
+            actions.swapDistrict(tmpx, tmpy, x, y);
+            actions.setLastActionPlayed(ActionToken.ECHANGE);
+            swapBtn.setVisible(false);
+            updateActionsTodoNumber();
+            actionMode = "NONE";
+            updateUIDistrict(board.getDistrictBoard());
+        }
+        //System.out.println(x + " - " + y);
+    }
+
+    public void updateUIDistrict(District[][] districtBoard) {
+        // maj des districts
+        System.out.println("refresh district UI...");
+        // parcour du tableau des district
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                // recupération des infos sur le district
+                Orientation orientation = districtBoard[i][j].getOrientation();
+                AlibiName detectiveName = districtBoard[i][j].getCharacter();
+                boolean isRecto = districtBoard[i][j].isRecto();
+                boolean isCross = districtBoard[i][j].isCross();
+
+                // choix de la bonne image texture
+                String fileName;
+                if (isRecto) {
+                    fileName = "/" + detectiveName.toString() + "-district.png";
+                } else {
+                    fileName = "/empty-district.png";
+                    if (isCross) {
+                        fileName = "/cross-district.png";
+                    }
+
+                }
+
+                // lecture de l'image
+                try {
+                    BufferedImage image = ImageIO.read(getClass().getResource(fileName));
+
+                    // rotation de l'image
+                    if (orientation != Orientation.NORTH) {
+                        //BufferedImage image2 = image;
+                        switch (orientation) {
+                            case EAST:
+                                image = rotate(image, 90);
+                                break;
+                            case SOUTH:
+                                image = rotate(image, 180);
+                                break;
+                            case WEST:
+                                image = rotate(image, 270);
+                                break;
+                        }
+                    }
+                    // met l'image sur le boutton
+                    districtBtn[i][j].setIcon(new ImageIcon(image.getScaledInstance((int) (255 * X_SCALE), (int) (255 * Y_SCALE), 1)));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public void updateUIDetective(ArrayList<DetectiveToken>[] detectiveBoard) {
+        // maj des detectives sur l'UI
+        System.out.println("refresh detectives UI");
+        // parcours de la liste des detectives
+        for (int i = 0; i < 12; i++) {
+            ArrayList<DetectiveToken> detectivePlace = detectiveBoard[i];
+
+            if (!detectivePlace.isEmpty()) {
+                boolean sherlok, watson, tobby;
+                sherlok = watson = tobby = false;
+
+                // recupération des nom des detectives sur la case
+                for (DetectiveToken detectiveToken : detectivePlace) {
+                    if (detectiveToken.getDetectiveName() == DetectiveName.SHERLOCK) {
+                        sherlok = true;
+                    } else if (detectiveToken.getDetectiveName() == DetectiveName.WATSON) {
+                        watson = true;
+                    } else if (detectiveToken.getDetectiveName() == DetectiveName.TOBBY) {
+                        tobby = true;
+                    }
+                }
+                // choix de la bonne image
+                StringBuilder fileName = new StringBuilder();
+                fileName.append("/");
+                if (sherlok) {
+                    fileName.append("-SHERLOCK");
+                }
+                if (watson) {
+                    fileName.append("-WATSON");
+                }
+                if (tobby) {
+                    fileName.append("-TOBBY");
+                }
+                fileName.append(".png");
+                //System.out.println(fileName.toString());
+                try {
+                    BufferedImage image = ImageIO.read(getClass().getResource(fileName.toString()));
+                    // ajout de l'image sur la boutton
+                    detectivesBtn[i].setIcon(new ImageIcon(image.getScaledInstance((int) (205 * X_SCALE), (int) (200 * Y_SCALE), 1)));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            } else {
+                // pas de detective sur la case : texture blanche
+                try {
+                    BufferedImage image = ImageIO.read(getClass().getResource("/BLANK.png"));
+                    detectivesBtn[i].setIcon(new ImageIcon(image.getScaledInstance((int) (255 * X_SCALE), (int) (255 * Y_SCALE), 1)));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }
+    }
+
+    private static BufferedImage rotate(BufferedImage bimg, double angle) {
+        // rotation d'une image
+        int w = bimg.getWidth();
+        int h = bimg.getHeight();
+
+        BufferedImage rotated = new BufferedImage(w, h, bimg.getType());
+        Graphics2D graphic = rotated.createGraphics();
+        graphic.rotate(Math.toRadians(angle), w / 2, h / 2);
+        graphic.drawImage(bimg, null, 0, 0);
+        graphic.dispose();
+        return rotated;
+    }
+
+    private void updateActionsTodoNumber() {
+        // nombre d'action restante à jouer
+        int i = 0;
+        if (alibiBtn.isVisible()) {
+            i++;
+        }
+        if (rotateBtn.isVisible()) {
+            i++;
+        }
+        if (rotateBtn2.isVisible()) {
+            i++;
+        }
+        if (swapBtn.isVisible()) {
+            i++;
+        }
+        if (jockerBtn.isVisible()) {
+            i++;
+        }
+        if (watsonBtn.isVisible()) {
+            i++;
+        }
+        if (sherlockBtn.isVisible()) {
+            i++;
+        }
+        if (tobbyBtn.isVisible()) {
+            i++;
+        }
+        actions.setActionTodo(i);
+
+        if (i == 0) {
+            // fin du tour => autoriser toute rotation
+            lastrotateX = -1;
+            lastrotateY = -1;
+        }
+    }
+
+    public void setTurn(int turn) {
+        // maj du tour
+        this.turn = turn;
+        if (turn == 0) {
+            setTurnLabel("It's the turn of the investigator");
+        } else {
+            setTurnLabel("It's the turn of Mr Jack");
+        }
+    }
+
+    private void setTurnLabel(String txt) {
+        // mise à jour du label de tour
+        tourRoleLabel.setText(txt);
+    }
+
+    public void addAlibi(AlibiCard alibiCard) {
+        // ajoute carte alibi à la liste ui
+        alibiListModel.addElement(alibiCard.getName().toString().replace("_", " ") + " - " + alibiCard.getHourGlassCount() + " hourglasse(s)");
+    }
+
     public void setActionsEnabled(ArrayList<ActionToken> actionTokens) {
-        //alibiBtn, rotateBtn, rotateBtn2, swapBtn, jockerBtn, watsonBtn, sherlockBtn, tobbyBtn;
+        // active les actions disponibles
         alibiBtn.setVisible(false);
         rotateBtn.setVisible(false);
         rotateBtn2.setVisible(false);
@@ -549,12 +723,7 @@ public class MainUI {
                     swapBtn.setVisible(true);
                     break;
                 case ROTATION:
-                    //System.out.println("here1");
-                    //if (rotateBtn.isVisible()) {
-                        rotateBtn.setVisible(true);
-                    //} else {
-                       // rotateBtn.setVisible(true);
-                 //   }
+                    rotateBtn.setVisible(true);
                     break;
                 case ROTATION2:
                     rotateBtn2.setVisible(true);
@@ -564,120 +733,12 @@ public class MainUI {
     }
 
     public void updateHourglass(int hourglasses) {
+        // maj du nombre de sablier
         hourGlassLabel.setText("Mr Jack has " + String.valueOf(hourglasses) + " hourGlass(es)");
     }
 
-    public void updateUIDistrict(District[][] districtBoard) {
-        System.out.println("refresh district UI...");
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                Orientation orientation = districtBoard[i][j].getOrientation();
-                AlibiName detectiveName = districtBoard[i][j].getCharacter();
-                boolean isRecto = districtBoard[i][j].isRecto();
-                boolean isCross = districtBoard[i][j].isCross();
-
-                String fileName;
-                if (isRecto) {
-                    fileName = "/" + detectiveName.toString() + "-district.png";
-                } else {
-                    fileName = "/empty-district.png";
-                    if(isCross){
-                        fileName = "/cross-district.png";
-                    }
-
-                }
-
-                try {
-                    BufferedImage image = ImageIO.read(getClass().getResource(fileName));
-
-                    if (orientation != Orientation.NORTH) {
-                        //BufferedImage image2 = image;
-                        switch (orientation) {
-                            case EAST:
-                                //System.out.println("east");
-                                image = rotate(image, 90);
-                                break;
-                            case SOUTH:
-                                image = rotate(image, 180);
-                                break;
-                            case WEST:
-                                image = rotate(image, 270);
-                                break;
-                        }
-                    }
-                    districtBtn[i][j].setIcon(new ImageIcon(image.getScaledInstance((int) (255 * X_SCALE), (int) (255 * Y_SCALE), 1)));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-
-    public void updateUIDetective(ArrayList<DetectiveToken>[] detectiveBoard) {
-        System.out.println("refresh detectives UI");
-        for (int i = 0; i < 12; i++) {
-            ArrayList<DetectiveToken> detectivePlace = detectiveBoard[i];
-
-            if (!detectivePlace.isEmpty()) {
-                //System.out.println(i);
-                boolean sherlok, watson, tobby;
-                sherlok = watson = tobby = false;
-
-                for (DetectiveToken detectiveToken : detectivePlace) {
-                    if (detectiveToken.getDetectiveName() == DetectiveName.SHERLOCK) {
-                        sherlok = true;
-                    } else if (detectiveToken.getDetectiveName() == DetectiveName.WATSON) {
-                        watson = true;
-                    } else if (detectiveToken.getDetectiveName() == DetectiveName.TOBBY) {
-                        tobby = true;
-                    }
-                }
-                StringBuilder fileName = new StringBuilder();
-                fileName.append("/");
-                if (sherlok) {
-                    fileName.append("-SHERLOCK");
-                }
-                if (watson) {
-                    fileName.append("-WATSON");
-                }
-                if (tobby) {
-                    fileName.append("-TOBBY");
-                }
-                fileName.append(".png");
-                //System.out.println(fileName.toString());
-                try {
-                    BufferedImage image = ImageIO.read(getClass().getResource(fileName.toString()));
-                    detectivesBtn[i].setIcon(new ImageIcon(image.getScaledInstance((int) (205 * X_SCALE), (int) (200 * Y_SCALE), 1)));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-            } else {
-                try {
-                    BufferedImage image = ImageIO.read(getClass().getResource("/BLANK.png"));
-                    detectivesBtn[i].setIcon(new ImageIcon(image.getScaledInstance((int) (255 * X_SCALE), (int) (255 * Y_SCALE), 1)));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-            }
-        }
-    }
-
-    private static BufferedImage rotate(BufferedImage bimg, double angle) {
-
-        int w = bimg.getWidth();
-        int h = bimg.getHeight();
-
-        BufferedImage rotated = new BufferedImage(w, h, bimg.getType());
-        Graphics2D graphic = rotated.createGraphics();
-        graphic.rotate(Math.toRadians(angle), w / 2, h / 2);
-        graphic.drawImage(bimg, null, 0, 0);
-        graphic.dispose();
-        return rotated;
-    }
-
     public void showMrJackName(AlibiName alibiName) {
+        // fenetre de dialogue avec le nom de mr jack
         try {
             Image icon = ImageIO.read(getClass().getResource("/" + alibiName + "-district.png")).getScaledInstance(300, 300, Image.SCALE_SMOOTH);
             JOptionPane.showMessageDialog(
@@ -691,6 +752,7 @@ public class MainUI {
     }
 
     public void showMrJackAlibiCard(AlibiCard alibiCard) {
+        // fenetre de dialogue avec la carte alibi piochée par mr Jack
         JOptionPane.showMessageDialog(
                 f,
                 "AlibiCard :" + alibiCard.getName().toString().replace("_", " ") + " (" + alibiCard.getHourGlassCount() + ")",
@@ -699,27 +761,12 @@ public class MainUI {
     }
 
     public void showpopup(String msg, String windowTitle) {
+        // fenetre popup pour divers information à l'utilisateur
         JOptionPane.showMessageDialog(
                 f,
                 msg,
                 windowTitle, JOptionPane.INFORMATION_MESSAGE,
                 null);
-    }
-
-    public void setTurn(int turn) {
-        this.turn = turn;
-        if (turn == 0) {
-            setTurnLabel("It's the turn of the investigator");
-        } else {
-            setTurnLabel("It's the turn of Mr Jack");
-        }
-    }
-
-    private void endUIInit() {
-        f.setSize((int) (1800 * X_SCALE), (int) (1100 * Y_SCALE));
-        f.setLayout(null);
-        f.setVisible(true);
-        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
 }
