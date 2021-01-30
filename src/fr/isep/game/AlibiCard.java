@@ -2,7 +2,7 @@ package fr.isep.game;
 
 import fr.isep.board.AlibiName;
 
-public class AlibiCard {
+public class AlibiCard { // classe alibicard qui a comme attribut un alibi name et un nombre de sabliers
     private AlibiName name;
     private int hourGlassCount;
 

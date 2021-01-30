@@ -4,7 +4,7 @@ import fr.isep.board.AlibiName;
 
 import java.util.Random;
 
-public class MrJackPlayer  {
+public class MrJackPlayer  { // classe mrjackplayer qui a comme attribut un alibi name et un nombre de sabliers
     private AlibiName JackAlibiName;
     private int hourglass;
 

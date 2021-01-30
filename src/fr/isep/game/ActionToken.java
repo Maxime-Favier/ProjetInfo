@@ -1,6 +1,6 @@
 package fr.isep.game;
 
-public enum ActionToken {
+public enum ActionToken { // enumeration qui recense les differentes action token
     HOLMES,
     WATSON,
     LE_CHIEN,
