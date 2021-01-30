@@ -43,7 +43,7 @@ public class Game { // classe game
 
         mainUI.updateUIDistrict(board.getDistrictBoard()); //on met a jour l affichage graphique
         mainUI.updateUIDetective(board.getDetectiveBoard());
-        mainUI.showpopup("Attention l'information qui va s'afficher par la suite ne concerne que Mr Jack : detectives, fermez vos yeux","Information relative à Mr Jack");
+        mainUI.showpopup("Attention l'information qui va s'afficher par la suite ne concerne que Mr Jack : detective, fermez vos yeux","Information relative à Mr Jack");
         mainUI.showMrJackName(mrJackPlayer.getJackAlibiName());
         turnCount = 1; // on initialise à 1 le numero du tour
         whoPlay = 0; // on initialise à 0 le joueur qui joue la partie : detective commence à jouer
@@ -98,7 +98,7 @@ public class Game { // classe game
                 case 3: // si 1 action a été joué, la taille de la liste vaut 3
 
                     whoPlay = 1; // le detective qui joue est mr jack
-                break;
+                    break;
                 case 2: // si 2 action ont été joué, la taille de la liste vaut 2
                     whoPlay = 1;; // le detective qui joue est mr jack
                     break;
@@ -111,10 +111,10 @@ public class Game { // classe game
                     appelATemoins(mrJackPlayer, board); // on lance l'appel a temoins
 
 
-                   break;
-           }
+                    break;
+            }
 
-        mainUI.setTurn(whoPlay); // met a jour le label indiquant qui est en train de jouer
+            mainUI.setTurn(whoPlay); // met a jour le label indiquant qui est en train de jouer
         }
 
 
@@ -286,23 +286,23 @@ public class Game { // classe game
             conditionSatistisfield(mrJackPlayer,board); // on appelle la fonction condition satisfield pour savoir si on continue la partie ou pas
         }
         else{ // si les 8 tours ont  encore été joué
-                if ((MrJackConditionToWin(mrJackPlayer) == false)&&(DetectiveConditionToWin(board) == false)){ // si aucun des joueurs sn'a remplit sa condition pour gagner
-                    // mr jack gagne on montre au detective l identite de mr jack
-                    mainUI.showpopup("Jack gagne. Aucun des joueurs n'a atteint son objectif avant les 8 tours ","Fin du jeu");
+            if ((MrJackConditionToWin(mrJackPlayer) == false)&&(DetectiveConditionToWin(board) == false)){ // si aucun des joueurs sn'a remplit sa condition pour gagner
+                // mr jack gagne on montre au detective l identite de mr jack
+                mainUI.showpopup("Jack gagne. Aucun des joueurs n'a atteint son objectif avant les 8 tours ","Fin du jeu");
+                mainUI.showMrJackName(mrJackPlayer.getJackAlibiName());
+            }
+            else if((MrJackConditionToWin(mrJackPlayer) == true)&&(DetectiveConditionToWin(board) == true)){ // si a la fin du 8eme tour, tous les joueurs ont remplit leur conditions pour gagner
+                if (iSVisibleByDetectives==true){ // si le detective voie mr jack
+                    //detective gagne on montre au detective l identite de mr jack
+                    mainUI.showpopup("Le detective gagne. Tous les joueurs ont atteint leur objectif mais jack était visible à la fin du jeu","Fin du jeu");
                     mainUI.showMrJackName(mrJackPlayer.getJackAlibiName());
                 }
-                else if((MrJackConditionToWin(mrJackPlayer) == true)&&(DetectiveConditionToWin(board) == true)){ // si a la fin du 8eme tour, tous les joueurs ont remplit leur conditions pour gagner
-                    if (iSVisibleByDetectives==true){ // si le detective voie mr jack
-                        //detective gagne on montre au detective l identite de mr jack
-                        mainUI.showpopup("Les detectives gagnent. Tous les joueurs ont atteint leur objectif mais jack était visible à la fin du jeu","Fin du jeu");
-                        mainUI.showMrJackName(mrJackPlayer.getJackAlibiName());
-                    }
-                    else if (iSVisibleByDetectives==false){ // si le  detective ne voie pas mr jack
-                        //mr jack gagne on montre au detective l identite de mr jack
-                        mainUI.showpopup("Mr Jack gagne. Tous les joueurs ont atteint leur objectif mais jack était invisible à la fin du jeu","Fin du jeu");
-                        mainUI.showMrJackName(mrJackPlayer.getJackAlibiName());
-                    }
+                else if (iSVisibleByDetectives==false){ // si le  detective ne voie pas mr jack
+                    //mr jack gagne on montre au detective l identite de mr jack
+                    mainUI.showpopup("Mr Jack gagne. Tous les joueurs ont atteint leur objectif mais jack était invisible à la fin du jeu","Fin du jeu");
+                    mainUI.showMrJackName(mrJackPlayer.getJackAlibiName());
                 }
+            }
 
         }
 
@@ -331,14 +331,14 @@ public class Game { // classe game
         else if((MrJackConditionToWin(mrJackPlayer) ==false)&&(DetectiveConditionToWin(board) == true)){ // si detective a remplie sa condition pour gagner
             //detective gagne on montre au detective l identite de mr jack
             mainUI.updateUIDistrict(board.getDistrictBoard());
-            mainUI.showpopup("Les detective gagnent","Fin du jeu");
+            mainUI.showpopup("Le detective gagne","Fin du jeu");
             mainUI.showMrJackName(mrJackPlayer.getJackAlibiName());
         }
         else if ((MrJackConditionToWin(mrJackPlayer) ==true)&&(DetectiveConditionToWin(board) == true)){  // si les joueurs ont remplie leur condition pour gagner en meme temps
 
             if (iSVisibleByDetectives==true){ // si le  detective  voie mr jack
                 //detective gagne on montre au detective l identite de mr jack
-                mainUI.showpopup("Les detectives gagnent. Tous les joueurs ont atteint leur objectif mais jack a été découverte avant la fin du jeu","Fin du jeu");
+                mainUI.showpopup("Le detective gagne. Tous les joueurs ont atteint leur objectif mais jack a été découvert avant la fin du jeu","Fin du jeu");
                 mainUI.showMrJackName(mrJackPlayer.getJackAlibiName());
             }
             else{ // si le  detective  ne voie pas mr jack

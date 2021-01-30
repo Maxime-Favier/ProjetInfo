@@ -106,14 +106,14 @@ public class MainUI {
             // affichage nombre de sablier
             hourGlassImage = ImageIO.read(getClass().getResource("/hourglass.png"));
             ImageIcon hourGlassIcon = new ImageIcon(hourGlassImage.getScaledInstance((int) (50 * X_SCALE), (int) (50 * Y_SCALE), 1));
-            hourGlassLabel = new JLabel("Mr Jack has 0 hourGlass", hourGlassIcon, SwingConstants.RIGHT);
+            hourGlassLabel = new JLabel("Mr Jack a 0 sablier", hourGlassIcon, SwingConstants.RIGHT);
             hourGlassLabel.setBounds((int) (850 * X_SCALE), (int) (10 * Y_SCALE), (int) (500 * X_SCALE), (int) (100 * Y_SCALE));
             f.add(hourGlassLabel);
         } catch (IOException e) {
             e.printStackTrace();
         }
         // affiche le tour
-        tourRoleLabel = new JLabel("It's the turn of the investigator");
+        tourRoleLabel = new JLabel("C'est au tour du détective de jouer");
         tourRoleLabel.setBounds((int) (1100 * X_SCALE), (int) (300 * Y_SCALE), (int) (500 * X_SCALE), (int) (100 * Y_SCALE));
         f.add(tourRoleLabel);
 
@@ -162,8 +162,8 @@ public class MainUI {
             Object[] options = {Orientation.NORTH.toString(), Orientation.EAST.toString(), Orientation.SOUTH.toString(), Orientation.WEST.toString()};
             int n = JOptionPane.showOptionDialog(
                     f,
-                    "Please select the direction and click on the district",
-                    "Rotate a district",
+                    "Selectionner une direction et cliquer sur un district",
+                    "Pivoter un district",
                     JOptionPane.YES_NO_OPTION,
                     JOptionPane.QUESTION_MESSAGE,
                     null,
@@ -203,10 +203,11 @@ public class MainUI {
         rotateBtn2.addActionListener(e -> {
 
             Object[] options = {Orientation.NORTH.toString(), Orientation.EAST.toString(), Orientation.SOUTH.toString(), Orientation.WEST.toString()};
+
             int n = JOptionPane.showOptionDialog(
                     f,
-                    "Please select the direction and click on the district",
-                    "Rotate a district",
+                    "Selectionner une direction et cliquer sur un district",
+                    "Pivoter un district",
                     JOptionPane.YES_NO_OPTION,
                     JOptionPane.QUESTION_MESSAGE,
                     null,
@@ -244,8 +245,8 @@ public class MainUI {
         swapBtn.addActionListener(e -> {
             int n = JOptionPane.showConfirmDialog(
                     f,
-                    "Click on the two district to swap",
-                    "swap districts",
+                    "Cliquer sur deux districts pour les échanger",
+                    "Echanger des districts",
                     JOptionPane.YES_NO_OPTION);
             if (n == 0) {
                 // mode echange en vue d'un clic sur un district
@@ -269,8 +270,8 @@ public class MainUI {
                 Object[] options = {DetectiveName.SHERLOCK.toString(), DetectiveName.WATSON.toString(), DetectiveName.TOBBY.toString()};
                 // selection de l'enqueteur
                 int n = JOptionPane.showOptionDialog(f,
-                        "Which investigator do you want to move",
-                        "What do you want ?",
+                        "Quel détective voulez-vous déplacer",
+                        "Que voulez-vous faire?",
                         JOptionPane.YES_NO_OPTION,
                         JOptionPane.QUESTION_MESSAGE,
                         null,
@@ -303,8 +304,8 @@ public class MainUI {
                 // tour mr Jack
                 Object[] options = {DetectiveName.SHERLOCK.toString(), DetectiveName.WATSON.toString(), DetectiveName.TOBBY.toString(), "Do nothing"};
                 int n = JOptionPane.showOptionDialog(f,
-                        "Which investigator do you want to move",
-                        "What do you want ?",
+                        "Quel détective voulez-vous déplacer",
+                        "Que voulez-vous faire ?",
                         JOptionPane.YES_NO_OPTION,
                         JOptionPane.QUESTION_MESSAGE,
                         null,
@@ -354,8 +355,8 @@ public class MainUI {
             // dialogue nombre de case à bouger
             Object[] options = {"1", "2"};
             int n = JOptionPane.showOptionDialog(f,
-                    "How many spaces do you want to move sherlock",
-                    "What do you want ?",
+                    "De combien de cases voulez-vous faire avancer Sherlock",
+                    "Que voulez-vous faire ?",
                     JOptionPane.YES_NO_OPTION,
                     JOptionPane.QUESTION_MESSAGE,
                     null,
@@ -390,8 +391,8 @@ public class MainUI {
         watsonBtn.addActionListener(e -> {
             Object[] options = {"1", "2"};
             int n = JOptionPane.showOptionDialog(f,
-                    "How many spaces do you want to move watson",
-                    "What do you want ?",
+                    "De combien de cases voulez-vous faire avancer Watson",
+                    "Que voulez-vous faire ?",
                     JOptionPane.YES_NO_OPTION,
                     JOptionPane.QUESTION_MESSAGE,
                     null,
@@ -427,8 +428,8 @@ public class MainUI {
         tobbyBtn.addActionListener(e -> {
             Object[] options = {"1", "2"};
             int n = JOptionPane.showOptionDialog(f,
-                    "How many spaces do you want to move tobby",
-                    "What do you want ?",
+                    "De combien de cases voulez-vous faire avancer Tobby",
+                    "Que voulez-vous faire ?",
                     JOptionPane.YES_NO_OPTION,
                     JOptionPane.QUESTION_MESSAGE,
                     null,
@@ -467,7 +468,7 @@ public class MainUI {
             // action rotation
             if (lastrotateX == x && lastrotateY == y) {
                 // cas de la rotation 2x même tour
-                showpopup("You can't rotate the same district at the same turn", "message");
+                showpopup("Vous ne pouvez pas pivoter deux fois le même district lors d'un même tour", "Message");
                 actionMode = "NONE";
             } else {
                 actions.rotateDistrict(x, y, rotateOrientation);
@@ -487,7 +488,7 @@ public class MainUI {
             //action 2 eme carte rotation
             if (lastrotateX == x && lastrotateY == y) {
                 // aloready rotated
-                showpopup("You can't rotate the same district at the same turn", "message");
+                showpopup("Vous ne pouvez pas pivoter deux fois le même district lors d'un même tour", "Message");
                 actionMode = "NONE";
             } else {
                 actions.rotateDistrict(x, y, rotateOrientation);
@@ -676,9 +677,9 @@ public class MainUI {
         // maj du tour
         this.turn = turn;
         if (turn == 0) {
-            setTurnLabel("It's the turn of the investigator");
+            setTurnLabel("C'est au tour du détective de jouer");
         } else {
-            setTurnLabel("It's the turn of Mr Jack");
+            setTurnLabel("C'est au tour de Mr Jack de jouer");
         }
     }
 
@@ -734,7 +735,7 @@ public class MainUI {
 
     public void updateHourglass(int hourglasses) {
         // maj du nombre de sablier
-        hourGlassLabel.setText("Mr Jack has " + String.valueOf(hourglasses) + " hourGlass(es)");
+        hourGlassLabel.setText("Mr Jack a " + String.valueOf(hourglasses) + " sablier(s)");
     }
 
     public void showMrJackName(AlibiName alibiName) {
@@ -743,8 +744,8 @@ public class MainUI {
             Image icon = ImageIO.read(getClass().getResource("/" + alibiName + "-district.png")).getScaledInstance(300, 300, Image.SCALE_SMOOTH);
             JOptionPane.showMessageDialog(
                     f,
-                    "Mr Jack is " + alibiName,
-                    "Mr Jack is " + alibiName, JOptionPane.INFORMATION_MESSAGE,
+                    "Mr Jack est " + alibiName,
+                    "Mr Jack est " + alibiName, JOptionPane.INFORMATION_MESSAGE,
                     new ImageIcon(icon));
         } catch (IOException e) {
             e.printStackTrace();

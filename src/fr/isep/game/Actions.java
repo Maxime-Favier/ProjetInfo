@@ -82,7 +82,7 @@ public class Actions { // classe où est implémenté la majorité des actions p
             int sablierAlibi;
             sablierAlibi = alibicards.get(pioche).getHourGlassCount();
             mrJackPlayer.setHourglass(mrJackPlayer.getHourglass() + sablierAlibi);  // mr jack recupere les sabliers de la carte qu'il a pioché
-            mainUI.showpopup("Attention l'information qui va s'afficher par la suite ne concerne que Mr Jack : detectives, fermez vos yeux","Information relative à Mr Jack");
+            mainUI.showpopup("Attention l'information qui va s'afficher par la suite ne concerne que Mr Jack : detective, fermez vos yeux","Information relative à Mr Jack");
             mainUI.showMrJackAlibiCard(alibicards.get(pioche));
             alibicards.remove(alibicards.get(pioche)); //on supprime la carte de la pioche
             mainUI.updateHourglass(mrJackPlayer.getHourglass()); // on main a jour l'affichage graphique
